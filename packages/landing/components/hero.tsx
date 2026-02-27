@@ -60,7 +60,7 @@ export function Hero() {
 
           {/* GitHub link */}
           <a
-            href="https://github.com/juanjgomezme/memex"
+            href="https://github.com/jjosegomez/memex"
             target="_blank"
             rel="noopener noreferrer"
             className="inline-flex items-center gap-2 rounded-lg border border-white/10 px-5 py-3 text-sm font-medium text-gray-300 transition hover:border-white/20 hover:text-white"

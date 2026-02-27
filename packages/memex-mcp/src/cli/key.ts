@@ -1,50 +1,8 @@
-import readline from 'node:readline';
 import { getDatabase, closeDatabase } from '../db/database.js';
 import { getEncryptionKey, initPassphraseKey, initRawKey, loadKeyMaterial } from '../crypto/keys.js';
 import { decryptContent, encryptContent } from '../crypto/encryption.js';
 import { getAllMemories, updateMemoryEncryption } from '../db/queries.js';
-
-/**
- * Simple prompt helper.
- */
-function prompt(question: string, hidden = false): Promise<string> {
-  return new Promise((resolve) => {
-    const rl = readline.createInterface({
-      input: process.stdin,
-      output: process.stdout,
-    });
-
-    if (hidden && process.stdin.isTTY) {
-      process.stdout.write(question);
-      const stdin = process.stdin;
-      const wasRaw = stdin.isRaw;
-      stdin.setRawMode(true);
-      let input = '';
-      const onData = (char: Buffer) => {
-        const c = char.toString('utf8');
-        if (c === '\n' || c === '\r') {
-          stdin.setRawMode(wasRaw ?? false);
-          stdin.removeListener('data', onData);
-          process.stdout.write('\n');
-          rl.close();
-          resolve(input);
-        } else if (c === '\u0003') {
-          process.exit(1);
-        } else if (c === '\u007f' || c === '\b') {
-          input = input.slice(0, -1);
-        } else {
-          input += c;
-        }
-      };
-      stdin.on('data', onData);
-    } else {
-      rl.question(question, (answer) => {
-        rl.close();
-        resolve(answer);
-      });
-    }
-  });
-}
+import { prompt } from '../lib/prompt.js';
 
 /**
  * memex key rotate — decrypt all memories with old key, re-encrypt with new key.

@@ -1,5 +1,5 @@
 const links = [
-  { label: "GitHub", href: "https://github.com/juanjgomezme/memex" },
+  { label: "GitHub", href: "https://github.com/jjosegomez/memex" },
   { label: "npm", href: "https://www.npmjs.com/package/memex-mcp" },
   { label: "Documentation", href: "#" },
 ];
@@ -37,7 +37,7 @@ export function Footer() {
         <p className="text-xs text-gray-600">
           Built by{" "}
           <a
-            href="https://github.com/juanjgomezme"
+            href="https://github.com/jjosegomez"
             target="_blank"
             rel="noopener noreferrer"
             className="text-gray-500 transition hover:text-gray-300"

@@ -1,59 +1,9 @@
-import readline from 'node:readline';
 import { getConfigDir, getDataDir, getKeyFilePath, getDbPath } from '../lib/paths.js';
 import { ensureDir } from '../lib/config.js';
+import { prompt } from '../lib/prompt.js';
 import { initPassphraseKey, initRawKey, keyMaterialExists } from '../crypto/keys.js';
 import { getDatabase, closeDatabase } from '../db/database.js';
 import { execSync } from 'node:child_process';
-import fs from 'node:fs';
-
-/**
- * Prompt user for input (supports hidden input for passwords).
- */
-function prompt(question: string, hidden = false): Promise<string> {
-  return new Promise((resolve) => {
-    const rl = readline.createInterface({
-      input: process.stdin,
-      output: process.stdout,
-    });
-
-    if (hidden) {
-      // Write the question manually, then mute stdout
-      process.stdout.write(question);
-      const stdin = process.stdin;
-      const wasRaw = stdin.isRaw;
-      if (stdin.isTTY) {
-        stdin.setRawMode(true);
-      }
-      let input = '';
-      const onData = (char: Buffer) => {
-        const c = char.toString('utf8');
-        if (c === '\n' || c === '\r') {
-          if (stdin.isTTY) {
-            stdin.setRawMode(wasRaw ?? false);
-          }
-          stdin.removeListener('data', onData);
-          process.stdout.write('\n');
-          rl.close();
-          resolve(input);
-        } else if (c === '\u0003') {
-          // Ctrl+C
-          process.exit(1);
-        } else if (c === '\u007f' || c === '\b') {
-          // Backspace
-          input = input.slice(0, -1);
-        } else {
-          input += c;
-        }
-      };
-      stdin.on('data', onData);
-    } else {
-      rl.question(question, (answer) => {
-        rl.close();
-        resolve(answer);
-      });
-    }
-  });
-}
 
 /**
  * Check if Claude Code CLI is available.
