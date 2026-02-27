@@ -18,10 +18,10 @@ program
 program
   .command('init')
   .description('Initialize Memex (encryption key + database + agent config)')
-  .option('--no-passphrase', 'Use a random key instead of a passphrase')
+  .option('--passphrase', 'Derive key from a passphrase instead of generating a random key')
   .action(async (opts) => {
     const { runInit } = await import('./cli/init.js');
-    await runInit({ noPassphrase: opts.passphrase === false });
+    await runInit({ usePassphrase: opts.passphrase === true });
   });
 
 program

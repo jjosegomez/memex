@@ -1,12 +1,19 @@
-import type { Metadata } from 'next';
-import { Inter } from 'next/font/google';
-import './globals.css';
+import type { Metadata } from "next";
+import { Inter } from "next/font/google";
+import "./globals.css";
 
-const inter = Inter({ subsets: ['latin'] });
+const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: 'Memex — Encrypted AI Memory for Developers',
-  description: 'Portable, E2E encrypted memory for your AI coding agents. Works with Claude Code, Cursor, and any MCP-compatible tool.',
+  title: "Memex — Encrypted AI Memory for Developers",
+  description:
+    "Portable, E2E encrypted memory for your AI coding agents. Works with Claude Code, Cursor, and any MCP-compatible tool.",
+  openGraph: {
+    title: "Memex — Encrypted AI Memory for Developers",
+    description:
+      "Portable, E2E encrypted memory for your AI coding agents. Works with Claude Code, Cursor, and any MCP-compatible tool.",
+    type: "website",
+  },
 };
 
 export default function RootLayout({
@@ -15,7 +22,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en">
+    <html lang="en" className="dark">
       <body className={inter.className}>{children}</body>
     </html>
   );

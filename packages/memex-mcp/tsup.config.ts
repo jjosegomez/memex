@@ -14,10 +14,10 @@ export default defineConfig({
   },
   external: [
     'better-sqlite3',
+    'commander',
   ],
   noExternal: [
     '@modelcontextprotocol/sdk',
-    'commander',
     'zod',
   ],
 });

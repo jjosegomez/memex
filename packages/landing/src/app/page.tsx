@@ -1,10 +1,23 @@
+import { Hero } from "../../components/hero";
+import { Problem } from "../../components/problem";
+import { HowItWorks } from "../../components/how-it-works";
+import { Security } from "../../components/security";
+import { Features } from "../../components/features";
+import { Install } from "../../components/install";
+import { EmailCapture } from "../../components/email-capture";
+import { Footer } from "../../components/footer";
+
 export default function Home() {
   return (
-    <main className="flex min-h-screen flex-col items-center justify-center p-24">
-      <h1 className="text-4xl font-bold">Memex</h1>
-      <p className="mt-4 text-lg text-gray-600">
-        Encrypted AI Memory for Developers
-      </p>
+    <main className="min-h-screen">
+      <Hero />
+      <Problem />
+      <HowItWorks />
+      <Security />
+      <Features />
+      <Install />
+      <EmailCapture />
+      <Footer />
     </main>
   );
 }
