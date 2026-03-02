@@ -3,7 +3,7 @@ const painPoints = [
     icon: "🧠",
     title: "Your agent forgets everything",
     description:
-      "Every new session starts from zero. Architecture decisions, coding conventions, project context — all gone.",
+      "Every new session starts from zero. That auth pattern you explained 3 times? Gone. The migration strategy you spent 20 minutes on? Gone.",
   },
   {
     icon: "🔒",

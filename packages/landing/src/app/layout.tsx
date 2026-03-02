@@ -5,14 +5,22 @@ import "./globals.css";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
+  metadataBase: new URL("https://memex.dev"),
   title: "Memex — Encrypted AI Memory for Developers",
   description:
-    "Portable, E2E encrypted memory for your AI coding agents. Works with Claude Code, Cursor, and any MCP-compatible tool.",
+    "Persistent, encrypted memory for every AI coding agent you use. One command to install. Works with Claude Code, Cursor, Windsurf, and any MCP tool.",
   openGraph: {
     title: "Memex — Encrypted AI Memory for Developers",
     description:
-      "Portable, E2E encrypted memory for your AI coding agents. Works with Claude Code, Cursor, and any MCP-compatible tool.",
+      "Persistent, encrypted memory for every AI coding agent you use. One command to install. Works with Claude Code, Cursor, Windsurf, and any MCP tool.",
     type: "website",
+    siteName: "Memex",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Memex — Encrypted AI Memory for Developers",
+    description:
+      "Persistent, encrypted memory for every AI coding agent you use. One command to install.",
   },
 };
 

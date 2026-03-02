@@ -1,7 +1,7 @@
 const links = [
   { label: "GitHub", href: "https://github.com/jjosegomez/memex" },
   { label: "npm", href: "https://www.npmjs.com/package/memex-mcp" },
-  { label: "Documentation", href: "#" },
+  { label: "Documentation", href: "https://github.com/jjosegomez/memex/blob/main/ARCHITECTURE.md" },
 ];
 
 export function Footer() {

@@ -14,8 +14,8 @@ export function EmailCapture() {
             Cloud sync is coming
           </h2>
           <p className="mt-4 text-sm leading-6 text-gray-400">
-            E2E encrypted cloud sync so your memories travel across machines.
-            Get notified when it launches.
+            E2E encrypted cloud sync. Your memories travel across machines
+            — only encrypted blobs leave your device. Be first to get access.
           </p>
 
           {submitted ? (
@@ -55,7 +55,7 @@ export function EmailCapture() {
                 type="submit"
                 className="shrink-0 rounded-lg bg-gradient-to-r from-blue-500 to-purple-500 px-6 py-3 text-sm font-semibold text-white transition hover:from-blue-600 hover:to-purple-600"
               >
-                Notify me
+                Join the waitlist
               </button>
             </form>
           )}

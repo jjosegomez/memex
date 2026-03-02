@@ -65,7 +65,7 @@ export function Features() {
             Features
           </h2>
           <p className="mt-4 text-3xl font-bold tracking-tight text-white sm:text-4xl">
-            Everything you need, nothing you don&apos;t
+            Lightweight by design
           </p>
         </div>
 

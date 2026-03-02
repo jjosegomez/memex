@@ -39,9 +39,9 @@ export function Hero() {
 
         {/* Subhead */}
         <p className="mt-6 text-lg leading-8 text-gray-400 sm:text-xl">
-          Portable, E2E encrypted memory for your AI coding agents.
-          <br className="hidden sm:inline" /> Works with Claude Code, Cursor, and
-          any MCP-compatible tool.
+          Persistent, encrypted memory for every AI coding agent you use.
+          <br className="hidden sm:inline" /> One command to install. Works with Claude Code, Cursor,
+          Windsurf, and any MCP tool.
         </p>
 
         {/* CTAs */}
