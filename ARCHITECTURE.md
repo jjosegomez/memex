@@ -84,7 +84,7 @@
 
 +-------------------+
 |   Landing Page    |  (separate Next.js app, no backend connection)
-|   memex.dev       |
+|   getmemex.dev    |
 +-------------------+
 ```
 
@@ -932,7 +932,7 @@ Published to npm as a single package. The `memex` name is taken.
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/juanjgomez/memex"
+    "url": "https://github.com/jjosegomez/memex"
   }
 }
 ```

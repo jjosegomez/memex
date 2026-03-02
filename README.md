@@ -51,7 +51,7 @@ Memories are scoped to your git repo. Switch projects, get different memories.
 | Package | Description |
 |---------|-------------|
 | [`memex-mcp`](./packages/memex-mcp) | MCP server + CLI ([npm](https://www.npmjs.com/package/memex-mcp)) |
-| [`memex-landing`](./packages/landing) | Landing page ([memex.dev](https://memex.dev)) |
+| [`memex-landing`](./packages/landing) | Landing page ([getmemex.dev](https://getmemex.dev)) |
 
 ## Architecture
 
