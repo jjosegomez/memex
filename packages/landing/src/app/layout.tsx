@@ -5,7 +5,7 @@ import "./globals.css";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://memex.dev"),
+  metadataBase: new URL("https://getmemex.dev"),
   title: "Memex — Encrypted AI Memory for Developers",
   description:
     "Persistent, encrypted memory for every AI coding agent you use. One command to install. Works with Claude Code, Cursor, Windsurf, and any MCP tool.",

@@ -1,6 +1,7 @@
 node_modules/
 dist/
 .next/
+out/
 .turbo/
 *.tsbuildinfo
 .env
@@ -9,3 +10,6 @@ dist/
 coverage/
 *.db
 *.db-journal
+
+# Local Netlify folder
+.netlify
