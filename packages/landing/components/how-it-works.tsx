@@ -2,46 +2,53 @@ const steps = [
   {
     number: "01",
     title: "Install in 10 seconds",
-    description: "One command registers the MCP server with your AI tool.",
+    description: "One command sets up encryption, database, Claude Code integration, and agent instructions.",
     code: `$ npx memex-mcp init
 
-✔ Generated encryption key
-✔ Created database
-✔ Registered with Claude Code
+Step 1/4: Encryption Setup
+  Generated random encryption key.
 
-Ready. Your agent now has memory.`,
+Step 2/4: Database
+  Database created and schema initialized.
+
+Step 3/4: Claude Code Integration
+  Added memex MCP server to Claude Code settings.
+
+Step 4/4: Agent Instructions
+  Created CLAUDE.md with Memex instructions.
+
+Setup complete! Memex is ready.`,
   },
   {
     number: "02",
-    title: "Your agent saves context automatically",
+    title: "Verify it works, seed your project",
     description:
-      "When your agent learns something important, it stores it as an encrypted memory.",
-    code: `// Agent calls save_memory tool
-{
-  "tool": "save_memory",
-  "arguments": {
-    "content": "Auth uses Clerk with JWT. Protected routes
-      go through middleware.ts. API routes
-      verify via getAuth().",
-    "tags": ["auth", "architecture"]
-  }
-}`,
+      "Run a 30-second demo to see encryption in action, then pre-load your project context.",
+    code: `$ memex demo
+  Saved → Encrypted → Recalled → Decrypted ✔
+
+$ memex seed
+  Scanning project files...
+  Saved: [project-info, stack]
+  Saved: [project-info, overview]
+  Done! 3 memories saved.
+
+Your agent has project context from day one.`,
   },
   {
     number: "03",
-    title: "Context persists everywhere",
+    title: "Your agent remembers automatically",
     description:
-      "Next session, different tool — memories are always there.",
-    code: `// Agent calls recall_memories tool
-{
-  "tool": "recall_memories",
-  "arguments": {
-    "query": "how does auth work in this project?"
-  }
-}
+      "Your agent saves and recalls context across sessions — no prompting needed.",
+    code: `// Agent saves what it learns
+save_memory("Auth uses Clerk with JWT.
+  Protected routes go through middleware.ts.
+  API routes verify via getAuth().",
+  tags: ["auth", "architecture"])
 
-// Returns the saved memory — encrypted at rest,
-// decrypted only on your machine.`,
+// Next session — instant context
+recall_memories("how does auth work?")
+→ Returns the saved memory, decrypted on your machine.`,
   },
 ];
 
@@ -55,7 +62,7 @@ export function HowItWorks() {
             How It Works
           </h2>
           <p className="mt-4 text-3xl font-bold tracking-tight text-white sm:text-4xl">
-            Three steps to persistent memory
+            Install, verify, start building
           </p>
         </div>
 
