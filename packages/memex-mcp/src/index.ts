@@ -32,6 +32,22 @@ program
     await runStatus();
   });
 
+program
+  .command('demo')
+  .description('Run a quick demo to verify Memex works')
+  .action(async () => {
+    const { runDemo } = await import('./cli/demo.js');
+    await runDemo();
+  });
+
+program
+  .command('seed')
+  .description('Pre-load project context from your codebase')
+  .action(async () => {
+    const { runSeed } = await import('./cli/seed.js');
+    await runSeed();
+  });
+
 const memoriesCmd = program
   .command('memories')
   .description('Manage stored memories');

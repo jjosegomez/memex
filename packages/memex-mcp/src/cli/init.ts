@@ -1,3 +1,5 @@
+import fs from 'node:fs';
+import path from 'node:path';
 import { getConfigDir, getDataDir, getKeyFilePath, getDbPath } from '../lib/paths.js';
 import { ensureDir } from '../lib/config.js';
 import { prompt } from '../lib/prompt.js';
@@ -120,9 +122,58 @@ export async function runInit(opts: { usePassphrase: boolean }): Promise<void> {
     console.log('    claude mcp add memex --transport stdio -- npx -y memex-mcp serve');
   }
   console.log('');
+  // Step 4: Suggest CLAUDE.md integration
+  console.log('Step 4/4: Agent Instructions');
+  const claudeMdSnippet = `
+## Memex (Persistent Memory)
+
+You have access to Memex for persistent, encrypted memory across sessions.
+
+**Automatically save** important context as you work:
+- Architecture decisions and rationale
+- Coding patterns and conventions used in this project
+- Debugging insights and solutions to tricky problems
+- API designs, data models, and integration details
+
+**Recall context** at the start of each session to pick up where you left off.
+
+Use \`save_memory\` with descriptive tags like: architecture, patterns, debugging, api, auth, database.
+Use \`recall_memories\` with relevant queries to retrieve past context.
+`;
+
+  // Try to find CLAUDE.md in current directory or git root
+  let claudeMdPath: string | null = null;
+  try {
+    const gitRoot = execSync('git rev-parse --show-toplevel', {
+      encoding: 'utf8',
+      stdio: ['pipe', 'pipe', 'pipe'],
+    }).trim();
+    claudeMdPath = path.join(gitRoot, 'CLAUDE.md');
+  } catch {
+    claudeMdPath = path.join(process.cwd(), 'CLAUDE.md');
+  }
+
+  if (claudeMdPath && fs.existsSync(claudeMdPath)) {
+    const existing = fs.readFileSync(claudeMdPath, 'utf8');
+    if (existing.includes('Memex') || existing.includes('memex')) {
+      console.log('  CLAUDE.md already mentions Memex. Skipped.');
+    } else {
+      fs.appendFileSync(claudeMdPath, '\n' + claudeMdSnippet);
+      console.log('  Added Memex instructions to your CLAUDE.md.');
+      console.log('  Your agent will now use memory tools automatically.');
+    }
+  } else if (claudeMdPath) {
+    fs.writeFileSync(claudeMdPath, claudeMdSnippet.trim() + '\n');
+    console.log('  Created CLAUDE.md with Memex instructions.');
+    console.log('  Your agent will now use memory tools automatically.');
+  }
+  console.log('');
+
   console.log('Setup complete! Memex is ready.');
-  console.log("  - Your AI agents will now remember context across sessions.");
-  console.log("  - Run 'memex status' to check configuration.");
-  console.log("  - Run 'memex memories list' to see stored memories.");
+  console.log('');
+  console.log('Next steps:');
+  console.log("  memex demo         Verify everything works (30 seconds)");
+  console.log("  memex seed         Pre-load project context from your codebase");
+  console.log("  memex status       Check configuration");
   console.log('');
 }
