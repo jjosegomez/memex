@@ -2,11 +2,11 @@ const features = [
   {
     icon: (
       <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
-        <path strokeLinecap="round" strokeLinejoin="round" d="M7.5 21L3 16.5m0 0L7.5 12M3 16.5h13.5m0-13.5L21 7.5m0 0L16.5 12M21 7.5H7.5" />
+        <path strokeLinecap="round" strokeLinejoin="round" d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5M16.5 12L12 16.5m0 0L7.5 12m4.5 4.5V3" />
       </svg>
     ),
-    title: "Cross-agent compatible",
-    description: "Works with Claude Code, Cursor, and any MCP-compatible AI coding tool.",
+    title: "Auto-imports your configs",
+    description: "Detects .cursorrules, CLAUDE.md, .codex/instructions.md and imports them automatically. Re-syncs on every session.",
   },
   {
     icon: (
@@ -15,7 +15,7 @@ const features = [
       </svg>
     ),
     title: "Project-scoped",
-    description: "Memories are automatically organized by project. No cross-contamination.",
+    description: "Memories are automatically organized by project via git root detection. No cross-contamination.",
   },
   {
     icon: (
@@ -24,25 +24,26 @@ const features = [
       </svg>
     ),
     title: "Full-text search",
-    description: "SQLite FTS5 powers instant, ranked search across all your memories.",
+    description: "SQLite FTS5 with BM25 ranking. Instant, relevance-scored search across all your memories.",
   },
   {
     icon: (
       <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
-        <path strokeLinecap="round" strokeLinejoin="round" d="M16.5 10.5V6.75a4.5 4.5 0 10-9 0v3.75m-.75 11.25h10.5a2.25 2.25 0 002.25-2.25v-6.75a2.25 2.25 0 00-2.25-2.25H6.75a2.25 2.25 0 00-2.25 2.25v6.75a2.25 2.25 0 002.25 2.25z" />
+        <path strokeLinecap="round" strokeLinejoin="round" d="M9.568 3H5.25A2.25 2.25 0 003 5.25v4.318c0 .597.237 1.17.659 1.591l9.581 9.581c.699.699 1.78.872 2.607.33a18.095 18.095 0 005.223-5.223c.542-.827.369-1.908-.33-2.607L11.16 3.66A2.25 2.25 0 009.568 3z" />
+        <path strokeLinecap="round" strokeLinejoin="round" d="M6 6h.008v.008H6V6z" />
       </svg>
     ),
-    title: "E2E encrypted",
-    description: "AES-256-GCM encryption. Your key never leaves your machine.",
+    title: "Tag-based organization",
+    description: "Tag memories with architecture, auth, debugging, api — then filter and recall by tag.",
   },
   {
     icon: (
       <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
-        <path strokeLinecap="round" strokeLinejoin="round" d="M9 17.25v1.007a3 3 0 01-.879 2.122L7.5 21h9l-.621-.621A3 3 0 0115 18.257V17.25m6-12V15a2.25 2.25 0 01-2.25 2.25H5.25A2.25 2.25 0 013 15V5.25A2.25 2.25 0 015.25 3h13.5A2.25 2.25 0 0121 5.25z" />
+        <path strokeLinecap="round" strokeLinejoin="round" d="M6.75 7.5l3 2.25-3 2.25m4.5 0h3m-9 8.25h13.5A2.25 2.25 0 0021 18V6a2.25 2.25 0 00-2.25-2.25H5.25A2.25 2.25 0 003 6v12a2.25 2.25 0 002.25 2.25z" />
       </svg>
     ),
-    title: "Local-first",
-    description: "SQLite database on your machine. No servers, no accounts, no dependencies.",
+    title: "CLI tools included",
+    description: "memex status, memex memories list, memex export — manage your memory from the terminal.",
   },
   {
     icon: (
@@ -65,7 +66,7 @@ export function Features() {
             Features
           </h2>
           <p className="mt-4 text-3xl font-bold tracking-tight text-white sm:text-4xl">
-            Lightweight by design
+            Built for how developers actually work
           </p>
         </div>
 

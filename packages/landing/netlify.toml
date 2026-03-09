@@ -1,6 +1,6 @@
 [build]
   command = "npm run build"
-  publish = "out"
+  publish = "packages/landing/out"
   ignore = "exit 1"
 
 [build.environment]

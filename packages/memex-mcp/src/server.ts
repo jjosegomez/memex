@@ -148,6 +148,14 @@ export async function startServer(): Promise<void> {
     },
   );
 
+  // Auto-sync AI tool config files (silent, non-blocking)
+  try {
+    const { autoSyncConfigs } = await import('./lib/auto-sync.js');
+    autoSyncConfigs(db, encryptionKey);
+  } catch {
+    // Don't block server startup if auto-sync fails
+  }
+
   const transport = new StdioServerTransport();
   await server.connect(transport);
   console.error('Memex MCP server started');

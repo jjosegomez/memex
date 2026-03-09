@@ -1,15 +1,15 @@
 const keyPoints = [
   {
     label: "AES-256-GCM",
-    description: "Military-grade authenticated encryption with unique IVs per memory",
+    description: "Authenticated encryption with unique IVs per memory. PBKDF2 key derivation.",
   },
   {
     label: "Local-first",
     description: "Your encryption key never leaves your machine. Data stays on disk.",
   },
   {
-    label: "Zero-knowledge",
-    description: "No server, no cloud, no third party can access your data.",
+    label: "No data leaves your machine",
+    description: "No server, no cloud, no third party. Plaintext stays local, always.",
   },
   {
     label: "Open source",
@@ -45,7 +45,7 @@ export function Security() {
                   <p className="text-sm font-semibold text-white">
                     {point.label}
                   </p>
-                  <p className="mt-1 text-xs leading-5 text-gray-500">
+                  <p className="mt-1 text-sm leading-5 text-gray-400">
                     {point.description}
                   </p>
                 </div>

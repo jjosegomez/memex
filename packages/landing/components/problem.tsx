@@ -1,15 +1,15 @@
 const painPoints = [
   {
+    icon: "🔒",
+    title: "Your memories are locked in",
+    description:
+      "Claude Code memories don't work in Cursor. Cursor memories don't work anywhere else. Switch tools and you start from zero.",
+  },
+  {
     icon: "🧠",
     title: "Your agent forgets everything",
     description:
       "Every new session starts from zero. That auth pattern you explained 3 times? Gone. The migration strategy you spent 20 minutes on? Gone.",
-  },
-  {
-    icon: "🔒",
-    title: "Memories are siloed",
-    description:
-      "Claude Code memories don't work in Cursor. Switch tools and you lose everything you've built up.",
   },
   {
     icon: "👁️",
@@ -29,7 +29,7 @@ export function Problem() {
             The Problem
           </h2>
           <p className="mt-4 text-3xl font-bold tracking-tight text-white sm:text-4xl">
-            AI agents have amnesia
+            Your AI memory is trapped
           </p>
         </div>
 
@@ -57,7 +57,7 @@ export function Problem() {
             <p className="text-xl font-semibold text-white sm:text-2xl">
               Memex gives your AI agents a{" "}
               <span className="bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent">
-                shared, encrypted brain.
+                portable, encrypted brain.
               </span>
             </p>
           </div>

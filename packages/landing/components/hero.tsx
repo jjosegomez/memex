@@ -30,40 +30,40 @@ export function Hero() {
 
         {/* Headline */}
         <h1 className="text-5xl font-bold tracking-tight text-white sm:text-7xl">
-          Your AI agents
+          Stop re-explaining
           <br />
           <span className="bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent">
-            finally remember.
+            yourself to every AI tool.
           </span>
         </h1>
 
         {/* Subhead */}
         <p className="mt-6 text-lg leading-8 text-gray-400 sm:text-xl">
-          Persistent, encrypted memory for every AI coding agent you use.
-          <br className="hidden sm:inline" /> One command to install. Works with Claude Code, Cursor,
-          Windsurf, and any MCP tool.
+          Portable, encrypted memory that follows you across AI coding agents.
+          <br className="hidden sm:inline" /> Save context in Claude Code, recall it in Cursor.
+          One command to install.
         </p>
 
         {/* CTAs */}
         <div className="mt-10 flex flex-col items-center gap-4 sm:flex-row sm:justify-center">
-          {/* Install command */}
+          {/* Install command — primary CTA */}
           <button
             onClick={copyCommand}
-            className="group relative flex items-center gap-3 rounded-lg border border-white/10 bg-white/5 px-5 py-3 font-mono text-sm text-gray-200 transition hover:border-white/20 hover:bg-white/10"
+            className="group relative flex items-center gap-3 rounded-lg bg-gradient-to-r from-blue-500 to-purple-500 px-6 py-3.5 font-mono text-sm font-semibold text-white shadow-lg shadow-blue-500/25 transition hover:from-blue-600 hover:to-purple-600"
           >
-            <span className="text-gray-500">$</span>
+            <span className="text-white/60">$</span>
             <span>npx memex-mcp init</span>
-            <span className="ml-2 text-xs text-gray-500 transition group-hover:text-gray-300">
+            <span className="ml-2 text-xs text-white/60 transition group-hover:text-white/80">
               {copied ? "Copied!" : "Copy"}
             </span>
           </button>
 
-          {/* GitHub link */}
+          {/* GitHub link — secondary */}
           <a
             href="https://github.com/jjosegomez/memex"
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center gap-2 rounded-lg border border-white/10 px-5 py-3 text-sm font-medium text-gray-300 transition hover:border-white/20 hover:text-white"
+            className="inline-flex items-center gap-2 rounded-lg px-5 py-3 text-sm text-gray-400 transition hover:text-white"
           >
             <svg
               className="h-5 w-5"

@@ -1,7 +1,7 @@
 const links = [
   { label: "GitHub", href: "https://github.com/jjosegomez/memex" },
   { label: "npm", href: "https://www.npmjs.com/package/memex-mcp" },
-  { label: "Documentation", href: "https://github.com/jjosegomez/memex/blob/main/ARCHITECTURE.md" },
+  { label: "Documentation", href: "https://github.com/jjosegomez/memex#readme" },
 ];
 
 export function Footer() {
@@ -42,7 +42,7 @@ export function Footer() {
             rel="noopener noreferrer"
             className="text-gray-500 transition hover:text-gray-300"
           >
-            Juan Gomez
+            Juan J. Gomez
           </a>
         </p>
       </div>

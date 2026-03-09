@@ -57,7 +57,7 @@ export async function runInit(opts: { usePassphrase: boolean }): Promise<void> {
   }
 
   // Step 1: Encryption setup
-  console.log('Step 1/3: Encryption Setup');
+  console.log('Step 1/5: Encryption Setup');
   ensureDir(getConfigDir());
 
   if (!opts.usePassphrase) {
@@ -96,7 +96,7 @@ export async function runInit(opts: { usePassphrase: boolean }): Promise<void> {
   console.log('');
 
   // Step 2: Database
-  console.log('Step 2/3: Database');
+  console.log('Step 2/5: Database');
   ensureDir(getDataDir());
   const db = getDatabase();
   console.log(`  Database location: ${getDbPath()}`);
@@ -105,7 +105,7 @@ export async function runInit(opts: { usePassphrase: boolean }): Promise<void> {
   console.log('');
 
   // Step 3: Claude Code integration
-  console.log('Step 3/3: Claude Code Integration');
+  console.log('Step 3/5: Claude Code Integration');
   if (isClaudeCodeAvailable()) {
     const registered = registerWithClaudeCode();
     if (registered) {
@@ -122,8 +122,8 @@ export async function runInit(opts: { usePassphrase: boolean }): Promise<void> {
     console.log('    claude mcp add memex --transport stdio -- npx -y memex-mcp serve');
   }
   console.log('');
-  // Step 4: Suggest CLAUDE.md integration
-  console.log('Step 4/4: Agent Instructions');
+  // Step 4: CLAUDE.md integration
+  console.log('Step 4/5: Agent Instructions');
   const claudeMdSnippet = `
 ## Memex (Persistent Memory)
 
@@ -139,6 +139,8 @@ You have access to Memex for persistent, encrypted memory across sessions.
 
 Use \`save_memory\` with descriptive tags like: architecture, patterns, debugging, api, auth, database.
 Use \`recall_memories\` with relevant queries to retrieve past context.
+
+**Keep the user informed**: When you save or recall memories, briefly mention it (e.g., "Saved to memory: auth uses Clerk with JWT" or "Recalled 3 memories from last session"). This helps the user know Memex is working.
 `;
 
   // Try to find CLAUDE.md in current directory or git root
@@ -169,11 +171,30 @@ Use \`recall_memories\` with relevant queries to retrieve past context.
   }
   console.log('');
 
+  // Step 5: Seed project context
+  console.log('Step 5/5: Project Context');
+  try {
+    const { runSeedQuiet } = await import('./seed.js');
+    const seedResult = await runSeedQuiet();
+    if (seedResult.saved > 0 || seedResult.dupes > 0) {
+      if (seedResult.saved > 0) {
+        console.log(`  Imported ${seedResult.saved} memories from project files.`);
+      }
+      if (seedResult.dupes > 0) {
+        console.log(`  ${seedResult.dupes} duplicates skipped.`);
+      }
+    } else {
+      console.log('  No project files found to import.');
+    }
+  } catch {
+    console.log('  Skipped — run "memex seed" manually to import project context.');
+  }
+  console.log('');
+
   console.log('Setup complete! Memex is ready.');
   console.log('');
   console.log('Next steps:');
   console.log("  memex demo         Verify everything works (30 seconds)");
-  console.log("  memex seed         Pre-load project context from your codebase");
   console.log("  memex status       Check configuration");
   console.log('');
 }

@@ -4,22 +4,53 @@ import { useState } from "react";
 
 export function EmailCapture() {
   const [submitted, setSubmitted] = useState(false);
+  const [error, setError] = useState(false);
+  const [copied, setCopied] = useState(false);
+
+  function copyCommand() {
+    navigator.clipboard.writeText("npx memex-mcp init");
+    setCopied(true);
+    setTimeout(() => setCopied(false), 2000);
+  }
 
   return (
     <section className="px-6 py-24 sm:py-32">
-      <div className="mx-auto max-w-xl text-center">
-        {/* Decorative border */}
-        <div className="rounded-2xl border border-white/5 bg-gradient-to-b from-white/[0.03] to-transparent p-10 sm:p-14">
+      <div className="mx-auto max-w-2xl space-y-8">
+        {/* Primary CTA — install now */}
+        <div className="rounded-2xl border border-white/5 bg-gradient-to-b from-white/[0.03] to-transparent p-10 text-center sm:p-14">
           <h2 className="text-2xl font-bold tracking-tight text-white sm:text-3xl">
-            Cloud sync is coming
+            Get started in 30 seconds
           </h2>
           <p className="mt-4 text-sm leading-6 text-gray-400">
+            One command. Works with any MCP-compatible AI tool.
+          </p>
+          <button
+            onClick={copyCommand}
+            className="mt-6 inline-flex items-center gap-3 rounded-lg bg-gradient-to-r from-blue-500 to-purple-500 px-6 py-3.5 font-mono text-sm font-semibold text-white shadow-lg shadow-blue-500/25 transition hover:from-blue-600 hover:to-purple-600"
+          >
+            <span className="text-white/60">$</span>
+            <span>npx memex-mcp init</span>
+            <span className="ml-2 text-xs text-white/60">
+              {copied ? "Copied!" : "Copy"}
+            </span>
+          </button>
+        </div>
+
+        {/* Secondary — cloud sync waitlist */}
+        <div className="rounded-2xl border border-white/5 bg-white/[0.02] p-8 text-center sm:p-10">
+          <p className="text-sm font-semibold uppercase tracking-widest text-blue-400">
+            Coming soon
+          </p>
+          <h3 className="mt-3 text-xl font-bold tracking-tight text-white">
+            Cloud sync is next
+          </h3>
+          <p className="mt-3 text-sm leading-6 text-gray-400">
             E2E encrypted cloud sync. Your memories travel across machines
-            — only encrypted blobs leave your device. Be first to get access.
+            — only encrypted blobs leave your device.
           </p>
 
           {submitted ? (
-            <div className="mt-8 rounded-lg border border-green-500/20 bg-green-500/10 p-4">
+            <div className="mt-6 rounded-lg border border-green-500/20 bg-green-500/10 p-4">
               <p className="text-sm text-green-400">
                 You&apos;re on the list. We&apos;ll email you when cloud sync is ready.
               </p>
@@ -31,6 +62,7 @@ export function EmailCapture() {
               data-netlify="true"
               onSubmit={(e) => {
                 e.preventDefault();
+                setError(false);
                 const form = e.target as HTMLFormElement;
                 const data = new FormData(form);
                 fetch("/", {
@@ -39,9 +71,9 @@ export function EmailCapture() {
                   body: new URLSearchParams(data as unknown as Record<string, string>).toString(),
                 })
                   .then(() => setSubmitted(true))
-                  .catch(() => setSubmitted(true)); // Show success even if fetch fails (SSG)
+                  .catch(() => setError(true));
               }}
-              className="mt-8 flex flex-col gap-3 sm:flex-row"
+              className="mt-6 flex flex-col gap-3 sm:flex-row"
             >
               <input type="hidden" name="form-name" value="waitlist" />
               <input
@@ -53,11 +85,17 @@ export function EmailCapture() {
               />
               <button
                 type="submit"
-                className="shrink-0 rounded-lg bg-gradient-to-r from-blue-500 to-purple-500 px-6 py-3 text-sm font-semibold text-white transition hover:from-blue-600 hover:to-purple-600"
+                className="shrink-0 rounded-lg border border-blue-500/30 bg-blue-500/10 px-6 py-3 text-sm font-semibold text-blue-400 transition hover:bg-blue-500/20"
               >
                 Join the waitlist
               </button>
             </form>
+          )}
+
+          {error && (
+            <p className="mt-3 text-xs text-red-400">
+              Something went wrong. Please try again.
+            </p>
           )}
 
           <p className="mt-4 text-xs text-gray-600">

@@ -11,30 +11,10 @@ interface SeedEntry {
 }
 
 /**
- * memex seed — scan the current project and pre-populate memories.
- *
- * Reads key files (README, package.json, CLAUDE.md, etc.) and creates
- * starter memories so the agent has context on first run.
+ * Collect seed entries from the current project.
+ * Shared by both runSeed (interactive CLI) and runSeedQuiet (called from init).
  */
-export async function runSeed(): Promise<void> {
-  console.log('');
-
-  if (!keyMaterialExists()) {
-    console.log('Memex is not initialized yet. Run:');
-    console.log('  npx memex-mcp init');
-    console.log('');
-    return;
-  }
-
-  const project = resolveProject();
-  const db = getDatabase();
-  const key = getEncryptionKey();
-
-  console.log('Memex Seed');
-  console.log('==========');
-  console.log(`Project: ${project}`);
-  console.log('');
-  console.log('Scanning project files...');
+function collectEntries(project: string): SeedEntry[] {
 
   const entries: SeedEntry[] = [];
 
@@ -126,7 +106,47 @@ export async function runSeed(): Promise<void> {
     }
   }
 
-  // 5. Detect project structure
+  // 5. AI tool config files — import context from other agents
+  const aiConfigs: { file: string; label: string; tag: string; glob?: boolean }[] = [
+    { file: '.cursorrules', label: 'Cursor', tag: 'cursor' },
+    { file: '.windsurfrules', label: 'Windsurf', tag: 'windsurf' },
+    { file: '.codex/instructions.md', label: 'Codex', tag: 'codex' },
+    { file: '.github/copilot-instructions.md', label: 'GitHub Copilot', tag: 'copilot' },
+  ];
+
+  for (const cfg of aiConfigs) {
+    const cfgPath = path.join(project, cfg.file);
+    if (fs.existsSync(cfgPath)) {
+      const content = fs.readFileSync(cfgPath, 'utf8').slice(0, 2000).trim();
+      if (content.length > 20) {
+        entries.push({
+          content: `${cfg.label} instructions (${cfg.file}):\n\n${content}`,
+          tags: ['import', cfg.tag, 'instructions'],
+        });
+      }
+    }
+  }
+
+  // 5b. Cursor rules directory (multiple files)
+  const cursorRulesDir = path.join(project, '.cursor', 'rules');
+  if (fs.existsSync(cursorRulesDir)) {
+    try {
+      const ruleFiles = fs.readdirSync(cursorRulesDir).filter((f) => f.endsWith('.md') || f.endsWith('.mdc'));
+      for (const ruleFile of ruleFiles) {
+        const content = fs.readFileSync(path.join(cursorRulesDir, ruleFile), 'utf8').slice(0, 2000).trim();
+        if (content.length > 20) {
+          entries.push({
+            content: `Cursor rule (${ruleFile}):\n\n${content}`,
+            tags: ['import', 'cursor', 'instructions'],
+          });
+        }
+      }
+    } catch {
+      // Skip if unreadable
+    }
+  }
+
+  // 6. Detect project structure
   const structure: string[] = [];
   const srcDir = path.join(project, 'src');
   const appDir = path.join(project, 'app');
@@ -150,14 +170,18 @@ export async function runSeed(): Promise<void> {
     });
   }
 
-  // Save all entries
-  if (entries.length === 0) {
-    console.log('No project files found to seed from.');
-    console.log('');
-    closeDatabase();
-    return;
-  }
+  return entries;
+}
 
+/**
+ * Save collected entries and return counts.
+ */
+function saveEntries(
+  entries: SeedEntry[],
+  db: ReturnType<typeof getDatabase>,
+  key: Buffer,
+  log = true,
+): { saved: number; dupes: number } {
   let saved = 0;
   let dupes = 0;
   for (const entry of entries) {
@@ -169,9 +193,50 @@ export async function runSeed(): Promise<void> {
       dupes++;
     } else {
       saved++;
-      console.log(`  Saved: [${entry.tags.join(', ')}]`);
+      if (log) {
+        console.log(`  Saved: [${entry.tags.join(', ')}]`);
+      }
     }
   }
+  return { saved, dupes };
+}
+
+/**
+ * memex seed — scan the current project and pre-populate memories.
+ *
+ * Reads key files (README, package.json, CLAUDE.md, AI tool configs, etc.)
+ * and creates starter memories so the agent has context on first run.
+ */
+export async function runSeed(): Promise<void> {
+  console.log('');
+
+  if (!keyMaterialExists()) {
+    console.log('Memex is not initialized yet. Run:');
+    console.log('  npx memex-mcp init');
+    console.log('');
+    return;
+  }
+
+  const project = resolveProject();
+  const db = getDatabase();
+  const key = getEncryptionKey();
+
+  console.log('Memex Seed');
+  console.log('==========');
+  console.log(`Project: ${project}`);
+  console.log('');
+  console.log('Scanning project files...');
+
+  const entries = collectEntries(project);
+
+  if (entries.length === 0) {
+    console.log('No project files found to seed from.');
+    console.log('');
+    closeDatabase();
+    return;
+  }
+
+  const { saved, dupes } = saveEntries(entries, db, key);
 
   console.log('');
   console.log(`Done! ${saved} memories saved${dupes > 0 ? `, ${dupes} duplicates skipped` : ''}.`);
@@ -181,4 +246,20 @@ export async function runSeed(): Promise<void> {
   console.log('');
 
   closeDatabase();
+}
+
+/**
+ * Quiet version of seed — called from init. Returns counts, minimal logging.
+ */
+export async function runSeedQuiet(): Promise<{ saved: number; dupes: number }> {
+  const project = resolveProject();
+  const db = getDatabase();
+  const key = getEncryptionKey();
+  const entries = collectEntries(project);
+
+  if (entries.length === 0) {
+    return { saved: 0, dupes: 0 };
+  }
+
+  return saveEntries(entries, db, key, false);
 }

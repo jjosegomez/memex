@@ -8,8 +8,8 @@ const competitors = [
 type CellValue = true | false | string;
 
 const rows: { label: string; values: CellValue[] }[] = [
-  { label: "E2E Encrypted", values: [true, false, false, false] },
   { label: "Cross-agent (MCP)", values: [true, true, false, "GitHub only"] },
+  { label: "E2E Encrypted", values: [true, false, false, false] },
   { label: "Local-first", values: [true, "Self-host", true, false] },
   { label: "One-command install", values: [true, false, false, true] },
   { label: "Open source", values: [true, "Partial", false, false] },
@@ -36,7 +36,7 @@ export function Comparison() {
             Comparison
           </h2>
           <p className="mt-4 text-3xl font-bold tracking-tight text-white sm:text-4xl">
-            How Memex compares
+            The only memory layer that checks every box
           </p>
         </div>
 

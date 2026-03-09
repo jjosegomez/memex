@@ -6,43 +6,49 @@ All distribution copy for launch day and the first week.
 
 ## 1. Show HN Post
 
-**Title:** Show HN: Memex -- E2E encrypted persistent memory for AI coding agents
+**Title:** Show HN: Memex -- Stop re-explaining yourself to every AI coding tool
 
 **Body:**
 
 Hey HN,
 
-I built Memex because I got tired of re-explaining my project architecture to Claude Code every Monday morning.
+I use Claude Code, Cursor, and occasionally Windsurf. Every single session starts the same way:
 
-**The problem:** AI coding agents forget everything between sessions. Every time you start a new chat, you lose all the context you built up -- the auth patterns you decided on, the migration strategy, the quirks of your codebase. If you use multiple agents (Claude Code + Cursor), the problem is worse. They can't share context at all.
+"We use JWT with refresh tokens." "It's a monorepo with three packages." "The API follows REST naming conventions." "The migration in V3 added the users_roles table."
 
-**What Memex does:** It's an MCP server that gives any MCP-compatible AI agent persistent, encrypted memory. Your agent saves architectural decisions, patterns, and project context. Next session -- or in a different tool -- the context is there.
+You spend 10 minutes rebuilding context your agent knew yesterday. Switch tools and it's worse -- Cursor has no idea what you told Claude Code an hour ago. Your AI agents are amnesiac silos.
 
-One command to set up:
+CLAUDE.md / .cursorrules help, but they're manual. You have to remember what to write, maintain them by hand, and they don't carry between tools.
+
+**So I built Memex.** It's an MCP server that gives any MCP-compatible AI agent persistent memory across sessions and across tools. Save context in Claude Code, recall it in Cursor. Switch projects and get different context (scoped to git root).
+
+One command:
 
 ```
 npx memex-mcp init
 ```
 
-Your agent gets 4 tools: `save_memory`, `recall_memories`, `search_memories`, `delete_memory`.
+Your agent gets 4 tools: `save_memory`, `recall_memories`, `search_memories`, `delete_memory`. The agent decides what's worth remembering -- architecture decisions, conventions, debugging notes -- and recalls it automatically next session.
 
-**The encryption angle:** Every memory is AES-256-GCM encrypted with a unique 12-byte IV before it touches disk. Key derivation uses PBKDF2 with 100K iterations (SHA-512). Your encryption key never leaves your machine. No cloud, no accounts, no telemetry. The database is SQLite + FTS5, stored locally.
+It also auto-imports your existing AI tool configs (.cursorrules, CLAUDE.md, .codex/instructions.md) so your context is there from day one. Update a config file? Memex picks up the change next session.
 
-The FTS5 index does store plaintext locally to make search work (FTS5 needs it). For the planned cloud sync feature, only encrypted blobs will ever leave your machine -- the search index stays local.
+**The portability part:** Memories work across any MCP-compatible tool. Claude Code, Cursor, Windsurf, whatever comes next. No vendor lock-in. Your context belongs to you, not your tool vendor.
+
+**Oh, and it's all encrypted.** Every memory is AES-256-GCM encrypted with a unique 12-byte IV before it touches disk. Key derivation uses PBKDF2 with 100K iterations (SHA-512). No cloud, no accounts, no telemetry. SQLite + FTS5, stored locally.
+
+The FTS5 index does store plaintext locally to make search work (FTS5 can't search ciphertext). For the planned cloud sync, only encrypted blobs leave your machine -- the search index stays local. I documented this trade-off in ARCHITECTURE.md.
 
 **Why not existing solutions?**
 
-- Mem0 ($24M raised, 48K stars) -- cloud-based, not E2E encrypted. Your code context sits on their servers.
-- Pieces (100K users) -- heavy desktop app, not a lightweight tool you pipe into any MCP agent.
-- Copilot Memory -- GitHub-only walled garden.
+- Mem0 ($24M raised, 48K stars) -- cloud-based, not E2E encrypted. Your code context sits on their servers. And it only works with their SDK, not across arbitrary MCP tools.
+- Pieces (100K users) -- heavy desktop app. Not a lightweight thing you pipe into any agent.
+- Copilot Memory -- GitHub-only walled garden. Switch to Claude Code and you lose everything.
 
-Nobody has E2E encrypted, cross-agent portable memory. That's the gap.
-
-**Tech stack:** TypeScript, SQLite via better-sqlite3, Node crypto (no external crypto deps), 4 runtime dependencies total. Single bundled file. MIT licensed.
+**Tech:** TypeScript, SQLite via better-sqlite3, Node crypto (no external crypto deps), 4 runtime dependencies total. Single bundled file. MIT licensed.
 
 GitHub: https://github.com/jjosegomez/memex
 
-Happy to answer questions about the encryption architecture, MCP protocol details, or the FTS5 trade-off.
+Happy to answer questions about the architecture, MCP protocol, or the FTS5 trade-off.
 
 ---
 
@@ -50,51 +56,55 @@ Happy to answer questions about the encryption architecture, MCP protocol detail
 
 ### 2a. r/ClaudeAI Post
 
-**Title:** I built an encrypted MCP server that gives Claude Code persistent memory across sessions
+**Title:** I built a memory layer that follows you across Claude Code, Cursor, and Windsurf -- never re-explain your codebase again
 
 **Body:**
 
-I've been using Claude Code daily for about 6 months, and the thing that kept bugging me was losing context. Every new session, I'd spend the first 10 minutes re-explaining: "the auth uses JWT with refresh tokens", "we have a monorepo with three packages", "the API follows this naming convention."
+Anyone else tired of starting every Claude Code session with the same recap?
 
-CLAUDE.md helps, but it's manual. You have to remember what to write in there. And it doesn't carry over when I switch to Cursor for a quick task.
+"Here's how auth works." "We use this folder structure." "The API convention is..." Repeat until you've burned 10 minutes and 3K tokens just getting back to where you were yesterday.
 
-So I built **Memex** -- an MCP server that gives Claude Code (and any MCP agent) persistent, encrypted memory.
+CLAUDE.md helps, but it's static. You write it, you maintain it, and it doesn't help when you switch to Cursor for a quick task.
+
+I built **Memex** to fix this. It's an MCP server that gives Claude Code (and any MCP agent) persistent memory that actually carries across sessions and across tools.
 
 **How it works:**
 
-1. Run `npx memex-mcp init` -- generates your encryption key, creates a local SQLite DB, registers the MCP server with Claude Code
+1. Run `npx memex-mcp init` -- sets up a local encrypted SQLite DB, registers the MCP server. It also auto-imports any existing .cursorrules, CLAUDE.md, or .codex/instructions.md it finds in your project.
 2. Claude Code gets 4 new tools: `save_memory`, `recall_memories`, `search_memories`, `delete_memory`
-3. Your agent starts saving context automatically -- architecture decisions, patterns, debugging notes
-4. Next session, it recalls what it needs
+3. Your agent starts saving context automatically -- architecture decisions, patterns, debugging context
+4. Next session -- or in a different tool -- it remembers
 
-Everything is AES-256-GCM encrypted before it hits disk. Memories are scoped to your git repo, so switching projects gives you different context.
+**The cross-tool part is the real unlock:** I save context in Claude Code, then open the same project in Cursor, and the context is already there. No copy-pasting, no maintaining separate files per tool.
 
 **What makes it different from Claude's built-in memory:**
-- E2E encrypted (your code context isn't stored in plaintext)
 - Works across agents (save in Claude Code, recall in Cursor)
-- You can see, search, export, and delete your memories via CLI
-- Open source -- you can audit every line (MIT license)
-- Zero-knowledge -- no cloud, no accounts, no telemetry
+- Scoped to git repos (switch projects, get different context)
+- E2E encrypted -- AES-256-GCM before anything hits disk
+- You own it: see, search, export, and delete your memories via CLI
+- Open source, MIT license, zero cloud, zero telemetry
 
 GitHub: https://github.com/jjosegomez/memex
 
 Landing page: https://getmemex.dev
 
-Would love feedback from other Claude Code users. What context do you find yourself repeating most?
+What context do you find yourself repeating most? For me it was auth patterns and migration history -- those are the things Memex saves me the most time on.
 
 ---
 
 ### 2b. r/cursor Post
 
-**Title:** Built an encrypted memory layer for Cursor (and any MCP agent) -- never re-explain your codebase again
+**Title:** Your Cursor sessions shouldn't start from scratch every time -- I built a fix
 
 **Body:**
 
-Does anyone else find themselves repeating the same context to Cursor every session?
+Every time I open Cursor on a project I was working on yesterday:
 
 "Here's how our auth works." "We use this folder structure." "The API naming convention is..."
 
-I built **Memex** to fix this. It's an MCP server that gives Cursor persistent memory across sessions. Every memory is E2E encrypted (AES-256-GCM) and stored locally on your machine.
+Sound familiar? That context recap at the start of every session is 10 minutes of your life you don't get back. And if you switch between Cursor and Claude Code like I do, neither tool knows what you told the other one.
+
+I built **Memex** to make this go away. It's an MCP server that gives Cursor persistent memory across sessions -- and across tools.
 
 **Setup takes 30 seconds:**
 
@@ -114,13 +124,15 @@ I built **Memex** to fix this. It's an MCP server that gives Cursor persistent m
 
 3. Cursor now has 4 new tools: save, recall, search, delete memories
 
-**The cool part:** memories are scoped to your git repo. Switch projects, get different context. And because it uses the MCP protocol, the same memories are available in Claude Code, Windsurf, or any MCP-compatible tool. Save context in Cursor, recall it in Claude Code.
+It also auto-imports your existing .cursorrules on first run, so you don't start from zero. Update .cursorrules later? Memex re-imports it next session.
 
-No cloud. No accounts. No telemetry. Just a local SQLite database with full-text search (FTS5 + BM25 ranking). 4 npm dependencies. MIT licensed.
+**The part I actually care about:** memories are scoped to your git repo and work across tools. Save context in Cursor, recall it in Claude Code. Switch projects, get different context. Your memory follows you -- not your tool.
+
+Everything is E2E encrypted (AES-256-GCM, unique IVs, PBKDF2 key derivation). No cloud. No accounts. No telemetry. Local SQLite with full-text search. 4 npm dependencies. MIT licensed.
 
 GitHub: https://github.com/jjosegomez/memex
 
-Curious if other Cursor users would find this useful. What context do you wish Cursor remembered between sessions?
+What context do you wish Cursor just... knew? The thing you're tired of typing every single session.
 
 ---
 
@@ -128,59 +140,74 @@ Curious if other Cursor users would find this useful. What context do you wish C
 
 ### Tweet 1 (Hook)
 
-Your AI coding agent forgets everything the moment you close the session.
+You explain your codebase to Claude Code.
 
-I built the fix. Open source. E2E encrypted. Works with Claude Code, Cursor, and Windsurf.
+Then you explain it again to Cursor.
 
-One command:
+Then you explain it again tomorrow because both forgot.
+
+I built the fix. Open source. Works across every MCP tool.
 
 ```
 npx memex-mcp init
 ```
 
-Thread on what Memex does and why encryption matters:
+Thread:
 
 ### Tweet 2 (Pain)
 
-The average developer using AI coding tools spends 10-15 min per session re-explaining context.
+The average dev using AI coding tools spends 10-15 min per session re-explaining context.
 
-"Here's how our auth works."
+"Here's how auth works."
 "We use a monorepo."
-"The API naming convention is..."
+"The API convention is..."
 
-Multiply that by 5 sessions a week. That's over an hour wasted on context your agent already knew yesterday.
+5 sessions a week = an hour wasted rebuilding context your agent already knew.
+
+And if you use multiple tools? They can't share any of it.
 
 ### Tweet 3 (Solution)
 
-Memex is an MCP server that gives your AI agent persistent memory.
+Memex is an MCP server that gives your AI agents shared, persistent memory.
 
-- save_memory: Store architecture decisions, patterns, context
-- recall_memories: Auto-retrieve relevant context next session
-- search_memories: Full-text search across all your projects
+- save_memory: Agent stores decisions, patterns, context
+- recall_memories: Auto-retrieves relevant context next session
+- search_memories: Full-text search across all projects
 - delete_memory: You control what stays
+- Auto-imports your .cursorrules, CLAUDE.md, .codex/ configs -- no manual migration
 
-Memories scoped to git repo. Switch projects, get different context.
+Memories scoped to git repo. Works in Claude Code, Cursor, Windsurf -- same memories, any tool.
 
 ### Tweet 4 (Technical credibility)
 
-Built for developers who care about where their code context goes:
+And because your code context is sensitive, everything is encrypted:
 
-- AES-256-GCM encryption (unique IV per memory)
+- AES-256-GCM (unique IV per memory)
 - PBKDF2 key derivation (100K iterations, SHA-512)
 - Zero-knowledge: no cloud, no accounts, no telemetry
 - SQLite + FTS5 with BM25 ranking
 - 4 dependencies. MIT licensed.
 
-Your encryption key never leaves your machine.
+Your data never leaves your machine.
 
-### Tweet 5 (CTA)
+### Tweet 5 (Comparison)
+
+Why not existing tools?
+
+- Mem0: cloud-based, not encrypted, their SDK only
+- Pieces: heavy desktop app
+- Copilot Memory: locked to GitHub's ecosystem
+
+Memex: local-first, encrypted, works with any MCP tool, open source.
+
+Your memory shouldn't be trapped in one vendor's silo.
+
+### Tweet 6 (CTA)
 
 Memex is free and open source.
 
 GitHub: https://github.com/jjosegomez/memex
-Landing page: https://getmemex.dev
-
-Cloud sync is coming (E2E encrypted -- only encrypted blobs leave your machine).
+Landing: https://getmemex.dev
 
 Star it. Try it. Tell me what breaks.
 
@@ -210,7 +237,7 @@ Star it. Try it. Tell me what breaks.
 
 **Day 2 (Wednesday) -- Follow Up:**
 - Post to r/programming (more technical angle, focus on the encryption architecture and MCP protocol)
-- Share on Dev.to (rewrite as blog post: "I built E2E encrypted memory for AI coding agents")
+- Share on Dev.to (rewrite as blog post: "Your AI tools don't talk to each other. I built shared memory for them.")
 - Engage with any Twitter replies/quote tweets
 - If HN post is on front page, post a follow-up tweet linking to the HN discussion
 
@@ -289,13 +316,15 @@ Some technical details that didn't fit in the post:
 
 **MCP Protocol:** Memex communicates via stdio using JSON-RPC 2.0 (the MCP standard). Your AI tool spawns `memex serve` as a child process. No HTTP server, no ports, no network calls. Just stdin/stdout.
 
+**Cross-tool portability:** This is the part I care about most. The MCP protocol is the same across Claude Code, Cursor, and Windsurf. Memex doesn't care which tool is talking to it -- same memories, same project scope. Save something in Claude Code, open Cursor, it's there. The agent decides what to save and recall, and Memex doesn't know or care which agent is asking. On every server startup, Memex scans for config file changes (.cursorrules, CLAUDE.md, .codex/instructions.md, etc.) and re-imports automatically -- so your static configs and dynamic memories stay in sync without any manual work.
+
 **Dependency count:** 4 runtime deps -- `@modelcontextprotocol/sdk`, `better-sqlite3`, `commander`, `zod`. Everything except `better-sqlite3` (native module) is bundled into a single file by tsup.
 
 **The FTS5 trade-off:** The full-text search index stores plaintext locally. This is necessary because FTS5 can't search encrypted content. The primary `memories` table stores AES-256-GCM ciphertext. When cloud sync ships, only the encrypted table syncs. The FTS index stays on your machine. I documented this trade-off openly in the ARCHITECTURE.md.
 
 **Key storage:** By default, Memex generates a random 256-bit key stored at `~/.config/memex/key.enc` (600 permissions). Opt-in passphrase mode uses PBKDF2 to derive the key. The raw key is never written to disk in passphrase mode.
 
-**What agents actually save:** In practice, Claude Code saves things like "this project uses a repository pattern for data access", "the auth middleware validates JWTs from the /api/auth endpoint", "migration V3 added the users_roles table." The agent decides what's worth remembering.
+**What agents actually save:** In practice, Claude Code saves things like "this project uses a repository pattern for data access", "the auth middleware validates JWTs from the /api/auth endpoint", "migration V3 added the users_roles table." The agent decides what's worth remembering -- you just work normally and context accumulates.
 
 Happy to go deeper on any of this. Code is MIT, all 45 files are readable: https://github.com/jjosegomez/memex
 
@@ -305,7 +334,7 @@ Happy to go deeper on any of this. Code is MIT, all 45 files are readable: https
 
 **For "How is this different from CLAUDE.md / .cursorrules?":**
 
-Good question. CLAUDE.md is manual -- you write it yourself and maintain it by hand. Memex is automatic -- your agent saves context as you work together. It also persists across sessions (CLAUDE.md is read once at session start), and works across agents (your Cursor and Claude Code share the same memories). Think of CLAUDE.md as a static config file and Memex as a dynamic memory.
+Good question. CLAUDE.md is manual -- you write it yourself and maintain it by hand. Memex is automatic -- your agent saves context as you work together. It also persists across sessions (CLAUDE.md is read once at session start), and works across agents (your Cursor and Claude Code share the same memories). Think of CLAUDE.md as a static config file and Memex as a dynamic, portable memory. The "portable" part is key -- .cursorrules only works in Cursor, CLAUDE.md only works in Claude Code, but Memex works in both. And Memex auto-imports those files too, so you get the best of both -- your static configs are imported as memories AND your agent adds dynamic context on top as you work.
 
 **For "Is the FTS plaintext a security concern?":**
 
@@ -330,7 +359,7 @@ If the tool supports MCP (Model Context Protocol), yes. The config is just:
 }
 ```
 
-Claude Code, Cursor, and Windsurf all support MCP. More tools are adding support regularly.
+Claude Code, Cursor, and Windsurf all support MCP. More tools are adding support regularly. That's the whole point -- your memory shouldn't be locked into one tool.
 
 **For "What happens to my data if I uninstall?":**
 
@@ -344,41 +373,44 @@ Cloud sync will be E2E encrypted end-to-end. The server will only ever see encry
 
 ## 6. Bonus: LinkedIn Post (Developer Network)
 
-I just open-sourced Memex -- a tool I built to solve a problem that's been nagging me for months.
+Every AI coding tool you use starts from zero.
 
-If you use AI coding assistants (Claude Code, Cursor, Windsurf), you know the pain: every new session starts from scratch. Your agent forgets your architecture, your conventions, your debugging context. You end up re-explaining the same things over and over.
+Claude Code doesn't know what you told Cursor. Cursor doesn't know what you told Windsurf. Even the same tool forgets everything between sessions. You end up re-explaining your architecture, your conventions, your decisions -- over and over.
 
-Memex gives your AI agents persistent, encrypted memory across sessions.
+I got tired of it and built Memex: an open-source MCP server that gives AI coding agents shared, persistent memory.
 
-The key details:
-- E2E encrypted (AES-256-GCM, unique IVs, PBKDF2 key derivation)
-- Works across AI tools (not locked into one vendor's ecosystem)
-- Local-first (your data stays on your machine)
-- Open source (MIT) -- you can audit every line
+What that means in practice:
+- Save context in Claude Code, recall it in Cursor (or any MCP tool)
+- Memories scoped to your project -- switch repos, get different context
+- Your agent saves architecture decisions, patterns, and context as you work -- no manual maintenance
+- Auto-imports existing .cursorrules, CLAUDE.md, and .codex/ configs -- and re-imports when they change
 - One command to install: npx memex-mcp init
 
-What I'm most proud of is the encryption architecture. In a space where most tools store your code context in plaintext on cloud servers, Memex encrypts everything before it touches disk. When cloud sync ships, only encrypted blobs will leave your machine.
+For developers who care about where their code context goes: everything is E2E encrypted (AES-256-GCM), stored locally, zero cloud. Your data never leaves your machine. MIT licensed -- audit every line.
 
-I'd love feedback from anyone building with AI coding tools. What context do you wish your agent remembered?
+In a space where Mem0 stores your context on their cloud and Copilot Memory locks you into GitHub's ecosystem, I wanted something portable and private.
 
 GitHub: https://github.com/jjosegomez/memex
 
-#opensource #developertools #ai #encryption
+What context do you find yourself repeating to your AI tools? I'd love to hear from anyone else frustrated by the silo problem.
+
+#opensource #developertools #ai #mcp
 
 ---
 
 ## 7. Bonus: Hashnode / Dev.to Blog Post Outline
 
-**Title:** I built E2E encrypted memory for AI coding agents. Here's the architecture.
+**Title:** Your AI tools don't talk to each other. I built shared memory for them.
 
 **Outline:**
 
-1. **The Problem** (200 words) -- AI agents have amnesia. The cost of re-explaining context.
-2. **Why I built Memex** (150 words) -- Personal frustration, gap in the market. Mem0 isn't encrypted, Pieces is too heavy, Copilot Memory is locked to GitHub.
-3. **How it works** (300 words) -- MCP protocol, 4 tools, SQLite + FTS5, project scoping via git root.
-4. **The Encryption Architecture** (500 words) -- AES-256-GCM, PBKDF2, unique IVs, the FTS5 plaintext trade-off, key storage. Include code snippets from the actual implementation.
-5. **What agents actually remember** (200 words) -- Real examples of useful memories: auth patterns, migration decisions, API conventions, debugging notes.
-6. **Results** (150 words) -- How much time it saves, qualitative improvements in agent output quality.
-7. **Try it** (100 words) -- Install instructions, GitHub link, what's coming next (cloud sync).
+1. **The problem nobody talks about** (250 words) -- You use Claude Code AND Cursor. Each one knows nothing about the other. Even the same tool forgets everything between sessions. The cumulative cost of context rebuilding -- time, tokens, and frustration.
+2. **Why .cursorrules and CLAUDE.md aren't enough** (150 words) -- They're static, manual, tool-specific. The opposite of portable memory.
+3. **What I built** (200 words) -- Memex: an MCP server that gives AI agents shared, persistent memory across tools and sessions. One install command. 4 tools. Scoped to git repos.
+4. **How it works under the hood** (300 words) -- MCP protocol, SQLite + FTS5, project scoping via git root. Include code snippets showing the tool registration and memory flow.
+5. **The encryption architecture** (400 words) -- AES-256-GCM, PBKDF2, unique IVs, the FTS5 plaintext trade-off, key storage. "We encrypt not because it's the headline, but because your code context is sensitive and the default should be privacy."
+6. **What agents actually remember** (200 words) -- Real examples: auth patterns, migration decisions, API conventions, debugging context. Show a before/after of a session with and without Memex.
+7. **The competition and why I still built this** (150 words) -- Mem0 (cloud, not encrypted, SDK-only), Pieces (heavy), Copilot Memory (GitHub-only). The gap: portable, encrypted, lightweight.
+8. **Try it** (100 words) -- Install instructions, GitHub link, what's next (cloud sync, dashboard).
 
-**Total:** ~1,600 words. Include 2-3 code snippets and the architecture diagram from the repo.
+**Total:** ~1,750 words. Include 2-3 code snippets and the architecture diagram from the repo.

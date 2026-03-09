@@ -261,6 +261,42 @@ export function purgeDeleted(db: Database.Database): number {
 }
 
 /**
+ * Find memories that have ALL specified tags within a project.
+ * Used by auto-sync to find existing config file memories.
+ */
+export function findByTagsAndProject(
+  db: Database.Database,
+  tags: string[],
+  project: string,
+): MemoryRow[] {
+  if (tags.length === 0) return [];
+
+  const tagConditions = tags
+    .map(() => `EXISTS (SELECT 1 FROM json_each(tags) WHERE value = ?)`)
+    .join(' AND ');
+
+  return db
+    .prepare(
+      `SELECT * FROM memories WHERE project = ? AND deleted_at IS NULL AND ${tagConditions}`,
+    )
+    .all(project, ...tags) as MemoryRow[];
+}
+
+/**
+ * Hard-delete a single memory by ID (from both memories and FTS tables).
+ */
+export function hardDeleteMemory(
+  db: Database.Database,
+  id: string,
+): void {
+  const transaction = db.transaction(() => {
+    db.prepare(`DELETE FROM memories_fts WHERE id = ?`).run(id);
+    db.prepare(`DELETE FROM memories WHERE id = ?`).run(id);
+  });
+  transaction();
+}
+
+/**
  * Count memories, optionally filtered by project.
  */
 export function getMemoryCount(
