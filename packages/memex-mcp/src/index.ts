@@ -133,6 +133,14 @@ sessionsCmd
     await importSession(file, opts);
   });
 
+sessionsCmd
+  .command('extract <id>')
+  .description('Extract insights from a session (heuristics + optional LLM)')
+  .action(async (id) => {
+    const { extractSession } = await import('./cli/sessions.js');
+    await extractSession(id);
+  });
+
 program
   .command('export')
   .description('Export memories as JSON')

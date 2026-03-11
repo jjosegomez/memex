@@ -168,6 +168,12 @@ export const GetSessionInput = z.object({
     .describe('Event pagination offset.'),
 });
 
+export const ExtractSessionInput = z.object({
+  session_id: z.string()
+    .describe('The session ID to extract insights from.'),
+});
+
+export type ExtractSessionParams = z.infer<typeof ExtractSessionInput>;
 export type StartSessionParams = z.infer<typeof StartSessionInput>;
 export type EndSessionParams = z.infer<typeof EndSessionInput>;
 export type RecordSessionEventParams = z.infer<typeof RecordSessionEventInput>;

@@ -12,6 +12,7 @@ import { handleRecordSessionEvent } from './tools/record-session-event.js';
 import { handleListSessions } from './tools/list-sessions.js';
 import { handleSearchSessions } from './tools/search-sessions.js';
 import { handleGetSession } from './tools/get-session.js';
+import { handleExtractSession } from './tools/extract-session.js';
 import {
   SaveMemoryInput,
   RecallMemoriesInput,
@@ -23,6 +24,7 @@ import {
   ListSessionsInput,
   SearchSessionsInput,
   GetSessionInput,
+  ExtractSessionInput,
 } from './types.js';
 
 export async function startServer(): Promise<void> {
@@ -303,6 +305,33 @@ export async function startServer(): Promise<void> {
     (params) => {
       try {
         const result = handleGetSession(db, encryptionKey, params);
+        return {
+          content: [{ type: 'text' as const, text: JSON.stringify(result) }],
+        };
+      } catch (err) {
+        return {
+          content: [
+            {
+              type: 'text' as const,
+              text: JSON.stringify({
+                error: err instanceof Error ? err.message : String(err),
+              }),
+            },
+          ],
+          isError: true,
+        };
+      }
+    },
+  );
+
+  // Register extract_session tool
+  server.tool(
+    'extract_session',
+    'Extract insights from a recorded session using heuristics and optional LLM analysis. Saves durable knowledge as memories and generates a session summary.',
+    ExtractSessionInput.shape,
+    async (params) => {
+      try {
+        const result = await handleExtractSession(db, encryptionKey, params);
         return {
           content: [{ type: 'text' as const, text: JSON.stringify(result) }],
         };

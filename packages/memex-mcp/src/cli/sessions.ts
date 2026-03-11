@@ -271,3 +271,84 @@ export async function importSession(
 
   closeDatabase();
 }
+
+/**
+ * memex sessions extract <id>
+ */
+export async function extractSession(id: string): Promise<void> {
+  const db = getDatabase();
+  const key = getEncryptionKey();
+
+  const session = getSessionById(db, id);
+  if (!session) {
+    console.log(`Session not found: ${id}`);
+    closeDatabase();
+    return;
+  }
+
+  // Fetch and decrypt all events
+  const eventRows = getSessionEvents(db, {
+    session_id: id,
+    limit: 1000,
+    offset: 0,
+  });
+
+  const events = eventRows.map((evt) => {
+    const content = decryptContent(
+      evt.content_enc as unknown as Buffer,
+      evt.iv as unknown as Buffer,
+      evt.auth_tag as unknown as Buffer,
+      key,
+    );
+    return {
+      id: evt.id,
+      session_id: evt.session_id,
+      sequence: evt.sequence,
+      event_type: evt.event_type as import('../types.js').SessionEventTypeValue,
+      timestamp: evt.timestamp,
+      duration_ms: evt.duration_ms,
+      content,
+      metadata: evt.metadata ? JSON.parse(evt.metadata) as Record<string, unknown> : null,
+      agent_source: evt.agent_source,
+    };
+  });
+
+  console.log(`Extracting insights from session ${id.slice(0, 14)}...`);
+  console.log(`Events: ${events.length}`);
+  console.log('');
+
+  const { runExtraction } = await import('../extraction/pipeline.js');
+  const result = await runExtraction(db, key, id, session.project, events);
+
+  // Display heuristics
+  console.log('Heuristics:');
+  console.log(`  Activity:  ${result.heuristics.activity_type}`);
+  console.log(`  Duration:  ${result.heuristics.duration_minutes ?? '?'} min`);
+  console.log(`  Files:     ${result.heuristics.files_changed.length > 0 ? result.heuristics.files_changed.map((f) => f.split('/').pop()).join(', ') : '(none)'}`);
+  console.log(`  Tools:     ${result.heuristics.tools_used.join(', ') || '(none)'}`);
+  console.log(`  Tags:      ${result.heuristics.suggested_tags.join(', ')}`);
+  console.log(`  Errors:    ${result.heuristics.metrics.errors}`);
+  console.log('');
+
+  // Display LLM results if available
+  if (result.llm_used && result.llm) {
+    console.log('LLM Extraction:');
+    console.log(`  Summary:   ${result.llm.summary}`);
+    console.log(`  Memories:  ${result.memories_saved} saved, ${result.memories_skipped} skipped`);
+    if (result.llm.handoff) {
+      console.log(`  Handoff:   ${result.llm.handoff}`);
+    }
+    if (result.llm.memories.length > 0) {
+      console.log('');
+      console.log('  Extracted memories:');
+      for (const m of result.llm.memories) {
+        console.log(`    - [${m.tags.join(',')}] ${m.content.slice(0, 100)}`);
+      }
+    }
+  } else {
+    console.log('LLM: skipped (set ANTHROPIC_API_KEY to enable)');
+    console.log(`  Summary:   ${result.heuristics.activity_type} session`);
+  }
+
+  closeDatabase();
+}
