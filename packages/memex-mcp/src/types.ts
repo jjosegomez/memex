@@ -189,6 +189,16 @@ export const IngestSessionsInput = z.object({
     .describe('If true, report what would be imported without actually importing.'),
 });
 
+export const DashboardSummaryInput = z.object({
+  project: z.string().optional()
+    .describe('Project identifier. Defaults to git repo root or cwd.'),
+});
+
+export const ProjectHealthInput = z.object({
+  projects: z.array(z.string()).optional()
+    .describe('List of project paths to assess. If omitted, assesses all known projects from Memex.'),
+});
+
 export type ExtractSessionParams = z.infer<typeof ExtractSessionInput>;
 export type StartSessionParams = z.infer<typeof StartSessionInput>;
 export type EndSessionParams = z.infer<typeof EndSessionInput>;

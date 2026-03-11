@@ -9,6 +9,7 @@
     "test": "npm run test --workspace=packages/memex-mcp",
     "dev": "npm run dev --workspace=packages/memex-mcp",
     "dev:landing": "npm run dev --workspace=packages/landing",
+    "dev:dashboard": "npm run dev --workspace=packages/dashboard",
     "typecheck": "npm run typecheck --workspace=packages/memex-mcp"
   }
 }

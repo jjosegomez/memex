@@ -163,6 +163,15 @@ sessionsCmd
   });
 
 program
+  .command('dashboard')
+  .description('Open the Memex web dashboard')
+  .option('-p, --port <port>', 'Port to run on', '3200')
+  .action(async (opts) => {
+    const { runDashboard } = await import('./cli/dashboard.js');
+    await runDashboard(opts);
+  });
+
+program
   .command('export')
   .description('Export memories as JSON')
   .option('-p, --project <path>', 'Export only a specific project')

@@ -14,6 +14,8 @@ import { handleSearchSessions } from './tools/search-sessions.js';
 import { handleGetSession } from './tools/get-session.js';
 import { handleExtractSession } from './tools/extract-session.js';
 import { handleGetSessionContext } from './tools/get-session-context.js';
+import { handleDashboardSummary } from './tools/dashboard-summary.js';
+import { handleProjectHealth } from './tools/project-health.js';
 import { ingestSessions } from './sync/ingest.js';
 import {
   SaveMemoryInput,
@@ -29,6 +31,8 @@ import {
   ExtractSessionInput,
   GetSessionContextInput,
   IngestSessionsInput,
+  DashboardSummaryInput,
+  ProjectHealthInput,
 } from './types.js';
 
 export async function startServer(): Promise<void> {
@@ -390,6 +394,60 @@ export async function startServer(): Promise<void> {
     (params) => {
       try {
         const result = ingestSessions(db, encryptionKey, params);
+        return {
+          content: [{ type: 'text' as const, text: JSON.stringify(result) }],
+        };
+      } catch (err) {
+        return {
+          content: [
+            {
+              type: 'text' as const,
+              text: JSON.stringify({
+                error: err instanceof Error ? err.message : String(err),
+              }),
+            },
+          ],
+          isError: true,
+        };
+      }
+    },
+  );
+
+  // Register dashboard_summary tool
+  server.tool(
+    'dashboard_summary',
+    'Get a quick status summary of the Memex ecosystem — memory counts, session activity, recent work. Returns both structured data and a formatted markdown report.',
+    DashboardSummaryInput.shape,
+    (params) => {
+      try {
+        const result = handleDashboardSummary(db, encryptionKey, params);
+        return {
+          content: [{ type: 'text' as const, text: result.markdown }],
+        };
+      } catch (err) {
+        return {
+          content: [
+            {
+              type: 'text' as const,
+              text: JSON.stringify({
+                error: err instanceof Error ? err.message : String(err),
+              }),
+            },
+          ],
+          isError: true,
+        };
+      }
+    },
+  );
+
+  // Register project_health tool
+  server.tool(
+    'project_health',
+    'Assess health and momentum of tracked projects. Returns momentum (hot/warm/cold/stale), uncommitted changes, open PRs, recent sessions, and handoff notes for each project.',
+    ProjectHealthInput.shape,
+    (params) => {
+      try {
+        const result = handleProjectHealth(db, encryptionKey, params);
         return {
           content: [{ type: 'text' as const, text: JSON.stringify(result) }],
         };
