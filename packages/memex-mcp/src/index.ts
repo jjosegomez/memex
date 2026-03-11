@@ -88,6 +88,51 @@ memoriesCmd
     await purgeMemories();
   });
 
+const sessionsCmd = program
+  .command('sessions')
+  .description('Manage recorded sessions');
+
+sessionsCmd
+  .command('list')
+  .description('List recorded sessions')
+  .option('-p, --project <path>', 'Filter by project')
+  .option('-a, --agent <source>', 'Filter by agent source')
+  .option('-s, --status <status>', 'Filter: active, ended, all', 'all')
+  .option('-l, --limit <n>', 'Max results', '20')
+  .action(async (opts) => {
+    const { listSessionsCli } = await import('./cli/sessions.js');
+    await listSessionsCli(opts);
+  });
+
+sessionsCmd
+  .command('search <query>')
+  .description('Search across session content')
+  .option('-p, --project <path>', 'Filter by project')
+  .option('-l, --limit <n>', 'Max results', '10')
+  .action(async (query, opts) => {
+    const { searchSessionsCli } = await import('./cli/sessions.js');
+    await searchSessionsCli(query, opts);
+  });
+
+sessionsCmd
+  .command('show <id>')
+  .description('Show session details and event timeline')
+  .option('-t, --type <types>', 'Filter event types (comma-separated)')
+  .option('-l, --limit <n>', 'Max events', '100')
+  .action(async (id, opts) => {
+    const { showSession } = await import('./cli/sessions.js');
+    await showSession(id, opts);
+  });
+
+sessionsCmd
+  .command('import <file>')
+  .description('Import a session transcript (JSONL)')
+  .option('-a, --agent <source>', 'Agent source (claude-code, generic)', 'generic')
+  .action(async (file, opts) => {
+    const { importSession } = await import('./cli/sessions.js');
+    await importSession(file, opts);
+  });
+
 program
   .command('export')
   .description('Export memories as JSON')

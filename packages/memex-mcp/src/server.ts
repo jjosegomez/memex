@@ -6,11 +6,23 @@ import { handleSaveMemory } from './tools/save-memory.js';
 import { handleRecallMemories } from './tools/recall-memories.js';
 import { handleSearchMemories } from './tools/search-memories.js';
 import { handleDeleteMemory } from './tools/delete-memory.js';
+import { handleStartSession } from './tools/start-session.js';
+import { handleEndSession } from './tools/end-session.js';
+import { handleRecordSessionEvent } from './tools/record-session-event.js';
+import { handleListSessions } from './tools/list-sessions.js';
+import { handleSearchSessions } from './tools/search-sessions.js';
+import { handleGetSession } from './tools/get-session.js';
 import {
   SaveMemoryInput,
   RecallMemoriesInput,
   SearchMemoriesInput,
   DeleteMemoryInput,
+  StartSessionInput,
+  EndSessionInput,
+  RecordSessionEventInput,
+  ListSessionsInput,
+  SearchSessionsInput,
+  GetSessionInput,
 } from './types.js';
 
 export async function startServer(): Promise<void> {
@@ -129,6 +141,168 @@ export async function startServer(): Promise<void> {
             isError: true,
           };
         }
+        return {
+          content: [{ type: 'text' as const, text: JSON.stringify(result) }],
+        };
+      } catch (err) {
+        return {
+          content: [
+            {
+              type: 'text' as const,
+              text: JSON.stringify({
+                error: err instanceof Error ? err.message : String(err),
+              }),
+            },
+          ],
+          isError: true,
+        };
+      }
+    },
+  );
+
+  // Register start_session tool
+  server.tool(
+    'start_session',
+    'Start a new session to record agent activity. Returns a session ID for subsequent event recording.',
+    StartSessionInput.shape,
+    (params) => {
+      try {
+        const result = handleStartSession(db, encryptionKey, params);
+        return {
+          content: [{ type: 'text' as const, text: JSON.stringify(result) }],
+        };
+      } catch (err) {
+        return {
+          content: [
+            {
+              type: 'text' as const,
+              text: JSON.stringify({
+                error: err instanceof Error ? err.message : String(err),
+              }),
+            },
+          ],
+          isError: true,
+        };
+      }
+    },
+  );
+
+  // Register end_session tool
+  server.tool(
+    'end_session',
+    'End an active session with optional summary. Finalizes the session and records event count.',
+    EndSessionInput.shape,
+    (params) => {
+      try {
+        const result = handleEndSession(db, encryptionKey, params);
+        return {
+          content: [{ type: 'text' as const, text: JSON.stringify(result) }],
+        };
+      } catch (err) {
+        return {
+          content: [
+            {
+              type: 'text' as const,
+              text: JSON.stringify({
+                error: err instanceof Error ? err.message : String(err),
+              }),
+            },
+          ],
+          isError: true,
+        };
+      }
+    },
+  );
+
+  // Register record_session_event tool
+  server.tool(
+    'record_session_event',
+    'Record a tool call, message, error, or decision to an active session.',
+    RecordSessionEventInput.shape,
+    (params) => {
+      try {
+        const result = handleRecordSessionEvent(db, encryptionKey, params);
+        return {
+          content: [{ type: 'text' as const, text: JSON.stringify(result) }],
+        };
+      } catch (err) {
+        return {
+          content: [
+            {
+              type: 'text' as const,
+              text: JSON.stringify({
+                error: err instanceof Error ? err.message : String(err),
+              }),
+            },
+          ],
+          isError: true,
+        };
+      }
+    },
+  );
+
+  // Register list_sessions tool
+  server.tool(
+    'list_sessions',
+    'List recorded sessions with optional filters for project, agent, status, and tags.',
+    ListSessionsInput.shape,
+    (params) => {
+      try {
+        const result = handleListSessions(db, encryptionKey, params);
+        return {
+          content: [{ type: 'text' as const, text: JSON.stringify(result) }],
+        };
+      } catch (err) {
+        return {
+          content: [
+            {
+              type: 'text' as const,
+              text: JSON.stringify({
+                error: err instanceof Error ? err.message : String(err),
+              }),
+            },
+          ],
+          isError: true,
+        };
+      }
+    },
+  );
+
+  // Register search_sessions tool
+  server.tool(
+    'search_sessions',
+    'Full-text search across session event content. Returns matching events with context.',
+    SearchSessionsInput.shape,
+    (params) => {
+      try {
+        const result = handleSearchSessions(db, encryptionKey, params);
+        return {
+          content: [{ type: 'text' as const, text: JSON.stringify(result) }],
+        };
+      } catch (err) {
+        return {
+          content: [
+            {
+              type: 'text' as const,
+              text: JSON.stringify({
+                error: err instanceof Error ? err.message : String(err),
+              }),
+            },
+          ],
+          isError: true,
+        };
+      }
+    },
+  );
+
+  // Register get_session tool
+  server.tool(
+    'get_session',
+    'Retrieve a session with its events. Supports event type filtering and pagination.',
+    GetSessionInput.shape,
+    (params) => {
+      try {
+        const result = handleGetSession(db, encryptionKey, params);
         return {
           content: [{ type: 'text' as const, text: JSON.stringify(result) }],
         };

@@ -1,6 +1,6 @@
 import type Database from 'better-sqlite3';
 
-export const CURRENT_SCHEMA_VERSION = 1;
+export const CURRENT_SCHEMA_VERSION = 2;
 
 const SCHEMA_V1 = `
 -- Main memories table
@@ -36,6 +36,61 @@ CREATE VIRTUAL TABLE IF NOT EXISTS memories_fts USING fts5(
 CREATE TABLE IF NOT EXISTS meta (
     key     TEXT PRIMARY KEY,
     value   TEXT NOT NULL
+);
+`;
+
+const SCHEMA_V2 = `
+-- Sessions table
+CREATE TABLE IF NOT EXISTS sessions (
+    id              TEXT PRIMARY KEY,
+    project         TEXT NOT NULL,
+    agent_source    TEXT NOT NULL,
+    title           TEXT DEFAULT NULL,
+    summary_enc     BLOB DEFAULT NULL,
+    summary_iv      BLOB DEFAULT NULL,
+    summary_auth_tag BLOB DEFAULT NULL,
+    tags            TEXT DEFAULT '[]',
+    event_count     INTEGER DEFAULT 0,
+    started_at      TEXT NOT NULL,
+    ended_at        TEXT DEFAULT NULL,
+    created_at      TEXT NOT NULL,
+    updated_at      TEXT NOT NULL
+);
+
+CREATE INDEX IF NOT EXISTS idx_sessions_project ON sessions(project);
+CREATE INDEX IF NOT EXISTS idx_sessions_agent ON sessions(agent_source);
+CREATE INDEX IF NOT EXISTS idx_sessions_started ON sessions(started_at);
+CREATE INDEX IF NOT EXISTS idx_sessions_ended ON sessions(ended_at);
+
+-- Session events table
+CREATE TABLE IF NOT EXISTS session_events (
+    id              TEXT PRIMARY KEY,
+    session_id      TEXT NOT NULL,
+    sequence        INTEGER NOT NULL,
+    event_type      TEXT NOT NULL,
+    timestamp       TEXT NOT NULL,
+    duration_ms     INTEGER DEFAULT NULL,
+    content_enc     BLOB NOT NULL,
+    iv              BLOB NOT NULL,
+    auth_tag        BLOB NOT NULL,
+    metadata        TEXT DEFAULT NULL,
+    agent_source    TEXT DEFAULT NULL,
+    created_at      TEXT NOT NULL,
+    FOREIGN KEY (session_id) REFERENCES sessions(id) ON DELETE CASCADE
+);
+
+CREATE INDEX IF NOT EXISTS idx_session_events_session ON session_events(session_id);
+CREATE INDEX IF NOT EXISTS idx_session_events_type ON session_events(event_type);
+CREATE INDEX IF NOT EXISTS idx_session_events_timestamp ON session_events(timestamp);
+CREATE UNIQUE INDEX IF NOT EXISTS idx_session_events_session_seq ON session_events(session_id, sequence);
+
+-- FTS5 for session content search
+CREATE VIRTUAL TABLE IF NOT EXISTS sessions_fts USING fts5(
+    event_id UNINDEXED,
+    session_id UNINDEXED,
+    content,
+    event_type UNINDEXED,
+    project UNINDEXED
 );
 `;
 
@@ -75,5 +130,8 @@ export function migrate(db: Database.Database): void {
     setSchemaVersion(db, 1);
   }
 
-  // Future: if (version < 2) { ... migrate to v2 ... }
+  if (version < 2) {
+    db.exec(SCHEMA_V2);
+    setSchemaVersion(db, 2);
+  }
 }
