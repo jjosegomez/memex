@@ -173,6 +173,22 @@ export const ExtractSessionInput = z.object({
     .describe('The session ID to extract insights from.'),
 });
 
+export const GetSessionContextInput = z.object({
+  project: z.string().optional()
+    .describe('Project identifier. Defaults to git repo root or cwd.'),
+  limit: z.number().int().min(1).max(20).optional().default(5)
+    .describe('Number of recent sessions to include in context.'),
+});
+
+export const IngestSessionsInput = z.object({
+  agent: z.string().optional()
+    .describe("Only ingest from this agent source. E.g., 'claude-code'."),
+  project: z.string().optional()
+    .describe('Only ingest sessions matching this project path substring.'),
+  dry_run: z.boolean().optional().default(false)
+    .describe('If true, report what would be imported without actually importing.'),
+});
+
 export type ExtractSessionParams = z.infer<typeof ExtractSessionInput>;
 export type StartSessionParams = z.infer<typeof StartSessionInput>;
 export type EndSessionParams = z.infer<typeof EndSessionInput>;

@@ -141,6 +141,27 @@ sessionsCmd
     await extractSession(id);
   });
 
+sessionsCmd
+  .command('ingest')
+  .description('Scan and import sessions from local AI agents (Claude Code, etc.)')
+  .option('-a, --agent <source>', 'Only ingest from this agent')
+  .option('-p, --project <path>', 'Only ingest sessions matching this project')
+  .option('--dry-run', 'Show what would be imported without importing')
+  .action(async (opts) => {
+    const { ingestSessionsCli } = await import('./cli/sessions.js');
+    await ingestSessionsCli(opts);
+  });
+
+sessionsCmd
+  .command('context')
+  .description('Show context packet for current project (recent sessions, handoff, files)')
+  .option('-p, --project <path>', 'Project to show context for')
+  .option('-l, --limit <n>', 'Number of recent sessions', '5')
+  .action(async (opts) => {
+    const { showContext } = await import('./cli/sessions.js');
+    await showContext(opts);
+  });
+
 program
   .command('export')
   .description('Export memories as JSON')

@@ -13,6 +13,8 @@ import { handleListSessions } from './tools/list-sessions.js';
 import { handleSearchSessions } from './tools/search-sessions.js';
 import { handleGetSession } from './tools/get-session.js';
 import { handleExtractSession } from './tools/extract-session.js';
+import { handleGetSessionContext } from './tools/get-session-context.js';
+import { ingestSessions } from './sync/ingest.js';
 import {
   SaveMemoryInput,
   RecallMemoriesInput,
@@ -25,6 +27,8 @@ import {
   SearchSessionsInput,
   GetSessionInput,
   ExtractSessionInput,
+  GetSessionContextInput,
+  IngestSessionsInput,
 } from './types.js';
 
 export async function startServer(): Promise<void> {
@@ -332,6 +336,60 @@ export async function startServer(): Promise<void> {
     async (params) => {
       try {
         const result = await handleExtractSession(db, encryptionKey, params);
+        return {
+          content: [{ type: 'text' as const, text: JSON.stringify(result) }],
+        };
+      } catch (err) {
+        return {
+          content: [
+            {
+              type: 'text' as const,
+              text: JSON.stringify({
+                error: err instanceof Error ? err.message : String(err),
+              }),
+            },
+          ],
+          isError: true,
+        };
+      }
+    },
+  );
+
+  // Register get_session_context tool
+  server.tool(
+    'get_session_context',
+    'Get a context packet for the current project with recent session summaries, handoff notes, recently modified files, and relevant memories. Call this at the start of a session to pick up where you left off.',
+    GetSessionContextInput.shape,
+    (params) => {
+      try {
+        const result = handleGetSessionContext(db, encryptionKey, params);
+        return {
+          content: [{ type: 'text' as const, text: JSON.stringify(result) }],
+        };
+      } catch (err) {
+        return {
+          content: [
+            {
+              type: 'text' as const,
+              text: JSON.stringify({
+                error: err instanceof Error ? err.message : String(err),
+              }),
+            },
+          ],
+          isError: true,
+        };
+      }
+    },
+  );
+
+  // Register ingest_sessions tool
+  server.tool(
+    'ingest_sessions',
+    'Scan local agent session files (Claude Code, etc.) and import any new sessions into Memex. Deduplicates automatically.',
+    IngestSessionsInput.shape,
+    (params) => {
+      try {
+        const result = ingestSessions(db, encryptionKey, params);
         return {
           content: [{ type: 'text' as const, text: JSON.stringify(result) }],
         };

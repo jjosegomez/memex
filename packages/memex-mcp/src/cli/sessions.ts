@@ -13,6 +13,7 @@ import {
   getSessionEventById,
   insertSessionBatch,
 } from '../db/session-queries.js';
+import { ingestSessions } from '../sync/ingest.js';
 import type { SessionAdapter } from '../adapters/types.js';
 
 const EVENT_TYPE_LABELS: Record<string, string> = {
@@ -348,6 +349,113 @@ export async function extractSession(id: string): Promise<void> {
   } else {
     console.log('LLM: skipped (set ANTHROPIC_API_KEY to enable)');
     console.log(`  Summary:   ${result.heuristics.activity_type} session`);
+  }
+
+  closeDatabase();
+}
+
+/**
+ * memex sessions ingest
+ */
+export async function ingestSessionsCli(opts: Record<string, string>): Promise<void> {
+  const db = getDatabase();
+  const key = getEncryptionKey();
+  const dryRun = opts['dryRun'] === 'true' || opts['dry-run'] === 'true';
+
+  console.log(dryRun ? 'Dry run — scanning for sessions...' : 'Ingesting sessions...');
+  console.log('');
+
+  const result = ingestSessions(db, key, {
+    agent: opts['agent'],
+    project: opts['project'],
+    dry_run: dryRun,
+  });
+
+  console.log(`Found:    ${result.found} session files`);
+  console.log(`Imported: ${result.imported}`);
+  console.log(`Skipped:  ${result.skipped} (already imported)`);
+  console.log(`Failed:   ${result.failed}`);
+
+  if (result.sessions.length > 0) {
+    console.log('');
+    console.log('Imported sessions:');
+    for (const s of result.sessions) {
+      const fileName = s.file.split('/').pop();
+      console.log(`  ${s.session_id.slice(0, 14)}  ${String(s.events).padEnd(4)} events  ${fileName}`);
+    }
+  }
+
+  if (result.errors.length > 0) {
+    console.log('');
+    console.log('Errors:');
+    for (const e of result.errors) {
+      const fileName = e.file.split('/').pop();
+      console.log(`  ${fileName}: ${e.error}`);
+    }
+  }
+
+  closeDatabase();
+}
+
+/**
+ * memex sessions context
+ */
+export async function showContext(opts: Record<string, string>): Promise<void> {
+  const db = getDatabase();
+  const key = getEncryptionKey();
+
+  const { handleGetSessionContext } = await import('../tools/get-session-context.js');
+  const limit = parseInt(opts['limit'] || '5', 10);
+  const context = handleGetSessionContext(db, key, {
+    project: opts['project'],
+    limit,
+  });
+
+  console.log(`Project: ${context.project}`);
+  console.log('');
+
+  if (context.recent_sessions.length === 0) {
+    console.log('No recent sessions found. Run "memex sessions ingest" to import agent sessions.');
+    closeDatabase();
+    return;
+  }
+
+  console.log('Recent Sessions:');
+  for (const s of context.recent_sessions) {
+    const title = s.title ? s.title.slice(0, 50) : '(untitled)';
+    const summary = s.summary ? s.summary.slice(0, 80) : '';
+    const started = new Date(s.started_at);
+    const dateStr = `${started.getFullYear()}-${String(started.getMonth() + 1).padStart(2, '0')}-${String(started.getDate()).padStart(2, '0')}`;
+    console.log(`  [${dateStr}] ${s.activity_type.padEnd(10)} ${title}`);
+    if (summary) {
+      console.log(`             ${summary}`);
+    }
+    if (s.files_changed.length > 0) {
+      console.log(`             Files: ${s.files_changed.map((f) => f.split('/').pop()).join(', ')}`);
+    }
+  }
+
+  if (context.last_handoff) {
+    console.log('');
+    console.log('Last Handoff:');
+    console.log(`  ${context.last_handoff}`);
+  }
+
+  if (context.recently_modified_files.length > 0) {
+    console.log('');
+    console.log('Recently Modified Files:');
+    for (const f of context.recently_modified_files.slice(0, 10)) {
+      console.log(`  ${f}`);
+    }
+  }
+
+  if (context.relevant_memories.length > 0) {
+    console.log('');
+    console.log('Relevant Memories:');
+    for (const m of context.relevant_memories) {
+      const tags = m.tags.length > 0 ? `[${m.tags.join(',')}] ` : '';
+      console.log(`  ${tags}${m.content.replace(/\n/g, ' ').slice(0, 80)}`);
+    }
   }
 
   closeDatabase();
