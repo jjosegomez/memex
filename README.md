@@ -1,10 +1,31 @@
 # Memex
 
-**Persistent, E2E encrypted memory for AI coding agents.**
+**Knowledge infrastructure for software agencies.**
 
-Memex is an MCP server that gives Claude Code, Cursor, Windsurf, and any MCP-compatible tool persistent, encrypted memory across sessions. Every memory is AES-256-GCM encrypted before it touches disk.
+Memex helps software agencies maintain institutional knowledge across teams, repos, and AI coding agents. It combines a persistent encrypted MCP memory server (the engine) with an agency knowledge dashboard (the product) that scans GitHub orgs, tracks knowledge health, and enforces standards.
 
-## Quick Start
+## The Problem
+
+Software agencies manage dozens of repos across client projects. Knowledge lives in developers' heads, scattered docs, and tribal memory. AI coding agents forget everything between sessions. When a developer leaves or switches projects, context is lost.
+
+## The Solution
+
+1. **MCP Memory Server** — Gives every AI coding agent (Claude Code, Cursor, Windsurf) persistent, encrypted memory across sessions. Architecture decisions, patterns, and context are saved and recalled automatically.
+2. **Agency Knowledge Dashboard** — Scans your GitHub org for knowledge files (`CLAUDE.md`, `CONTEXT.md`, `PATTERNS.md`), scores each repo's knowledge health, and gives leadership visibility into documentation standards across the organization.
+
+## Agency Dashboard
+
+The dashboard connects to your GitHub org and provides:
+
+- **Org-wide knowledge scanning** — Discovers all repos, checks for knowledge files
+- **Health scores** — Rates each repo on knowledge completeness and freshness
+- **Agency standards** — Define what "well-documented" means for your team, track compliance
+- **Cross-repo search** — Full-text search across all knowledge files in the org
+- **Dashboard overview** — Bird's-eye view of knowledge health across all repos
+
+Built with Next.js 16, React 19, Tailwind 4, shadcn, and the Stitch "Digital Architect" design system.
+
+## MCP Server Quick Start
 
 ```bash
 npx memex-mcp init
@@ -12,7 +33,7 @@ npx memex-mcp init
 
 That's it. Your AI agent now has persistent memory.
 
-## What It Does
+### What the MCP Server Does
 
 Your AI agent gets 4 new tools:
 
@@ -23,15 +44,14 @@ Your AI agent gets 4 new tools:
 | `search_memories` | Search across all projects. |
 | `delete_memory` | Soft-delete a memory by ID. |
 
-## How It Works
+### Works With
 
-1. **Install** — `npx memex-mcp init` generates your encryption key, creates a local SQLite database, and registers the MCP server
-2. **Your agent saves** — Architecture decisions, coding patterns, project context are stored as encrypted memories
-3. **Your agent recalls** — Next session, different tool, the context is there
+- Claude Code
+- Cursor
+- Windsurf
+- Any MCP-compatible tool
 
-Memories are scoped to your git repo. Switch projects, get different memories.
-
-## Security
+### Security
 
 - **AES-256-GCM** encryption with unique 12-byte IVs per memory
 - **PBKDF2** key derivation (100K iterations, SHA-512) or random key mode
@@ -39,23 +59,19 @@ Memories are scoped to your git repo. Switch projects, get different memories.
 - **Zero-knowledge** — no cloud, no accounts, no telemetry
 - **Open source** — MIT licensed, audit every line
 
-## Works With
-
-- Claude Code
-- Cursor
-- Windsurf
-- Any MCP-compatible tool
-
 ## Packages
 
 | Package | Description |
 |---------|-------------|
+| [`memex-dashboard`](./packages/dashboard) | Agency knowledge dashboard (Next.js 16 + React 19) |
 | [`memex-mcp`](./packages/memex-mcp) | MCP server + CLI ([npm](https://www.npmjs.com/package/memex-mcp)) |
-| [`memex-landing`](./packages/landing) | Landing page ([getmemex.dev](https://getmemex.dev)) |
+| [`memex-landing`](./packages/landing) | Marketing site ([getmemex.dev](https://getmemex.dev)) |
+
+Service documentation lives in [`docs/service/`](./docs/service/).
 
 ## Architecture
 
-SQLite + FTS5 for storage and search. Single bundled file. 4 dependencies.
+The MCP server uses SQLite + FTS5 for storage and search. The dashboard uses Octokit to scan GitHub orgs for knowledge files.
 
 See [ARCHITECTURE.md](./ARCHITECTURE.md) for the full system design, encryption trade-offs, and data model.
 

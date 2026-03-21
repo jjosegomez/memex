@@ -1,10 +1,10 @@
 # Memex Architecture Document
 
-> Portable, E2E encrypted AI memory for developers using multiple AI coding agents.
+> Knowledge infrastructure for software agencies — persistent encrypted memory + agency knowledge dashboard.
 
-**Version**: 1.0 (MVP)
+**Version**: 2.0 (Agency Pivot)
 **Author**: Architect Agent
-**Date**: 2026-02-27
+**Date**: 2026-03-21 (updated from 2026-02-27)
 
 ---
 
@@ -40,7 +40,8 @@
 | **Schema Validation** | `zod` ^3.25 | Required peer dep of MCP SDK, use it everywhere for consistency |
 | **Build Tool** | `tsup` ^8 | Fast esbuild-based bundler, handles shebang injection, ESM output, single-file bundles |
 | **Testing** | `vitest` ^3 | Fast, TypeScript-native, compatible with ESM modules |
-| **Landing Page** | Next.js 14 (App Router) + Tailwind + shadcn/ui | Juan's default stack, fast to build |
+| **Dashboard** | Next.js 16 + React 19 + Tailwind 4 + shadcn + Octokit | Agency knowledge dashboard — scans GitHub orgs for knowledge files, health scoring |
+| **Landing Page** | Next.js 14 (App Router) + Tailwind + shadcn/ui | Marketing site |
 | **Monorepo** | npm workspaces | Simple, no extra tooling (no turborepo needed for 3 packages) |
 
 ### Why NOT These Alternatives
@@ -80,6 +81,13 @@
 |   `memex init`    |
 |   `memex list`    |
 |   `memex search`  |
++-------------------+
+
++-------------------+
+|   Agency Dashboard|  (Next.js 16 + React 19 + Tailwind 4 + shadcn)
+|   Knowledge Hub   |  Scans GitHub orgs via Octokit for CLAUDE.md,
+|   packages/       |  CONTEXT.md, PATTERNS.md. Shows health scores,
+|   dashboard/      |  agency standards, cross-repo search.
 +-------------------+
 
 +-------------------+
@@ -839,24 +847,36 @@ memex/                              # Repository root
 │   │   ├── package.json            # Package manifest
 │   │   └── README.md               # Package README (for npm)
 │   │
-│   └── landing/                    # Landing page (Next.js)
-│       ├── src/
-│       │   └── app/
-│       │       ├── layout.tsx      # Root layout
-│       │       ├── page.tsx        # Landing page (single page)
-│       │       └── globals.css     # Global styles
-│       ├── components/
-│       │   ├── hero.tsx            # Hero section (value prop + install command)
-│       │   ├── how-it-works.tsx    # 3-step explanation
-│       │   ├── security.tsx        # E2E encryption explanation
-│       │   ├── features.tsx        # Feature grid
-│       │   ├── install.tsx         # Installation instructions
-│       │   ├── email-capture.tsx   # Email signup (Resend or simple form)
-│       │   └── footer.tsx          # Footer with GitHub link
+│   ├── dashboard/                  # Agency Knowledge Dashboard (Next.js 16)
+│   │   ├── src/
+│   │   │   ├── app/                # App Router pages
+│   │   │   ├── components/         # UI components (shadcn + custom)
+│   │   │   └── lib/                # GitHub scanning, health scoring, utilities
+│   │   ├── brand/                  # Brand manual (HTML)
+│   │   │   ├── brand-manual.html
+│   │   │   └── brand-manual-v2.html
+│   │   ├── public/                 # Static assets
+│   │   ├── components.json         # shadcn configuration
+│   │   ├── next.config.ts
+│   │   ├── tsconfig.json
+│   │   └── package.json            # Next.js 16, React 19, Tailwind 4, Octokit, shadcn
+│   │
+│   └── landing/                    # Landing page (Next.js 14)
+│       ├── src/app/                # App Router pages
+│       ├── components/             # Page sections
 │       ├── next.config.js
 │       ├── tailwind.config.ts
 │       ├── tsconfig.json
 │       └── package.json
+│
+├── docs/
+│   └── service/                    # Service documentation (from agent-setup-service)
+│       ├── clients/                # Client-specific docs
+│       ├── docs/                   # Internal service docs
+│       ├── templates/              # Proposal/deliverable templates
+│       ├── dashboard-spec.md       # Dashboard specification
+│       ├── discovery-questionnaire.md
+│       └── proposal-template.md
 │
 ├── package.json                    # Root workspace config
 ├── tsconfig.base.json              # Shared TypeScript config
@@ -996,29 +1016,45 @@ npx -y memex-mcp serve
 
 ---
 
-## 10. Landing Page Architecture
+## 10. Agency Knowledge Dashboard
 
-The landing page is a separate Next.js app in `packages/landing/`. It has no backend and no connection to the MCP server.
+The dashboard (`packages/dashboard/`) is the primary product surface. It is a Next.js 16 app that provides knowledge visibility and health tracking for software agencies.
 
-### Sections
+### Tech Stack
 
-1. **Hero**: "Your AI agents finally remember." + `npx memex-mcp init` command + GitHub stars badge
-2. **Problem/Solution**: Brief pain point (AI agents forget everything) + Memex solution
-3. **How It Works**: 3 steps with code snippets (install, configure, use)
-4. **Security**: E2E encryption explanation with diagram
-5. **Features**: Grid of features (cross-agent, project-scoped, encrypted, local-first, open-source)
-6. **Installation**: Detailed setup instructions for Claude Code, Cursor
-7. **Email Capture**: "Get notified when cloud sync launches" -- simple form
-8. **Footer**: GitHub link, MIT license, author
+| Layer | Technology |
+|-------|-----------|
+| Framework | Next.js 16 (App Router) |
+| UI | React 19 + Tailwind 4 + shadcn |
+| GitHub API | Octokit ^5 |
+| Markdown | react-markdown + remark-gfm + rehype-highlight |
+| Design System | Stitch "Digital Architect" |
 
-### Email Capture Backend
+### Core Features
 
-For MVP, use one of:
-- **Resend** audience API (free tier, 100 contacts)
-- **Google Form** embed (zero backend)
-- **Buttondown** (simple newsletter, free tier)
+1. **GitHub Org Scanning** — Connects to a GitHub org via Octokit, discovers all repos, and scans for knowledge files (`CLAUDE.md`, `CONTEXT.md`, `PATTERNS.md`)
+2. **Knowledge Health Scores** — Rates each repo on knowledge completeness (are the files present? up-to-date? following standards?)
+3. **Agency Standards** — Define what a "well-documented repo" looks like for the agency, track compliance across the org
+4. **Cross-Repo Search** — Full-text search across all knowledge files in the org
+5. **Dashboard Overview** — Bird's-eye view of the agency's knowledge health across all repos
 
-The form submits to an external service -- no API route in the Next.js app for MVP.
+### Design System
+
+The dashboard uses the Stitch "Digital Architect" design system. Brand manual lives in `packages/dashboard/brand/`.
+
+### Deployment
+
+Netlify. Configuration in `packages/dashboard/netlify.toml`.
+
+### First Customer
+
+Digital Bank (software agency).
+
+---
+
+## 10b. Landing Page Architecture
+
+The landing page is a separate Next.js 14 app in `packages/landing/`. It has no backend and no connection to the MCP server. It serves as the marketing site for the MCP server package.
 
 ### Deployment
 
@@ -1042,7 +1078,8 @@ Vercel. Auto-deploys from `packages/landing/` directory.
     "build": "npm run build --workspaces",
     "test": "npm run test --workspace=packages/memex-mcp",
     "dev": "npm run dev --workspace=packages/memex-mcp",
-    "dev:landing": "npm run dev --workspace=packages/landing"
+    "dev:landing": "npm run dev --workspace=packages/landing",
+    "dev:dashboard": "npm run dev --workspace=packages/dashboard"
   }
 }
 ```
@@ -1064,6 +1101,9 @@ echo '{"jsonrpc":"2.0","id":1,"method":"tools/list"}' | node packages/memex-mcp/
 
 # Test with Claude Code (after building)
 claude mcp add memex --transport stdio --scope local -- node /absolute/path/to/packages/memex-mcp/dist/index.js serve
+
+# Start dashboard dev server
+npm run dev:dashboard
 
 # Start landing page dev server
 npm run dev:landing

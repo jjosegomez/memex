@@ -1,12 +1,12 @@
 # CLAUDE.md - Memex
 
-Memex is a portable, E2E encrypted AI memory platform for developers. It's an MCP server that gives AI coding agents (Claude Code, Cursor, etc.) persistent, encrypted memory across sessions.
+Memex is knowledge infrastructure for software agencies. It combines an MCP server (persistent, encrypted memory for AI coding agents) with an agency knowledge dashboard that scans GitHub orgs for knowledge files, tracks health scores, and enforces agency standards. First customer: Digital Bank.
 
 ## Architecture
 
 Read `ARCHITECTURE.md` for the full system design. Key points:
 
-- **Monorepo** with npm workspaces: `packages/memex-mcp` (MCP server + CLI) and `packages/landing` (Next.js landing page)
+- **Monorepo** with npm workspaces: `packages/memex-mcp` (MCP server + CLI), `packages/dashboard` (agency knowledge dashboard), and `packages/landing` (marketing site)
 - **MCP server** communicates via stdio using `@modelcontextprotocol/sdk`
 - **SQLite** via `better-sqlite3` for storage, with FTS5 for full-text search
 - **AES-256-GCM** encryption using Node.js built-in `crypto` module
@@ -15,7 +15,7 @@ Read `ARCHITECTURE.md` for the full system design. Key points:
 ## Project Structure
 
 ```
-packages/memex-mcp/     # Main package — MCP server + CLI
+packages/memex-mcp/     # MCP server + CLI (the engine)
   src/
     index.ts            # Entry point — CLI router via commander
     server.ts           # MCP server (McpServer, tool registration, stdio transport)
@@ -27,9 +27,20 @@ packages/memex-mcp/     # Main package — MCP server + CLI
     types.ts            # Shared Zod schemas and TypeScript types
   tests/                # Vitest tests mirroring src/ structure
 
-packages/landing/       # Next.js 14 landing page
+packages/dashboard/     # Agency Knowledge Dashboard (the product)
+  src/
+    app/                # Next.js 16 App Router pages
+    components/         # UI components (shadcn + custom)
+    lib/                # GitHub scanning, health scoring, utilities
+  brand/                # Brand manual (Stitch "Digital Architect" design system)
+
+packages/landing/       # Marketing site (Next.js 14)
   src/app/              # App Router pages
-  components/           # Page sections (hero, features, security, etc.)
+  components/           # Page sections
+
+docs/service/           # Service documentation (from agent-setup-service)
+  clients/              # Client-specific docs
+  templates/            # Proposal/deliverable templates
 ```
 
 ## Tech Stack
@@ -46,6 +57,7 @@ packages/landing/       # Next.js 14 landing page
 | Validation | `zod` ^3.25 |
 | Build | `tsup` ^8 |
 | Tests | `vitest` ^3 |
+| Dashboard | Next.js 16 + React 19 + Tailwind 4 + shadcn + Octokit |
 | Landing | Next.js 14 + Tailwind + shadcn/ui |
 
 ## Commands
@@ -65,6 +77,9 @@ npm run dev -w packages/memex-mcp
 
 # Type check
 npm run typecheck -w packages/memex-mcp
+
+# Dashboard dev (agency knowledge dashboard)
+npm run dev -w packages/dashboard
 
 # Landing page dev
 npm run dev -w packages/landing
