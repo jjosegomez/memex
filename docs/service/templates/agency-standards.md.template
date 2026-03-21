@@ -1,0 +1,71 @@
+# Agency Standards — [Agency Name]
+
+> This file defines agency-wide coding standards and practices.
+> All client projects inherit from these standards unless explicitly overridden in the project's own CLAUDE.md.
+
+## Universal Standards
+
+### Code Quality
+<!-- Standards that apply regardless of stack -->
+- All code must pass linting before commit
+- No commented-out code in production branches
+- No hardcoded secrets, API keys, or credentials — use environment variables
+- All public functions should have clear parameter names (self-documenting)
+
+### Git Workflow
+<!-- How the agency works with git across all projects -->
+- Branch naming: `[type]/[description]` (e.g., `feature/user-auth`, `fix/payment-timeout`)
+- Commit messages: [describe your convention]
+- PR required for all changes to main/production branches
+- Minimum 1 reviewer per PR
+
+### Code Review Standards
+<!-- What reviewers should check for -->
+- Correctness: does the code do what the PR says it does?
+- Security: no injection vulnerabilities, proper auth checks, no exposed secrets
+- Performance: no obvious N+1 queries, no unnecessary re-renders, proper caching
+- Consistency: follows project conventions (check project's CLAUDE.md)
+- Client constraints: respects any compliance or deployment restrictions
+
+### Testing Baseline
+<!-- Minimum testing expectations across all projects -->
+- Critical paths must have tests (auth, payments, data mutations)
+- Tests must pass in CI before merge
+- Test naming: `[what]_[scenario]_[expected]` or framework-appropriate equivalent
+
+### Security Baseline
+<!-- Security practices all projects must follow -->
+- OWASP Top 10 awareness
+- Input validation at system boundaries
+- Authentication and authorization on all protected endpoints
+- No sensitive data in logs
+- Dependencies audited for known vulnerabilities
+
+## Stack-Specific Standards
+
+### React / Next.js Projects
+<!-- Add standards specific to frontend projects -->
+
+### Node.js / Express / API Projects
+<!-- Add standards specific to backend projects -->
+
+### Python / FastAPI Projects
+<!-- Add standards specific to Python projects -->
+
+### Mobile (React Native) Projects
+<!-- Add standards specific to mobile projects -->
+
+## Client Constraint Handling
+
+When a client has specific constraints (compliance, deployment, technology mandates):
+1. Document them in the project's CLAUDE.md under "Client Constraints"
+2. Add enforcement rules that prevent violations
+3. Note them in the Knowledge Dashboard for visibility
+4. Brief any developer assigned to the project
+
+Common constraint categories:
+- **Compliance**: HIPAA, SOC2, GDPR, PCI-DSS
+- **Deployment**: specific cloud provider, region restrictions, on-premise
+- **Technology**: required or forbidden frameworks, libraries, services
+- **Data**: residency requirements, encryption mandates, retention policies
+- **Access**: VPN requirements, IP whitelisting, credential management

@@ -1,0 +1,65 @@
+# CLAUDE.md — [Project Name]
+
+> This file configures AI assistants (Claude Code, Cursor, etc.) for this project.
+> It is the source of truth for coding standards and conventions.
+
+## Project Overview
+<!-- Brief: what this project is, who the client is, what it does -->
+
+## Tech Stack
+<!-- List all major technologies, frameworks, and their versions -->
+- **Frontend:**
+- **Backend:**
+- **Database:**
+- **Deployment:**
+- **CI/CD:**
+
+## File Structure
+<!-- Describe the project's folder organization and rationale -->
+```
+src/
+├── ...
+```
+
+## Coding Standards
+
+### Naming Conventions
+<!-- How to name files, functions, variables, components, etc. -->
+
+### Error Handling
+<!-- How errors should be handled, logged, and propagated -->
+
+### Testing
+<!-- Testing framework, what to test, naming conventions for tests -->
+
+### API Patterns
+<!-- How API endpoints are structured, request/response formats -->
+
+## Do's
+<!-- Specific practices to follow in this project -->
+-
+
+## Don'ts
+<!-- Specific anti-patterns and things to avoid -->
+-
+
+## Client Constraints
+<!-- Compliance requirements, deployment restrictions, technology mandates -->
+<!-- e.g., "HIPAA compliant — no PII in logs", "Deploy to AWS us-east-1 only" -->
+
+## Dependencies & Integrations
+<!-- Key third-party services, their quirks, and how to work with them -->
+
+## Common Tasks
+<!-- How to run the project, run tests, deploy, etc. -->
+```bash
+# Install dependencies
+
+# Run development server
+
+# Run tests
+
+# Build for production
+
+# Deploy
+```

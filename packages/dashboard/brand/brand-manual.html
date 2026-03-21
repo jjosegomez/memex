@@ -1,0 +1,1996 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Memex — Brand Identity Manual</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  /* =========================================================
+     RESET & BASE
+     ========================================================= */
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    /* Surface hierarchy */
+    --surface:          #131313;
+    --surface-lowest:   #0e0e0e;
+    --surface-low:      #1c1b1b;
+    --surface-container:#201f1f;
+    --surface-high:     #2a2a2a;
+    --surface-highest:  #353534;
+
+    /* Foreground */
+    --on-surface:         #e5e2e1;
+    --on-surface-variant: #c6c6c6;
+    --outline:            #919191;
+    --outline-variant:    #474747;
+    --ghost-border:       rgba(71,71,71,.15);
+
+    /* Accent — Signal Green */
+    --tertiary:           #22c55e;
+    --tertiary-bright:    #6bff8f;
+    --tertiary-container: #00a74b;
+    --on-tertiary:        #002109;
+
+    /* Semantic */
+    --error:   #ffb4ab;
+    --warning: #fbbf24;
+    --info:    #c6c6cf;
+
+    /* Typography */
+    --font-primary:   'Inter', system-ui, -apple-system, sans-serif;
+    --font-secondary: 'Space Grotesk', monospace, sans-serif;
+
+    /* Spacing */
+    --sp-1: 4px;  --sp-2: 8px;  --sp-3: 12px; --sp-4: 16px;
+    --sp-5: 20px; --sp-6: 24px; --sp-8: 32px; --sp-10: 40px;
+    --sp-12: 48px; --sp-16: 64px; --sp-20: 80px; --sp-24: 96px;
+    --sp-32: 128px;
+
+    /* Radius */
+    --radius-none: 0;
+    --radius-sm:   0.125rem;
+    --radius-default: 0.25rem;
+    --radius-md:   0.375rem;
+    --radius-lg:   0.5rem;
+    --radius-xl:   0.75rem;
+  }
+
+  html {
+    font-size: 16px;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  body {
+    background: var(--surface);
+    color: var(--on-surface);
+    font-family: var(--font-primary);
+    font-size: .875rem;
+    line-height: 1.6;
+  }
+
+  /* =========================================================
+     PAGE / PRINT LAYOUT
+     ========================================================= */
+  @page {
+    size: A4 portrait;
+    margin: 0;
+  }
+
+  .page {
+    width: 210mm;
+    min-height: 297mm;
+    margin: 0 auto;
+    padding: 48px 56px;
+    page-break-before: always;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .page:first-child { page-break-before: avoid; }
+
+  @media screen {
+    .page {
+      margin-bottom: 32px;
+      border-radius: var(--radius-default);
+    }
+  }
+
+  /* =========================================================
+     SECTION MARKER (green left accent)
+     ========================================================= */
+  .section-marker {
+    display: flex;
+    align-items: center;
+    gap: var(--sp-3);
+    margin-bottom: var(--sp-10);
+  }
+
+  .section-marker::before {
+    content: '';
+    width: 3px;
+    height: 20px;
+    background: var(--tertiary);
+    border-radius: 2px;
+    flex-shrink: 0;
+  }
+
+  .section-marker span {
+    font-family: var(--font-secondary);
+    font-size: .6875rem;
+    font-weight: 500;
+    letter-spacing: .12em;
+    text-transform: uppercase;
+    color: var(--tertiary);
+  }
+
+  /* =========================================================
+     PAGE NUMBER
+     ========================================================= */
+  .page-number {
+    position: absolute;
+    bottom: 32px;
+    right: 56px;
+    font-family: var(--font-secondary);
+    font-size: .625rem;
+    font-weight: 500;
+    letter-spacing: .1em;
+    color: var(--outline);
+  }
+
+  /* =========================================================
+     TYPOGRAPHY
+     ========================================================= */
+  .display-lg  { font-size: 2.5rem; font-weight: 700; letter-spacing: -.02em; line-height: 1.1; }
+  .display     { font-size: 2rem;   font-weight: 700; letter-spacing: -.02em; line-height: 1.15; }
+  .headline    { font-size: 1.5rem; font-weight: 600; letter-spacing: -.01em; line-height: 1.25; }
+  .title       { font-size: 1.125rem; font-weight: 500; line-height: 1.35; }
+  .body-lg     { font-size: 1rem;   font-weight: 400; line-height: 1.6; }
+  .body        { font-size: .875rem; font-weight: 400; line-height: 1.6; }
+  .body-sm     { font-size: .75rem; font-weight: 400; line-height: 1.5; }
+
+  .label-lg {
+    font-family: var(--font-secondary);
+    font-size: .75rem;
+    font-weight: 500;
+    letter-spacing: .05em;
+    text-transform: uppercase;
+    color: var(--on-surface-variant);
+  }
+
+  .label {
+    font-family: var(--font-secondary);
+    font-size: .6875rem;
+    font-weight: 500;
+    letter-spacing: .12em;
+    text-transform: uppercase;
+    color: var(--outline);
+  }
+
+  .label-sm {
+    font-family: var(--font-secondary);
+    font-size: .625rem;
+    font-weight: 500;
+    letter-spacing: .12em;
+    text-transform: uppercase;
+    color: var(--outline);
+  }
+
+  .text-green   { color: var(--tertiary); }
+  .text-muted   { color: var(--on-surface-variant); }
+  .text-outline  { color: var(--outline); }
+
+  /* =========================================================
+     CARD / SURFACE
+     ========================================================= */
+  .card {
+    background: var(--surface-container);
+    border-radius: var(--radius-default);
+    padding: var(--sp-6);
+    margin-bottom: var(--sp-4);
+  }
+
+  .card-low {
+    background: var(--surface-low);
+    border-radius: var(--radius-default);
+    padding: var(--sp-6);
+    margin-bottom: var(--sp-4);
+  }
+
+  .card-high {
+    background: var(--surface-high);
+    border-radius: var(--radius-default);
+    padding: var(--sp-6);
+    margin-bottom: var(--sp-4);
+  }
+
+  .card-sunken {
+    background: var(--surface-lowest);
+    border-radius: var(--radius-default);
+    padding: var(--sp-6);
+    margin-bottom: var(--sp-4);
+  }
+
+  .ghost-border {
+    border: 1px solid var(--ghost-border);
+  }
+
+  /* =========================================================
+     TABLE
+     ========================================================= */
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: .8125rem;
+  }
+
+  th {
+    font-family: var(--font-secondary);
+    font-size: .625rem;
+    font-weight: 500;
+    letter-spacing: .12em;
+    text-transform: uppercase;
+    color: var(--outline);
+    text-align: left;
+    padding: var(--sp-2) var(--sp-3);
+    background: var(--surface-low);
+  }
+
+  td {
+    padding: var(--sp-2) var(--sp-3);
+    color: var(--on-surface-variant);
+    vertical-align: top;
+  }
+
+  tr + tr td {
+    border-top: 1px solid var(--ghost-border);
+  }
+
+  td:first-child, th:first-child {
+    padding-left: var(--sp-4);
+  }
+
+  /* =========================================================
+     SWATCH / COLOR BLOCKS
+     ========================================================= */
+  .swatch-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+    gap: var(--sp-3);
+    margin-bottom: var(--sp-6);
+  }
+
+  .swatch {
+    border-radius: var(--radius-default);
+    overflow: hidden;
+  }
+
+  .swatch-color {
+    height: 56px;
+    border-radius: var(--radius-default) var(--radius-default) 0 0;
+  }
+
+  .swatch-info {
+    background: var(--surface-container);
+    padding: var(--sp-2) var(--sp-3);
+    border-radius: 0 0 var(--radius-default) var(--radius-default);
+  }
+
+  .swatch-info .name {
+    font-family: var(--font-secondary);
+    font-size: .625rem;
+    font-weight: 500;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+    color: var(--on-surface-variant);
+    margin-bottom: 2px;
+  }
+
+  .swatch-info .hex {
+    font-family: var(--font-secondary);
+    font-size: .6875rem;
+    color: var(--outline);
+  }
+
+  /* =========================================================
+     UTILITIES
+     ========================================================= */
+  .mt-1 { margin-top: var(--sp-1); }
+  .mt-2 { margin-top: var(--sp-2); }
+  .mt-3 { margin-top: var(--sp-3); }
+  .mt-4 { margin-top: var(--sp-4); }
+  .mt-5 { margin-top: var(--sp-5); }
+  .mt-6 { margin-top: var(--sp-6); }
+  .mt-8 { margin-top: var(--sp-8); }
+  .mt-10 { margin-top: var(--sp-10); }
+  .mt-12 { margin-top: var(--sp-12); }
+  .mb-2 { margin-bottom: var(--sp-2); }
+  .mb-3 { margin-bottom: var(--sp-3); }
+  .mb-4 { margin-bottom: var(--sp-4); }
+  .mb-6 { margin-bottom: var(--sp-6); }
+  .mb-8 { margin-bottom: var(--sp-8); }
+  .gap-2 { gap: var(--sp-2); }
+  .gap-3 { gap: var(--sp-3); }
+  .gap-4 { gap: var(--sp-4); }
+
+  .flex { display: flex; }
+  .flex-col { flex-direction: column; }
+  .items-center { align-items: center; }
+  .justify-between { justify-content: space-between; }
+  .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: var(--sp-4); }
+
+  .code-block {
+    background: var(--surface-lowest);
+    border-radius: var(--radius-default);
+    padding: var(--sp-4) var(--sp-5);
+    font-family: var(--font-secondary);
+    font-size: .75rem;
+    line-height: 1.7;
+    color: var(--on-surface-variant);
+    overflow-x: auto;
+    white-space: pre;
+    border: 1px solid var(--ghost-border);
+  }
+
+  .divider {
+    height: 1px;
+    background: var(--ghost-border);
+    margin: var(--sp-8) 0;
+  }
+
+  .badge {
+    display: inline-flex;
+    align-items: center;
+    padding: 2px 8px;
+    border-radius: var(--radius-sm);
+    font-family: var(--font-secondary);
+    font-size: .625rem;
+    font-weight: 500;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+  }
+
+  .badge-green {
+    background: rgba(34,197,94,.12);
+    color: var(--tertiary);
+  }
+
+  .badge-outline {
+    border: 1px solid var(--ghost-border);
+    color: var(--outline);
+  }
+
+  ul, ol {
+    padding-left: var(--sp-5);
+  }
+
+  li {
+    margin-bottom: var(--sp-2);
+    color: var(--on-surface-variant);
+  }
+
+  li strong {
+    color: var(--on-surface);
+  }
+
+  blockquote {
+    border-left: 2px solid var(--tertiary);
+    padding-left: var(--sp-4);
+    margin: var(--sp-4) 0;
+    color: var(--on-surface-variant);
+    font-style: italic;
+  }
+
+  /* =========================================================
+     COVER SPECIFIC
+     ========================================================= */
+  .cover {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    background: var(--surface);
+  }
+
+  .cover-logo-area {
+    margin-bottom: var(--sp-16);
+  }
+
+  .cover-meta {
+    margin-top: auto;
+    padding-bottom: var(--sp-8);
+  }
+
+  /* =========================================================
+     LOGO SVG
+     ========================================================= */
+  .logo-mark {
+    display: inline-block;
+  }
+
+  .logo-lockup {
+    display: flex;
+    align-items: center;
+    gap: var(--sp-4);
+  }
+
+  .logo-wordmark {
+    font-family: var(--font-primary);
+    font-weight: 700;
+    font-size: 1.75rem;
+    letter-spacing: -.02em;
+    color: var(--on-surface);
+  }
+
+  /* =========================================================
+     MOCKUP FRAMES
+     ========================================================= */
+  .mockup-frame {
+    background: var(--surface-container);
+    border-radius: var(--radius-md);
+    overflow: hidden;
+  }
+
+  .business-card-mock {
+    width: 340px;
+    height: 200px;
+    padding: var(--sp-6);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    position: relative;
+  }
+
+  .business-card-mock::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: var(--tertiary);
+  }
+
+  .email-sig-mock {
+    padding: var(--sp-5);
+    max-width: 380px;
+  }
+
+  .github-header-mock {
+    padding: var(--sp-8) var(--sp-6);
+    text-align: center;
+    background: linear-gradient(180deg, var(--surface-low) 0%, var(--surface-container) 100%);
+  }
+
+  .cli-mock {
+    padding: var(--sp-4) var(--sp-5);
+    font-family: var(--font-secondary);
+    font-size: .75rem;
+    line-height: 1.8;
+    background: var(--surface-lowest);
+  }
+
+  .cli-green { color: var(--tertiary); }
+  .cli-amber { color: var(--warning); }
+  .cli-red   { color: var(--error); }
+  .cli-muted { color: var(--outline); }
+
+  .social-avatar-mock {
+    width: 80px;
+    height: 80px;
+    background: var(--surface);
+    border-radius: var(--radius-lg);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .social-banner-mock {
+    width: 100%;
+    height: 100px;
+    background: linear-gradient(135deg, var(--surface) 0%, var(--surface-low) 60%, var(--surface-container) 100%);
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    padding-right: var(--sp-8);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .social-banner-mock::after {
+    content: '';
+    position: absolute;
+    right: -20px;
+    top: -20px;
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(34,197,94,.08) 0%, transparent 70%);
+  }
+
+  /* Print styles */
+  @media print {
+    body { background: var(--surface); }
+    .page { margin: 0; border-radius: 0; }
+  }
+</style>
+</head>
+<body>
+
+<!-- =====================================================
+     PAGE 1 — COVER
+     ===================================================== -->
+<div class="page cover">
+  <div class="cover-logo-area">
+    <div class="logo-lockup mb-8">
+      <!-- Logo Mark SVG -->
+      <svg class="logo-mark" width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <!-- Abstract M from connected knowledge nodes -->
+        <circle cx="8" cy="36" r="3.5" fill="#22c55e"/>
+        <circle cx="16" cy="12" r="3.5" fill="#22c55e"/>
+        <circle cx="24" cy="28" r="3.5" fill="#22c55e"/>
+        <circle cx="32" cy="12" r="3.5" fill="#22c55e"/>
+        <circle cx="40" cy="36" r="3.5" fill="#22c55e"/>
+        <!-- Connection lines -->
+        <line x1="8" y1="33" x2="16" y2="15" stroke="#22c55e" stroke-width="1.5" stroke-linecap="round"/>
+        <line x1="16" y1="15" x2="24" y2="25" stroke="#22c55e" stroke-width="1.5" stroke-linecap="round"/>
+        <line x1="24" y1="25" x2="32" y2="15" stroke="#22c55e" stroke-width="1.5" stroke-linecap="round"/>
+        <line x1="32" y1="15" x2="40" y2="33" stroke="#22c55e" stroke-width="1.5" stroke-linecap="round"/>
+        <!-- Cross connections (knowledge trails) -->
+        <line x1="8" y1="36" x2="24" y2="28" stroke="#22c55e" stroke-width="0.75" stroke-linecap="round" opacity="0.35"/>
+        <line x1="24" y1="28" x2="40" y2="36" stroke="#22c55e" stroke-width="0.75" stroke-linecap="round" opacity="0.35"/>
+        <line x1="16" y1="12" x2="32" y2="12" stroke="#22c55e" stroke-width="0.75" stroke-linecap="round" opacity="0.35"/>
+      </svg>
+      <span class="logo-wordmark">memex</span>
+    </div>
+
+    <h1 class="display-lg" style="max-width: 420px;">Brand Identity Manual</h1>
+    <p class="body-lg text-muted mt-4" style="max-width: 380px;">
+      Reference edition. The definitive guide to the Memex visual identity, voice, and design system.
+    </p>
+  </div>
+
+  <div class="cover-meta">
+    <div class="flex gap-4 items-center">
+      <span class="badge badge-green">v1.0</span>
+      <span class="badge badge-outline">Reference</span>
+    </div>
+    <p class="label mt-4">March 2026</p>
+  </div>
+
+  <span class="page-number">01</span>
+</div>
+
+
+<!-- =====================================================
+     PAGE 2 — TABLE OF CONTENTS
+     ===================================================== -->
+<div class="page" style="background: var(--surface);">
+  <div class="section-marker"><span>Contents</span></div>
+
+  <h2 class="headline mb-8">Table of Contents</h2>
+
+  <div style="display: flex; flex-direction: column; gap: 0;">
+    <div class="flex justify-between items-center" style="padding: 12px 0; border-bottom: 1px solid var(--ghost-border);">
+      <div>
+        <span class="label-sm text-green" style="margin-right: 12px;">01</span>
+        <span class="body-lg">Heritage &amp; Mission</span>
+      </div>
+      <span class="label-sm">03</span>
+    </div>
+    <div class="flex justify-between items-center" style="padding: 12px 0; border-bottom: 1px solid var(--ghost-border);">
+      <div>
+        <span class="label-sm text-green" style="margin-right: 12px;">02</span>
+        <span class="body-lg">Brand Personality &amp; Values</span>
+      </div>
+      <span class="label-sm">04</span>
+    </div>
+    <div class="flex justify-between items-center" style="padding: 12px 0; border-bottom: 1px solid var(--ghost-border);">
+      <div>
+        <span class="label-sm text-green" style="margin-right: 12px;">03</span>
+        <span class="body-lg">Competitive Positioning</span>
+      </div>
+      <span class="label-sm">05</span>
+    </div>
+    <div class="flex justify-between items-center" style="padding: 12px 0; border-bottom: 1px solid var(--ghost-border);">
+      <div>
+        <span class="label-sm text-green" style="margin-right: 12px;">04</span>
+        <span class="body-lg">Logo &amp; Wordmark</span>
+      </div>
+      <span class="label-sm">06</span>
+    </div>
+    <div class="flex justify-between items-center" style="padding: 12px 0; border-bottom: 1px solid var(--ghost-border);">
+      <div>
+        <span class="label-sm text-green" style="margin-right: 12px;">05</span>
+        <span class="body-lg">Color Palette</span>
+      </div>
+      <span class="label-sm">07</span>
+    </div>
+    <div class="flex justify-between items-center" style="padding: 12px 0; border-bottom: 1px solid var(--ghost-border);">
+      <div>
+        <span class="label-sm text-green" style="margin-right: 12px;">06</span>
+        <span class="body-lg">Typography</span>
+      </div>
+      <span class="label-sm">09</span>
+    </div>
+    <div class="flex justify-between items-center" style="padding: 12px 0; border-bottom: 1px solid var(--ghost-border);">
+      <div>
+        <span class="label-sm text-green" style="margin-right: 12px;">07</span>
+        <span class="body-lg">Spacing, Radius &amp; Depth</span>
+      </div>
+      <span class="label-sm">10</span>
+    </div>
+    <div class="flex justify-between items-center" style="padding: 12px 0; border-bottom: 1px solid var(--ghost-border);">
+      <div>
+        <span class="label-sm text-green" style="margin-right: 12px;">08</span>
+        <span class="body-lg">Iconography</span>
+      </div>
+      <span class="label-sm">11</span>
+    </div>
+    <div class="flex justify-between items-center" style="padding: 12px 0; border-bottom: 1px solid var(--ghost-border);">
+      <div>
+        <span class="label-sm text-green" style="margin-right: 12px;">09</span>
+        <span class="body-lg">Brand Voice</span>
+      </div>
+      <span class="label-sm">12</span>
+    </div>
+    <div class="flex justify-between items-center" style="padding: 12px 0; border-bottom: 1px solid var(--ghost-border);">
+      <div>
+        <span class="label-sm text-green" style="margin-right: 12px;">10</span>
+        <span class="body-lg">Brand Applications</span>
+      </div>
+      <span class="label-sm">13</span>
+    </div>
+    <div class="flex justify-between items-center" style="padding: 12px 0; border-bottom: 1px solid var(--ghost-border);">
+      <div>
+        <span class="label-sm text-green" style="margin-right: 12px;">11</span>
+        <span class="body-lg">Design Tokens</span>
+      </div>
+      <span class="label-sm">15</span>
+    </div>
+  </div>
+
+  <span class="page-number">02</span>
+</div>
+
+
+<!-- =====================================================
+     PAGE 3 — HERITAGE & MISSION
+     ===================================================== -->
+<div class="page" style="background: var(--surface);">
+  <div class="section-marker"><span>01 &mdash; Heritage &amp; Mission</span></div>
+
+  <h2 class="display mb-6">Heritage</h2>
+
+  <div class="card-low" style="padding: 32px;">
+    <p class="body-lg" style="color: var(--on-surface); line-height: 1.8; max-width: 520px;">
+      In 1945, Vannevar Bush published <em>"As We May Think"</em> in <em>The Atlantic</em>. He described a device called the <strong style="color: var(--tertiary);">memex</strong> &mdash; a desk with screens, a keyboard, and buttons that would store and connect all of a person's documents, creating <em>"trails"</em> between related ideas.
+    </p>
+    <p class="body-lg mt-4" style="color: var(--on-surface-variant); line-height: 1.8; max-width: 520px;">
+      Bush imagined augmenting human knowledge. Eighty years later, that vision is finally achievable &mdash; not just for individuals, but for entire teams, and not just for humans, but for AI agents.
+    </p>
+  </div>
+
+  <div class="divider"></div>
+
+  <h2 class="display mb-6">Mission</h2>
+  <p class="headline" style="color: var(--on-surface); max-width: 480px; line-height: 1.4;">
+    Make every piece of team knowledge instantly accessible to both humans and AI agents.
+  </p>
+
+  <div class="mt-10">
+    <h2 class="display mb-6">Vision</h2>
+    <p class="body-lg text-muted" style="max-width: 500px; line-height: 1.8;">
+      A world where switching projects takes seconds, onboarding takes hours instead of weeks, and no knowledge walks out the door when someone leaves.
+    </p>
+  </div>
+
+  <div class="mt-10">
+    <p class="label mb-3">Tagline &mdash; Primary</p>
+    <p class="headline text-green" style="font-size: 1.75rem;">"Your team's knowledge layer"</p>
+    <p class="label mt-6 mb-3">Tagline &mdash; Secondary</p>
+    <p class="title text-muted">"What your agents know"</p>
+  </div>
+
+  <span class="page-number">03</span>
+</div>
+
+
+<!-- =====================================================
+     PAGE 4 — BRAND PERSONALITY & VALUES
+     ===================================================== -->
+<div class="page" style="background: var(--surface);">
+  <div class="section-marker"><span>02 &mdash; Brand Personality &amp; Values</span></div>
+
+  <h2 class="display mb-8">Brand Personality</h2>
+
+  <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;">
+    <div class="card" style="padding: 24px;">
+      <p class="label mb-2">Precise</p>
+      <p class="body text-muted">Not approximate. Every data point is exact, every metric is real.</p>
+    </div>
+    <div class="card" style="padding: 24px;">
+      <p class="label mb-2">Deep</p>
+      <p class="body text-muted">Not shallow dashboards. Real understanding of codebases and decisions.</p>
+    </div>
+    <div class="card" style="padding: 24px;">
+      <p class="label mb-2">Authoritative</p>
+      <p class="body text-muted">The single source of truth. Not another tool &mdash; THE knowledge layer.</p>
+    </div>
+    <div class="card" style="padding: 24px;">
+      <p class="label mb-2">Quiet Confidence</p>
+      <p class="body text-muted">Doesn't shout. Lets the product speak. Understated power.</p>
+    </div>
+    <div class="card" style="padding: 24px; grid-column: 1 / -1;">
+      <p class="label mb-2">Technical</p>
+      <p class="body text-muted">Made by developers, for developers. No dumbing down.</p>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <h2 class="display mb-8">Brand Values</h2>
+
+  <div style="display: flex; flex-direction: column; gap: 16px;">
+    <div class="flex gap-4" style="align-items: flex-start;">
+      <span class="label-sm text-green" style="min-width: 20px; padding-top: 3px;">01</span>
+      <div>
+        <p class="title" style="margin-bottom: 4px;">Truth over appearance</p>
+        <p class="body text-muted">Show real data, even when it's ugly.</p>
+      </div>
+    </div>
+    <div class="flex gap-4" style="align-items: flex-start;">
+      <span class="label-sm text-green" style="min-width: 20px; padding-top: 3px;">02</span>
+      <div>
+        <p class="title" style="margin-bottom: 4px;">Git is the source</p>
+        <p class="body text-muted">Never create a second source of truth.</p>
+      </div>
+    </div>
+    <div class="flex gap-4" style="align-items: flex-start;">
+      <span class="label-sm text-green" style="min-width: 20px; padding-top: 3px;">03</span>
+      <div>
+        <p class="title" style="margin-bottom: 4px;">Agents are first-class</p>
+        <p class="body text-muted">Knowledge must be machine-readable, not just human-readable.</p>
+      </div>
+    </div>
+    <div class="flex gap-4" style="align-items: flex-start;">
+      <span class="label-sm text-green" style="min-width: 20px; padding-top: 3px;">04</span>
+      <div>
+        <p class="title" style="margin-bottom: 4px;">Depth over breadth</p>
+        <p class="body text-muted">Better to deeply know 5 projects than shallowly scan 50.</p>
+      </div>
+    </div>
+    <div class="flex gap-4" style="align-items: flex-start;">
+      <span class="label-sm text-green" style="min-width: 20px; padding-top: 3px;">05</span>
+      <div>
+        <p class="title" style="margin-bottom: 4px;">Invisible when working</p>
+        <p class="body text-muted">The best knowledge system is one you forget is there.</p>
+      </div>
+    </div>
+  </div>
+
+  <span class="page-number">04</span>
+</div>
+
+
+<!-- =====================================================
+     PAGE 5 — COMPETITIVE POSITIONING
+     ===================================================== -->
+<div class="page" style="background: var(--surface);">
+  <div class="section-marker"><span>03 &mdash; Competitive Positioning</span></div>
+
+  <h2 class="display mb-8">What Memex Is Not</h2>
+
+  <div style="display: flex; flex-direction: column; gap: 12px; margin-bottom: 40px;">
+    <div class="card" style="padding: 20px 24px;">
+      <div class="flex justify-between items-center">
+        <div>
+          <p class="label mb-1">Not a Wiki</p>
+          <p class="body text-muted">Notion, Confluence &mdash; those are for humans only. Agents can't read them natively.</p>
+        </div>
+        <span style="color: var(--error); font-size: 1.25rem; font-weight: 300; opacity: .6;">&times;</span>
+      </div>
+    </div>
+    <div class="card" style="padding: 20px 24px;">
+      <div class="flex justify-between items-center">
+        <div>
+          <p class="label mb-1">Not a Docs Generator</p>
+          <p class="body text-muted">GitBook, Mintlify &mdash; those document APIs. We document knowledge.</p>
+        </div>
+        <span style="color: var(--error); font-size: 1.25rem; font-weight: 300; opacity: .6;">&times;</span>
+      </div>
+    </div>
+    <div class="card" style="padding: 20px 24px;">
+      <div class="flex justify-between items-center">
+        <div>
+          <p class="label mb-1">Not a PM Tool</p>
+          <p class="body text-muted">Linear, Jira &mdash; they track tasks. We track understanding.</p>
+        </div>
+        <span style="color: var(--error); font-size: 1.25rem; font-weight: 300; opacity: .6;">&times;</span>
+      </div>
+    </div>
+  </div>
+
+  <h2 class="display mb-8">What Memex Is</h2>
+
+  <div style="display: flex; flex-direction: column; gap: 12px;">
+    <div class="card-low" style="padding: 20px 24px; border-left: 2px solid var(--tertiary);">
+      <p class="body" style="color: var(--on-surface);">The knowledge layer that lives in git, readable by both humans and AI agents.</p>
+    </div>
+    <div class="card-low" style="padding: 20px 24px; border-left: 2px solid var(--tertiary);">
+      <p class="body" style="color: var(--on-surface);">A dashboard that shows what your AI tools know (and don't know) about your codebase.</p>
+    </div>
+    <div class="card-low" style="padding: 20px 24px; border-left: 2px solid var(--tertiary);">
+      <p class="body" style="color: var(--on-surface);">Infrastructure, not a destination &mdash; it works in the background.</p>
+    </div>
+  </div>
+
+  <div class="card-sunken mt-10" style="padding: 24px;">
+    <p class="label mb-3">Positioning Statement</p>
+    <p class="body-lg" style="color: var(--on-surface); line-height: 1.8;">
+      For engineering teams using AI coding agents, <strong class="text-green">Memex</strong> is the knowledge infrastructure that ensures your agents have the context they need. Unlike wikis or docs generators, Memex lives in your git repos and is natively readable by both humans and machines.
+    </p>
+  </div>
+
+  <span class="page-number">05</span>
+</div>
+
+
+<!-- =====================================================
+     PAGE 6 — LOGO & WORDMARK
+     ===================================================== -->
+<div class="page" style="background: var(--surface);">
+  <div class="section-marker"><span>04 &mdash; Logo &amp; Wordmark</span></div>
+
+  <h2 class="display mb-8">Logo System</h2>
+
+  <p class="body text-muted mb-6" style="max-width: 480px;">
+    The Memex logo is a geometric mark representing interconnected knowledge nodes. The five nodes form an abstract "M" connected by trails &mdash; a direct reference to Bush's concept of knowledge trails between documents.
+  </p>
+
+  <!-- Logo Mark Large -->
+  <div class="flex gap-4 mb-8" style="flex-wrap: wrap;">
+    <div class="card-low" style="padding: 40px; display: flex; align-items: center; justify-content: center; min-width: 200px;">
+      <div style="text-align: center;">
+        <p class="label-sm mb-4">Icon Mark</p>
+        <svg width="80" height="80" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="8" cy="36" r="3.5" fill="#22c55e"/>
+          <circle cx="16" cy="12" r="3.5" fill="#22c55e"/>
+          <circle cx="24" cy="28" r="3.5" fill="#22c55e"/>
+          <circle cx="32" cy="12" r="3.5" fill="#22c55e"/>
+          <circle cx="40" cy="36" r="3.5" fill="#22c55e"/>
+          <line x1="8" y1="33" x2="16" y2="15" stroke="#22c55e" stroke-width="1.5" stroke-linecap="round"/>
+          <line x1="16" y1="15" x2="24" y2="25" stroke="#22c55e" stroke-width="1.5" stroke-linecap="round"/>
+          <line x1="24" y1="25" x2="32" y2="15" stroke="#22c55e" stroke-width="1.5" stroke-linecap="round"/>
+          <line x1="32" y1="15" x2="40" y2="33" stroke="#22c55e" stroke-width="1.5" stroke-linecap="round"/>
+          <line x1="8" y1="36" x2="24" y2="28" stroke="#22c55e" stroke-width="0.75" stroke-linecap="round" opacity="0.35"/>
+          <line x1="24" y1="28" x2="40" y2="36" stroke="#22c55e" stroke-width="0.75" stroke-linecap="round" opacity="0.35"/>
+          <line x1="16" y1="12" x2="32" y2="12" stroke="#22c55e" stroke-width="0.75" stroke-linecap="round" opacity="0.35"/>
+        </svg>
+      </div>
+    </div>
+
+    <div class="card-low" style="padding: 40px; display: flex; align-items: center; justify-content: center; flex: 1; min-width: 280px;">
+      <div style="text-align: center;">
+        <p class="label-sm mb-4">Lockup &mdash; Horizontal</p>
+        <div class="logo-lockup" style="justify-content: center;">
+          <svg width="40" height="40" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="8" cy="36" r="3.5" fill="#22c55e"/>
+            <circle cx="16" cy="12" r="3.5" fill="#22c55e"/>
+            <circle cx="24" cy="28" r="3.5" fill="#22c55e"/>
+            <circle cx="32" cy="12" r="3.5" fill="#22c55e"/>
+            <circle cx="40" cy="36" r="3.5" fill="#22c55e"/>
+            <line x1="8" y1="33" x2="16" y2="15" stroke="#22c55e" stroke-width="1.5" stroke-linecap="round"/>
+            <line x1="16" y1="15" x2="24" y2="25" stroke="#22c55e" stroke-width="1.5" stroke-linecap="round"/>
+            <line x1="24" y1="25" x2="32" y2="15" stroke="#22c55e" stroke-width="1.5" stroke-linecap="round"/>
+            <line x1="32" y1="15" x2="40" y2="33" stroke="#22c55e" stroke-width="1.5" stroke-linecap="round"/>
+            <line x1="8" y1="36" x2="24" y2="28" stroke="#22c55e" stroke-width="0.75" stroke-linecap="round" opacity="0.35"/>
+            <line x1="24" y1="28" x2="40" y2="36" stroke="#22c55e" stroke-width="0.75" stroke-linecap="round" opacity="0.35"/>
+            <line x1="16" y1="12" x2="32" y2="12" stroke="#22c55e" stroke-width="0.75" stroke-linecap="round" opacity="0.35"/>
+          </svg>
+          <span class="logo-wordmark" style="font-size: 1.5rem;">memex</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Minimum sizes -->
+  <div class="card" style="padding: 24px;">
+    <p class="label mb-4">Minimum Sizes</p>
+    <div class="flex gap-4 items-center" style="flex-wrap: wrap;">
+      <div style="text-align: center;">
+        <svg width="16" height="16" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="8" cy="36" r="3.5" fill="#22c55e"/>
+          <circle cx="16" cy="12" r="3.5" fill="#22c55e"/>
+          <circle cx="24" cy="28" r="3.5" fill="#22c55e"/>
+          <circle cx="32" cy="12" r="3.5" fill="#22c55e"/>
+          <circle cx="40" cy="36" r="3.5" fill="#22c55e"/>
+          <line x1="8" y1="33" x2="16" y2="15" stroke="#22c55e" stroke-width="1.5" stroke-linecap="round"/>
+          <line x1="16" y1="15" x2="24" y2="25" stroke="#22c55e" stroke-width="1.5" stroke-linecap="round"/>
+          <line x1="24" y1="25" x2="32" y2="15" stroke="#22c55e" stroke-width="1.5" stroke-linecap="round"/>
+          <line x1="32" y1="15" x2="40" y2="33" stroke="#22c55e" stroke-width="1.5" stroke-linecap="round"/>
+        </svg>
+        <p class="label-sm mt-2">16px &mdash; Favicon</p>
+      </div>
+      <div style="text-align: center;">
+        <svg width="24" height="24" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="8" cy="36" r="3.5" fill="#22c55e"/>
+          <circle cx="16" cy="12" r="3.5" fill="#22c55e"/>
+          <circle cx="24" cy="28" r="3.5" fill="#22c55e"/>
+          <circle cx="32" cy="12" r="3.5" fill="#22c55e"/>
+          <circle cx="40" cy="36" r="3.5" fill="#22c55e"/>
+          <line x1="8" y1="33" x2="16" y2="15" stroke="#22c55e" stroke-width="1.5" stroke-linecap="round"/>
+          <line x1="16" y1="15" x2="24" y2="25" stroke="#22c55e" stroke-width="1.5" stroke-linecap="round"/>
+          <line x1="24" y1="25" x2="32" y2="15" stroke="#22c55e" stroke-width="1.5" stroke-linecap="round"/>
+          <line x1="32" y1="15" x2="40" y2="33" stroke="#22c55e" stroke-width="1.5" stroke-linecap="round"/>
+        </svg>
+        <p class="label-sm mt-2">24px &mdash; Nav icon</p>
+      </div>
+      <div style="text-align: center;">
+        <svg width="32" height="32" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="8" cy="36" r="3.5" fill="#22c55e"/>
+          <circle cx="16" cy="12" r="3.5" fill="#22c55e"/>
+          <circle cx="24" cy="28" r="3.5" fill="#22c55e"/>
+          <circle cx="32" cy="12" r="3.5" fill="#22c55e"/>
+          <circle cx="40" cy="36" r="3.5" fill="#22c55e"/>
+          <line x1="8" y1="33" x2="16" y2="15" stroke="#22c55e" stroke-width="1.5" stroke-linecap="round"/>
+          <line x1="16" y1="15" x2="24" y2="25" stroke="#22c55e" stroke-width="1.5" stroke-linecap="round"/>
+          <line x1="24" y1="25" x2="32" y2="15" stroke="#22c55e" stroke-width="1.5" stroke-linecap="round"/>
+          <line x1="32" y1="15" x2="40" y2="33" stroke="#22c55e" stroke-width="1.5" stroke-linecap="round"/>
+        </svg>
+        <p class="label-sm mt-2">32px &mdash; Standard</p>
+      </div>
+      <div style="text-align: center;">
+        <svg width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="8" cy="36" r="3.5" fill="#22c55e"/>
+          <circle cx="16" cy="12" r="3.5" fill="#22c55e"/>
+          <circle cx="24" cy="28" r="3.5" fill="#22c55e"/>
+          <circle cx="32" cy="12" r="3.5" fill="#22c55e"/>
+          <circle cx="40" cy="36" r="3.5" fill="#22c55e"/>
+          <line x1="8" y1="33" x2="16" y2="15" stroke="#22c55e" stroke-width="1.5" stroke-linecap="round"/>
+          <line x1="16" y1="15" x2="24" y2="25" stroke="#22c55e" stroke-width="1.5" stroke-linecap="round"/>
+          <line x1="24" y1="25" x2="32" y2="15" stroke="#22c55e" stroke-width="1.5" stroke-linecap="round"/>
+          <line x1="32" y1="15" x2="40" y2="33" stroke="#22c55e" stroke-width="1.5" stroke-linecap="round"/>
+          <line x1="8" y1="36" x2="24" y2="28" stroke="#22c55e" stroke-width="0.75" stroke-linecap="round" opacity="0.35"/>
+          <line x1="24" y1="28" x2="40" y2="36" stroke="#22c55e" stroke-width="0.75" stroke-linecap="round" opacity="0.35"/>
+          <line x1="16" y1="12" x2="32" y2="12" stroke="#22c55e" stroke-width="0.75" stroke-linecap="round" opacity="0.35"/>
+        </svg>
+        <p class="label-sm mt-2">48px &mdash; Full detail</p>
+      </div>
+    </div>
+    <p class="body-sm text-muted mt-4">Cross-connection trails (secondary lines) should be hidden below 32px for clarity.</p>
+  </div>
+
+  <!-- Wordmark spec -->
+  <div class="card mt-4" style="padding: 24px;">
+    <p class="label mb-4">Wordmark Specification</p>
+    <div class="flex items-center gap-4 mb-3">
+      <span style="font-family: var(--font-primary); font-weight: 700; font-size: 2rem; letter-spacing: -.02em; color: var(--on-surface);">memex</span>
+    </div>
+    <p class="body-sm text-muted">Inter Bold &middot; Lowercase &middot; Tracking: -0.02em &middot; Color: On Surface (#e5e2e1)</p>
+    <p class="body-sm text-muted mt-1">Lockup spacing: icon width &times; 0.5 between mark and wordmark.</p>
+  </div>
+
+  <span class="page-number">06</span>
+</div>
+
+
+<!-- =====================================================
+     PAGE 7 — COLOR PALETTE (Surfaces)
+     ===================================================== -->
+<div class="page" style="background: var(--surface);">
+  <div class="section-marker"><span>05 &mdash; Color Palette</span></div>
+
+  <h2 class="display mb-4">Color System</h2>
+  <p class="body text-muted mb-8" style="max-width: 480px;">
+    The Memex palette is built on a dark monochrome surface hierarchy &mdash; "the void" &mdash; with a single signal color: green. This constraint is intentional. Every color must earn its place.
+  </p>
+
+  <p class="label-lg mb-4">Primary Surface Hierarchy</p>
+
+  <div class="swatch-grid">
+    <div class="swatch">
+      <div class="swatch-color" style="background: #0e0e0e;"></div>
+      <div class="swatch-info">
+        <p class="name">Surface Lowest</p>
+        <p class="hex">#0e0e0e</p>
+      </div>
+    </div>
+    <div class="swatch">
+      <div class="swatch-color" style="background: #131313;"></div>
+      <div class="swatch-info">
+        <p class="name">Surface</p>
+        <p class="hex">#131313</p>
+      </div>
+    </div>
+    <div class="swatch">
+      <div class="swatch-color" style="background: #1c1b1b;"></div>
+      <div class="swatch-info">
+        <p class="name">Surface Low</p>
+        <p class="hex">#1c1b1b</p>
+      </div>
+    </div>
+    <div class="swatch">
+      <div class="swatch-color" style="background: #201f1f;"></div>
+      <div class="swatch-info">
+        <p class="name">Surface Container</p>
+        <p class="hex">#201f1f</p>
+      </div>
+    </div>
+    <div class="swatch">
+      <div class="swatch-color" style="background: #2a2a2a;"></div>
+      <div class="swatch-info">
+        <p class="name">Surface High</p>
+        <p class="hex">#2a2a2a</p>
+      </div>
+    </div>
+    <div class="swatch">
+      <div class="swatch-color" style="background: #353534;"></div>
+      <div class="swatch-info">
+        <p class="name">Surface Highest</p>
+        <p class="hex">#353534</p>
+      </div>
+    </div>
+  </div>
+
+  <p class="label-lg mb-4">Foreground</p>
+
+  <div class="swatch-grid">
+    <div class="swatch">
+      <div class="swatch-color" style="background: #e5e2e1;"></div>
+      <div class="swatch-info">
+        <p class="name">On Surface</p>
+        <p class="hex">#e5e2e1</p>
+      </div>
+    </div>
+    <div class="swatch">
+      <div class="swatch-color" style="background: #c6c6c6;"></div>
+      <div class="swatch-info">
+        <p class="name">On Surface Variant</p>
+        <p class="hex">#c6c6c6</p>
+      </div>
+    </div>
+    <div class="swatch">
+      <div class="swatch-color" style="background: #919191;"></div>
+      <div class="swatch-info">
+        <p class="name">Outline</p>
+        <p class="hex">#919191</p>
+      </div>
+    </div>
+    <div class="swatch">
+      <div class="swatch-color" style="background: #474747;"></div>
+      <div class="swatch-info">
+        <p class="name">Outline Variant</p>
+        <p class="hex">#474747</p>
+      </div>
+    </div>
+  </div>
+
+  <p class="label-lg mb-4">Accent &mdash; The Signal Green</p>
+
+  <div class="swatch-grid">
+    <div class="swatch">
+      <div class="swatch-color" style="background: #22c55e;"></div>
+      <div class="swatch-info">
+        <p class="name">Tertiary</p>
+        <p class="hex">#22c55e</p>
+      </div>
+    </div>
+    <div class="swatch">
+      <div class="swatch-color" style="background: #6bff8f;"></div>
+      <div class="swatch-info">
+        <p class="name">Tertiary Bright</p>
+        <p class="hex">#6bff8f</p>
+      </div>
+    </div>
+    <div class="swatch">
+      <div class="swatch-color" style="background: #00a74b;"></div>
+      <div class="swatch-info">
+        <p class="name">Tertiary Container</p>
+        <p class="hex">#00a74b</p>
+      </div>
+    </div>
+    <div class="swatch">
+      <div class="swatch-color" style="background: #002109; border: 1px solid var(--ghost-border);"></div>
+      <div class="swatch-info">
+        <p class="name">On Tertiary</p>
+        <p class="hex">#002109</p>
+      </div>
+    </div>
+  </div>
+
+  <span class="page-number">07</span>
+</div>
+
+
+<!-- =====================================================
+     PAGE 8 — COLOR RULES & SEMANTICS
+     ===================================================== -->
+<div class="page" style="background: var(--surface);">
+  <div class="section-marker"><span>05 &mdash; Color Palette (cont.)</span></div>
+
+  <h2 class="headline mb-6">Semantic Colors</h2>
+
+  <div class="swatch-grid mb-8">
+    <div class="swatch">
+      <div class="swatch-color" style="background: #ffb4ab;"></div>
+      <div class="swatch-info">
+        <p class="name">Error</p>
+        <p class="hex">#ffb4ab</p>
+      </div>
+    </div>
+    <div class="swatch">
+      <div class="swatch-color" style="background: #fbbf24;"></div>
+      <div class="swatch-info">
+        <p class="name">Warning</p>
+        <p class="hex">#fbbf24</p>
+      </div>
+    </div>
+    <div class="swatch">
+      <div class="swatch-color" style="background: #c6c6cf;"></div>
+      <div class="swatch-info">
+        <p class="name">Info</p>
+        <p class="hex">#c6c6cf</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <h2 class="headline mb-6">The 60 / 30 / 10 Rule</h2>
+
+  <div class="card-low" style="padding: 24px 28px;">
+    <div style="display: flex; gap: 12px; align-items: stretch; height: 100px; margin-bottom: 20px;">
+      <div style="flex: 6; background: var(--surface); border-radius: var(--radius-default); display: flex; align-items: flex-end; padding: 8px 12px;">
+        <span class="label-sm">60% Surface</span>
+      </div>
+      <div style="flex: 3; background: var(--on-surface); border-radius: var(--radius-default); display: flex; align-items: flex-end; padding: 8px 12px;">
+        <span class="label-sm" style="color: var(--surface);">30% Text</span>
+      </div>
+      <div style="flex: 1; background: var(--tertiary); border-radius: var(--radius-default); display: flex; align-items: flex-end; padding: 8px 6px;">
+        <span class="label-sm" style="color: var(--on-tertiary); font-size: .5rem;">10%</span>
+      </div>
+    </div>
+    <ul style="list-style: none; padding: 0;">
+      <li class="body-sm" style="margin-bottom: 6px;"><strong>60%</strong> &mdash; Surface (#131313 family): the void</li>
+      <li class="body-sm" style="margin-bottom: 6px;"><strong>30%</strong> &mdash; On Surface (#e5e2e1, #c6c6c6): text and content</li>
+      <li class="body-sm"><strong>10%</strong> &mdash; Tertiary (#22c55e): AI signals and actions</li>
+    </ul>
+  </div>
+
+  <div class="mt-8">
+    <h2 class="headline mb-6">Green Usage Rules</h2>
+    <div class="card" style="padding: 24px;">
+      <p class="body text-muted mb-4">Green is reserved for three categories. Overusing it devalues its signal.</p>
+      <div style="display: flex; flex-direction: column; gap: 8px;">
+        <div class="flex items-center gap-3">
+          <span style="width: 8px; height: 8px; border-radius: 50%; background: var(--tertiary); flex-shrink: 0;"></span>
+          <span class="body"><strong>AI indicators</strong> &mdash; agent activity, confidence scores, AI-generated content markers</span>
+        </div>
+        <div class="flex items-center gap-3">
+          <span style="width: 8px; height: 8px; border-radius: 50%; background: var(--tertiary); flex-shrink: 0;"></span>
+          <span class="body"><strong>Health &amp; success</strong> &mdash; passing checks, healthy metrics, positive deltas</span>
+        </div>
+        <div class="flex items-center gap-3">
+          <span style="width: 8px; height: 8px; border-radius: 50%; background: var(--tertiary); flex-shrink: 0;"></span>
+          <span class="body"><strong>Active states</strong> &mdash; selected nav items, active filters, focused inputs</span>
+        </div>
+      </div>
+      <p class="body-sm text-outline mt-4">Maximum: 10% of any screen area. If it feels like more, pull back.</p>
+    </div>
+  </div>
+
+  <span class="page-number">08</span>
+</div>
+
+
+<!-- =====================================================
+     PAGE 9 — TYPOGRAPHY
+     ===================================================== -->
+<div class="page" style="background: var(--surface);">
+  <div class="section-marker"><span>06 &mdash; Typography</span></div>
+
+  <h2 class="display mb-8">Type System</h2>
+
+  <div class="grid-2 mb-8">
+    <div class="card" style="padding: 24px;">
+      <p class="label mb-3">Primary &mdash; Inter</p>
+      <p style="font-family: var(--font-primary); font-size: 2rem; font-weight: 700; letter-spacing: -.02em; color: var(--on-surface); margin-bottom: 8px;">Aa Bb Cc</p>
+      <p style="font-family: var(--font-primary); font-size: .875rem; color: var(--on-surface-variant); line-height: 1.6;">
+        Headlines, body text, buttons, navigation. The workhorse. Tight tracking for headlines, regular for body.
+      </p>
+    </div>
+    <div class="card" style="padding: 24px;">
+      <p class="label mb-3">Secondary &mdash; Space Grotesk</p>
+      <p style="font-family: var(--font-secondary); font-size: 2rem; font-weight: 700; letter-spacing: -.02em; color: var(--on-surface); margin-bottom: 8px;">Aa Bb Cc</p>
+      <p style="font-family: var(--font-secondary); font-size: .875rem; color: var(--on-surface-variant); line-height: 1.6;">
+        Labels, metadata, timestamps, file paths, confidence scores. Signals "machine-generated precision."
+      </p>
+    </div>
+  </div>
+
+  <h3 class="headline mb-6">Type Scale</h3>
+
+  <div class="card-sunken" style="padding: 0; overflow: hidden;">
+    <table>
+      <thead>
+        <tr>
+          <th style="width: 140px;">Token</th>
+          <th style="width: 80px;">Size</th>
+          <th style="width: 80px;">Weight</th>
+          <th style="width: 110px;">Font</th>
+          <th>Example</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><span class="label-sm">Display LG</span></td>
+          <td>2.5rem</td>
+          <td>Bold</td>
+          <td>Inter</td>
+          <td><span style="font-size: 1.5rem; font-weight: 700; letter-spacing: -.02em;">Knowledge</span></td>
+        </tr>
+        <tr>
+          <td><span class="label-sm">Display</span></td>
+          <td>2rem</td>
+          <td>Bold</td>
+          <td>Inter</td>
+          <td><span style="font-size: 1.25rem; font-weight: 700; letter-spacing: -.02em;">Knowledge</span></td>
+        </tr>
+        <tr>
+          <td><span class="label-sm">Headline</span></td>
+          <td>1.5rem</td>
+          <td>Semibold</td>
+          <td>Inter</td>
+          <td><span style="font-size: 1.125rem; font-weight: 600;">Knowledge</span></td>
+        </tr>
+        <tr>
+          <td><span class="label-sm">Title</span></td>
+          <td>1.125rem</td>
+          <td>Medium</td>
+          <td>Inter</td>
+          <td><span style="font-size: 1rem; font-weight: 500;">Knowledge Layer</span></td>
+        </tr>
+        <tr>
+          <td><span class="label-sm">Body LG</span></td>
+          <td>1rem</td>
+          <td>Regular</td>
+          <td>Inter</td>
+          <td><span style="font-size: .9375rem;">Your team's knowledge layer</span></td>
+        </tr>
+        <tr>
+          <td><span class="label-sm">Body</span></td>
+          <td>0.875rem</td>
+          <td>Regular</td>
+          <td>Inter</td>
+          <td><span style="font-size: .8125rem;">Your team's knowledge layer</span></td>
+        </tr>
+        <tr>
+          <td><span class="label-sm">Body SM</span></td>
+          <td>0.75rem</td>
+          <td>Regular</td>
+          <td>Inter</td>
+          <td><span style="font-size: .6875rem;">Your team's knowledge layer</span></td>
+        </tr>
+        <tr>
+          <td><span class="label-sm">Label LG</span></td>
+          <td>0.75rem</td>
+          <td>Medium</td>
+          <td>Space Grotesk</td>
+          <td><span style="font-family: var(--font-secondary); font-size: .75rem; font-weight: 500; letter-spacing: .05em; text-transform: uppercase;">SECTION HEADER</span></td>
+        </tr>
+        <tr>
+          <td><span class="label-sm">Label</span></td>
+          <td>0.6875rem</td>
+          <td>Medium</td>
+          <td>Space Grotesk</td>
+          <td><span style="font-family: var(--font-secondary); font-size: .6875rem; font-weight: 500; letter-spacing: .12em; text-transform: uppercase;">METADATA LABEL</span></td>
+        </tr>
+        <tr>
+          <td><span class="label-sm">Label SM</span></td>
+          <td>0.625rem</td>
+          <td>Medium</td>
+          <td>Space Grotesk</td>
+          <td><span style="font-family: var(--font-secondary); font-size: .625rem; font-weight: 500; letter-spacing: .12em; text-transform: uppercase;">MICRO LABEL</span></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <span class="page-number">09</span>
+</div>
+
+
+<!-- =====================================================
+     PAGE 10 — SPACING, RADIUS & DEPTH
+     ===================================================== -->
+<div class="page" style="background: var(--surface);">
+  <div class="section-marker"><span>07 &mdash; Spacing, Radius &amp; Depth</span></div>
+
+  <h2 class="headline mb-6">Spacing System (base-4)</h2>
+
+  <div class="card-low" style="padding: 24px; margin-bottom: 32px;">
+    <div style="display: flex; align-items: flex-end; gap: 8px; flex-wrap: wrap;">
+      <div style="text-align: center;">
+        <div style="width: 4px; height: 4px; background: var(--tertiary); margin: 0 auto 6px;"></div>
+        <span class="label-sm">4</span>
+      </div>
+      <div style="text-align: center;">
+        <div style="width: 8px; height: 8px; background: var(--tertiary); margin: 0 auto 6px;"></div>
+        <span class="label-sm">8</span>
+      </div>
+      <div style="text-align: center;">
+        <div style="width: 12px; height: 12px; background: var(--tertiary); margin: 0 auto 6px;"></div>
+        <span class="label-sm">12</span>
+      </div>
+      <div style="text-align: center;">
+        <div style="width: 16px; height: 16px; background: var(--tertiary); margin: 0 auto 6px;"></div>
+        <span class="label-sm">16</span>
+      </div>
+      <div style="text-align: center;">
+        <div style="width: 20px; height: 20px; background: var(--tertiary); margin: 0 auto 6px;"></div>
+        <span class="label-sm">20</span>
+      </div>
+      <div style="text-align: center;">
+        <div style="width: 24px; height: 24px; background: var(--tertiary); margin: 0 auto 6px;"></div>
+        <span class="label-sm">24</span>
+      </div>
+      <div style="text-align: center;">
+        <div style="width: 32px; height: 32px; background: var(--tertiary); opacity: .7; margin: 0 auto 6px;"></div>
+        <span class="label-sm">32</span>
+      </div>
+      <div style="text-align: center;">
+        <div style="width: 40px; height: 40px; background: var(--tertiary); opacity: .5; margin: 0 auto 6px;"></div>
+        <span class="label-sm">40</span>
+      </div>
+      <div style="text-align: center;">
+        <div style="width: 48px; height: 48px; background: var(--tertiary); opacity: .35; margin: 0 auto 6px;"></div>
+        <span class="label-sm">48</span>
+      </div>
+      <div style="text-align: center;">
+        <div style="width: 64px; height: 20px; background: var(--tertiary); opacity: .25; margin: 0 auto 6px;"></div>
+        <span class="label-sm">64</span>
+      </div>
+    </div>
+  </div>
+
+  <h2 class="headline mb-6">Border Radius Scale</h2>
+
+  <div class="card-low" style="padding: 24px; margin-bottom: 32px;">
+    <div style="display: flex; align-items: center; gap: 16px; flex-wrap: wrap; margin-bottom: 16px;">
+      <div style="text-align: center;">
+        <div style="width: 48px; height: 48px; background: var(--surface-high); border-radius: 0;"></div>
+        <p class="label-sm mt-2">None / 0</p>
+      </div>
+      <div style="text-align: center;">
+        <div style="width: 48px; height: 48px; background: var(--surface-high); border-radius: 0.125rem;"></div>
+        <p class="label-sm mt-2">SM / 2px</p>
+      </div>
+      <div style="text-align: center;">
+        <div style="width: 48px; height: 48px; background: var(--surface-high); border-radius: 0.25rem;"></div>
+        <p class="label-sm mt-2">Default / 4px</p>
+      </div>
+      <div style="text-align: center;">
+        <div style="width: 48px; height: 48px; background: var(--surface-high); border-radius: 0.375rem;"></div>
+        <p class="label-sm mt-2">MD / 6px</p>
+      </div>
+      <div style="text-align: center;">
+        <div style="width: 48px; height: 48px; background: var(--surface-high); border-radius: 0.5rem;"></div>
+        <p class="label-sm mt-2">LG / 8px</p>
+      </div>
+      <div style="text-align: center;">
+        <div style="width: 48px; height: 48px; background: var(--surface-high); border-radius: 0.75rem;"></div>
+        <p class="label-sm mt-2">XL / 12px</p>
+      </div>
+    </div>
+    <p class="body-sm" style="color: var(--error);">Never exceed XL (0.75rem). Overly rounded UI breaks the architectural aesthetic.</p>
+  </div>
+
+  <h2 class="headline mb-6">Depth &amp; Shadows</h2>
+
+  <div class="grid-2">
+    <div class="card" style="padding: 20px;">
+      <p class="label mb-3">Surface Layering</p>
+      <p class="body-sm text-muted">Primary method. Depth is achieved through background color shifts, not drop shadows. A card on Surface Container (#201f1f) placed on Surface Low (#1c1b1b) reads as "raised."</p>
+    </div>
+    <div class="card" style="padding: 20px;">
+      <p class="label mb-3">Ghost Border</p>
+      <div style="padding: 12px; border: 1px solid var(--ghost-border); border-radius: var(--radius-default); margin-bottom: 8px;">
+        <span class="body-sm text-muted">Outline Variant at 15% opacity</span>
+      </div>
+      <p class="body-sm text-muted">Felt, not seen. Use when color shift alone is insufficient.</p>
+    </div>
+    <div class="card" style="padding: 20px;">
+      <p class="label mb-3">Ambient Lift (modals only)</p>
+      <p class="body-sm text-muted">Massive blur (40-60px) at 6% opacity using #e5e2e1 as tint. Reserved for floating modals and command palettes.</p>
+    </div>
+    <div class="card" style="padding: 20px;">
+      <p class="label mb-3">Glass Panels</p>
+      <div style="background: rgba(32,31,31,.6); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); padding: 12px; border-radius: var(--radius-default); margin-bottom: 8px;">
+        <span class="body-sm" style="color: var(--on-surface);">Floating utility bar</span>
+      </div>
+      <p class="body-sm text-muted">Surface Container at 60% opacity + blur(12px). No border needed.</p>
+    </div>
+  </div>
+
+  <div class="card mt-4" style="padding: 16px 20px; border-left: 2px solid var(--error);">
+    <p class="body-sm"><strong>The No-Line Rule:</strong> Solid 1px borders for sectioning are prohibited. Use background color shifts. Ghost borders only for input fields and accessibility requirements.</p>
+  </div>
+
+  <span class="page-number">10</span>
+</div>
+
+
+<!-- =====================================================
+     PAGE 11 — ICONOGRAPHY
+     ===================================================== -->
+<div class="page" style="background: var(--surface);">
+  <div class="section-marker"><span>08 &mdash; Iconography</span></div>
+
+  <h2 class="display mb-8">Icon System</h2>
+
+  <div class="card-low" style="padding: 28px; margin-bottom: 24px;">
+    <p class="label mb-4">Library: Lucide React</p>
+    <div class="grid-2" style="gap: 16px;">
+      <div>
+        <p class="body-sm text-muted mb-3">Stroke width: <strong>1.5px</strong> (lighter than Lucide default of 2px)</p>
+        <p class="body-sm text-muted mb-3">Default color: <strong>On Surface Variant</strong> (#c6c6c6)</p>
+        <p class="body-sm text-muted">Hover/active color: <strong>On Surface</strong> (#e5e2e1)</p>
+      </div>
+      <div>
+        <p class="label-sm mb-3">Size Scale</p>
+        <div class="flex items-center gap-4">
+          <div style="text-align: center;">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#c6c6c6" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.403 5.403 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.15 1.85v4"/>
+              <path d="M9 18c-4.51 2-5-2-7-2"/>
+            </svg>
+            <p class="label-sm mt-1">16px</p>
+          </div>
+          <div style="text-align: center;">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#c6c6c6" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.403 5.403 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.15 1.85v4"/>
+              <path d="M9 18c-4.51 2-5-2-7-2"/>
+            </svg>
+            <p class="label-sm mt-1">20px</p>
+          </div>
+          <div style="text-align: center;">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#c6c6c6" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.403 5.403 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.15 1.85v4"/>
+              <path d="M9 18c-4.51 2-5-2-7-2"/>
+            </svg>
+            <p class="label-sm mt-1">24px</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card" style="padding: 24px;">
+    <p class="label mb-4">Usage Rules</p>
+    <ul>
+      <li class="body-sm">Use <strong>16px</strong> for inline text, table cells, compact lists</li>
+      <li class="body-sm">Use <strong>20px</strong> for navigation items, sidebar links</li>
+      <li class="body-sm">Use <strong>24px</strong> for feature icons, empty states, hero sections</li>
+      <li class="body-sm">Never use filled variants &mdash; always stroke-only</li>
+      <li class="body-sm">Green icons only for AI-related or active-state indicators</li>
+    </ul>
+  </div>
+
+  <div class="divider"></div>
+
+  <h2 class="headline mb-6">Icon + Label Pairing</h2>
+
+  <div class="card-low" style="padding: 24px;">
+    <div style="display: flex; gap: 32px; flex-wrap: wrap;">
+      <!-- Example: nav item default -->
+      <div style="text-align: center;">
+        <div class="flex items-center gap-2" style="padding: 8px 12px; border-radius: var(--radius-default);">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#c6c6c6" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <rect width="18" height="18" x="3" y="3" rx="2" ry="2"/>
+            <line x1="3" x2="21" y1="9" y2="9"/>
+            <line x1="9" x2="9" y1="21" y2="9"/>
+          </svg>
+          <span class="body-sm text-muted">Dashboard</span>
+        </div>
+        <p class="label-sm mt-2" style="color: var(--outline);">Default</p>
+      </div>
+      <!-- Example: nav item active -->
+      <div style="text-align: center;">
+        <div class="flex items-center gap-2" style="padding: 8px 12px; background: var(--surface-high); border-radius: var(--radius-default);">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#22c55e" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <rect width="18" height="18" x="3" y="3" rx="2" ry="2"/>
+            <line x1="3" x2="21" y1="9" y2="9"/>
+            <line x1="9" x2="9" y1="21" y2="9"/>
+          </svg>
+          <span class="body-sm" style="color: var(--on-surface);">Dashboard</span>
+        </div>
+        <p class="label-sm mt-2" style="color: var(--outline);">Active</p>
+      </div>
+      <!-- Example: nav item hover -->
+      <div style="text-align: center;">
+        <div class="flex items-center gap-2" style="padding: 8px 12px; border-radius: var(--radius-default);">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#e5e2e1" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <rect width="18" height="18" x="3" y="3" rx="2" ry="2"/>
+            <line x1="3" x2="21" y1="9" y2="9"/>
+            <line x1="9" x2="9" y1="21" y2="9"/>
+          </svg>
+          <span class="body-sm" style="color: var(--on-surface);">Dashboard</span>
+        </div>
+        <p class="label-sm mt-2" style="color: var(--outline);">Hover</p>
+      </div>
+    </div>
+  </div>
+
+  <span class="page-number">11</span>
+</div>
+
+
+<!-- =====================================================
+     PAGE 12 — BRAND VOICE
+     ===================================================== -->
+<div class="page" style="background: var(--surface);">
+  <div class="section-marker"><span>09 &mdash; Brand Voice</span></div>
+
+  <h2 class="display mb-8">Voice &amp; Tone</h2>
+
+  <h3 class="headline mb-4">Tone Spectrum</h3>
+
+  <div class="card-sunken" style="padding: 0; overflow: hidden; margin-bottom: 32px;">
+    <table>
+      <thead>
+        <tr>
+          <th style="width: 160px;">Context</th>
+          <th>Tone</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>Dashboard UI</strong></td>
+          <td>Clinical, precise &mdash; data speaks</td>
+        </tr>
+        <tr>
+          <td><strong>Error messages</strong></td>
+          <td>Direct, helpful &mdash; no fluff</td>
+        </tr>
+        <tr>
+          <td><strong>Marketing copy</strong></td>
+          <td>Confident, understated &mdash; quiet authority</td>
+        </tr>
+        <tr>
+          <td><strong>Documentation</strong></td>
+          <td>Technical, thorough &mdash; respect the reader</td>
+        </tr>
+        <tr>
+          <td><strong>Onboarding</strong></td>
+          <td>Warm but efficient &mdash; don't waste time</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="grid-2 mb-8">
+    <div class="card" style="padding: 24px; border-left: 2px solid var(--tertiary);">
+      <p class="label mb-3" style="color: var(--tertiary);">Do</p>
+      <ul style="padding-left: 16px;">
+        <li class="body-sm">Use technical terms without explaining them</li>
+        <li class="body-sm">Lead with data, not adjectives</li>
+        <li class="body-sm">Be specific: "87% coverage across 12 projects"</li>
+        <li class="body-sm">Use active voice and short sentences</li>
+      </ul>
+    </div>
+    <div class="card" style="padding: 24px; border-left: 2px solid var(--error);">
+      <p class="label mb-3" style="color: var(--error);">Don't</p>
+      <ul style="padding-left: 16px;">
+        <li class="body-sm">Use buzzwords: "leverage", "synergy", "game-changer"</li>
+        <li class="body-sm">Use emojis in the product UI</li>
+        <li class="body-sm">Explain what developers already know</li>
+        <li class="body-sm">Be casual or jokey &mdash; confidence, not comedy</li>
+      </ul>
+    </div>
+  </div>
+
+  <h3 class="headline mb-4">Copy Examples</h3>
+
+  <div style="display: flex; flex-direction: column; gap: 12px;">
+    <div class="card-low" style="padding: 16px 20px;">
+      <p class="label-sm mb-2" style="color: var(--error);">Before</p>
+      <p class="body text-muted" style="text-decoration: line-through; opacity: .6;">"Supercharge your team's productivity with our amazing AI-powered knowledge solution!"</p>
+    </div>
+    <div class="card-low" style="padding: 16px 20px;">
+      <p class="label-sm mb-2" style="color: var(--tertiary);">After</p>
+      <p class="body" style="color: var(--on-surface);">"Your agents read 12 repos. They understand 87% of the codebase. Here's what they're missing."</p>
+    </div>
+  </div>
+
+  <div style="margin-top: 24px;">
+    <div class="card-low" style="padding: 16px 20px;">
+      <p class="label-sm mb-2" style="color: var(--error);">Before</p>
+      <p class="body text-muted" style="text-decoration: line-through; opacity: .6;">"Oops! Something went wrong. Don't worry, we're on it!"</p>
+    </div>
+    <div class="card-low mt-3" style="padding: 16px 20px;">
+      <p class="label-sm mb-2" style="color: var(--tertiary);">After</p>
+      <p class="body" style="color: var(--on-surface);">"Git sync failed for acme/api. Last successful sync: 4h ago. Retry or check SSH keys."</p>
+    </div>
+  </div>
+
+  <span class="page-number">12</span>
+</div>
+
+
+<!-- =====================================================
+     PAGE 13 — BRAND APPLICATIONS (Business Card, Social)
+     ===================================================== -->
+<div class="page" style="background: var(--surface);">
+  <div class="section-marker"><span>10 &mdash; Brand Applications</span></div>
+
+  <h2 class="display mb-8">Applications</h2>
+
+  <!-- Business Card -->
+  <p class="label-lg mb-4">Business Card</p>
+
+  <div class="flex gap-4 mb-8" style="flex-wrap: wrap;">
+    <!-- Front -->
+    <div class="mockup-frame business-card-mock" style="background: var(--surface);">
+      <div class="logo-lockup" style="gap: 10px;">
+        <svg width="20" height="20" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="8" cy="36" r="3.5" fill="#22c55e"/>
+          <circle cx="16" cy="12" r="3.5" fill="#22c55e"/>
+          <circle cx="24" cy="28" r="3.5" fill="#22c55e"/>
+          <circle cx="32" cy="12" r="3.5" fill="#22c55e"/>
+          <circle cx="40" cy="36" r="3.5" fill="#22c55e"/>
+          <line x1="8" y1="33" x2="16" y2="15" stroke="#22c55e" stroke-width="1.5" stroke-linecap="round"/>
+          <line x1="16" y1="15" x2="24" y2="25" stroke="#22c55e" stroke-width="1.5" stroke-linecap="round"/>
+          <line x1="24" y1="25" x2="32" y2="15" stroke="#22c55e" stroke-width="1.5" stroke-linecap="round"/>
+          <line x1="32" y1="15" x2="40" y2="33" stroke="#22c55e" stroke-width="1.5" stroke-linecap="round"/>
+        </svg>
+        <span style="font-family: var(--font-primary); font-weight: 700; font-size: .875rem; letter-spacing: -.02em; color: var(--on-surface);">memex</span>
+      </div>
+      <div>
+        <p style="font-size: .8125rem; font-weight: 500; color: var(--on-surface); margin-bottom: 2px;">Jane Developer</p>
+        <p style="font-family: var(--font-secondary); font-size: .625rem; letter-spacing: .08em; text-transform: uppercase; color: var(--outline);">Founding Engineer</p>
+        <p class="mt-3" style="font-family: var(--font-secondary); font-size: .6875rem; color: var(--on-surface-variant);">memex.dev</p>
+      </div>
+    </div>
+
+    <!-- Back -->
+    <div class="mockup-frame business-card-mock" style="background: var(--surface); display: flex; align-items: center; justify-content: center;">
+      <svg width="64" height="64" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="8" cy="36" r="3.5" fill="#22c55e"/>
+        <circle cx="16" cy="12" r="3.5" fill="#22c55e"/>
+        <circle cx="24" cy="28" r="3.5" fill="#22c55e"/>
+        <circle cx="32" cy="12" r="3.5" fill="#22c55e"/>
+        <circle cx="40" cy="36" r="3.5" fill="#22c55e"/>
+        <line x1="8" y1="33" x2="16" y2="15" stroke="#22c55e" stroke-width="1.5" stroke-linecap="round"/>
+        <line x1="16" y1="15" x2="24" y2="25" stroke="#22c55e" stroke-width="1.5" stroke-linecap="round"/>
+        <line x1="24" y1="25" x2="32" y2="15" stroke="#22c55e" stroke-width="1.5" stroke-linecap="round"/>
+        <line x1="32" y1="15" x2="40" y2="33" stroke="#22c55e" stroke-width="1.5" stroke-linecap="round"/>
+        <line x1="8" y1="36" x2="24" y2="28" stroke="#22c55e" stroke-width="0.75" stroke-linecap="round" opacity="0.35"/>
+        <line x1="24" y1="28" x2="40" y2="36" stroke="#22c55e" stroke-width="0.75" stroke-linecap="round" opacity="0.35"/>
+        <line x1="16" y1="12" x2="32" y2="12" stroke="#22c55e" stroke-width="0.75" stroke-linecap="round" opacity="0.35"/>
+      </svg>
+    </div>
+  </div>
+
+  <!-- Social Media -->
+  <p class="label-lg mb-4">Social Media</p>
+
+  <div class="flex gap-4 mb-8" style="flex-wrap: wrap; align-items: flex-start;">
+    <div style="text-align: center;">
+      <div class="mockup-frame social-avatar-mock">
+        <svg width="36" height="36" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="8" cy="36" r="3.5" fill="#22c55e"/>
+          <circle cx="16" cy="12" r="3.5" fill="#22c55e"/>
+          <circle cx="24" cy="28" r="3.5" fill="#22c55e"/>
+          <circle cx="32" cy="12" r="3.5" fill="#22c55e"/>
+          <circle cx="40" cy="36" r="3.5" fill="#22c55e"/>
+          <line x1="8" y1="33" x2="16" y2="15" stroke="#22c55e" stroke-width="1.5" stroke-linecap="round"/>
+          <line x1="16" y1="15" x2="24" y2="25" stroke="#22c55e" stroke-width="1.5" stroke-linecap="round"/>
+          <line x1="24" y1="25" x2="32" y2="15" stroke="#22c55e" stroke-width="1.5" stroke-linecap="round"/>
+          <line x1="32" y1="15" x2="40" y2="33" stroke="#22c55e" stroke-width="1.5" stroke-linecap="round"/>
+        </svg>
+      </div>
+      <p class="label-sm mt-2">Avatar</p>
+    </div>
+
+    <div style="flex: 1; min-width: 300px;">
+      <div class="mockup-frame social-banner-mock">
+        <div style="z-index: 1; text-align: right;">
+          <span style="font-family: var(--font-primary); font-weight: 700; font-size: 1.25rem; letter-spacing: -.02em; color: var(--on-surface);">memex</span>
+          <p style="font-family: var(--font-secondary); font-size: .5625rem; letter-spacing: .1em; text-transform: uppercase; color: var(--outline); margin-top: 2px;">Your team's knowledge layer</p>
+        </div>
+      </div>
+      <p class="label-sm mt-2">Banner / Cover</p>
+    </div>
+  </div>
+
+  <!-- Email Signature -->
+  <p class="label-lg mb-4">Email Signature</p>
+
+  <div class="mockup-frame email-sig-mock" style="background: var(--surface-low);">
+    <div style="border-left: 2px solid var(--tertiary); padding-left: 12px;">
+      <p style="font-size: .8125rem; font-weight: 600; color: var(--on-surface); margin-bottom: 2px;">Jane Developer</p>
+      <p style="font-family: var(--font-secondary); font-size: .625rem; letter-spacing: .06em; color: var(--outline); text-transform: uppercase; margin-bottom: 8px;">Founding Engineer &middot; Memex</p>
+      <p style="font-family: var(--font-secondary); font-size: .6875rem; color: var(--on-surface-variant);">memex.dev &nbsp;&middot;&nbsp; github.com/memex</p>
+    </div>
+  </div>
+
+  <span class="page-number">13</span>
+</div>
+
+
+<!-- =====================================================
+     PAGE 14 — BRAND APPLICATIONS (GitHub, CLI)
+     ===================================================== -->
+<div class="page" style="background: var(--surface);">
+  <div class="section-marker"><span>10 &mdash; Brand Applications (cont.)</span></div>
+
+  <!-- GitHub README Header -->
+  <p class="label-lg mb-4">GitHub README Header</p>
+
+  <div class="mockup-frame github-header-mock mb-8">
+    <div class="logo-lockup" style="justify-content: center; margin-bottom: 12px;">
+      <svg width="32" height="32" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="8" cy="36" r="3.5" fill="#22c55e"/>
+        <circle cx="16" cy="12" r="3.5" fill="#22c55e"/>
+        <circle cx="24" cy="28" r="3.5" fill="#22c55e"/>
+        <circle cx="32" cy="12" r="3.5" fill="#22c55e"/>
+        <circle cx="40" cy="36" r="3.5" fill="#22c55e"/>
+        <line x1="8" y1="33" x2="16" y2="15" stroke="#22c55e" stroke-width="1.5" stroke-linecap="round"/>
+        <line x1="16" y1="15" x2="24" y2="25" stroke="#22c55e" stroke-width="1.5" stroke-linecap="round"/>
+        <line x1="24" y1="25" x2="32" y2="15" stroke="#22c55e" stroke-width="1.5" stroke-linecap="round"/>
+        <line x1="32" y1="15" x2="40" y2="33" stroke="#22c55e" stroke-width="1.5" stroke-linecap="round"/>
+        <line x1="8" y1="36" x2="24" y2="28" stroke="#22c55e" stroke-width="0.75" stroke-linecap="round" opacity="0.35"/>
+        <line x1="24" y1="28" x2="40" y2="36" stroke="#22c55e" stroke-width="0.75" stroke-linecap="round" opacity="0.35"/>
+        <line x1="16" y1="12" x2="32" y2="12" stroke="#22c55e" stroke-width="0.75" stroke-linecap="round" opacity="0.35"/>
+      </svg>
+      <span style="font-family: var(--font-primary); font-weight: 700; font-size: 1.5rem; letter-spacing: -.02em; color: var(--on-surface);">memex</span>
+    </div>
+    <p style="font-family: var(--font-secondary); font-size: .75rem; color: var(--on-surface-variant); letter-spacing: .02em;">Your team's knowledge layer</p>
+    <div class="flex items-center gap-2 mt-4" style="justify-content: center;">
+      <span class="badge badge-green">v0.1.0</span>
+      <span class="badge badge-outline">MIT</span>
+      <span class="badge badge-outline">TypeScript</span>
+    </div>
+  </div>
+
+  <!-- CLI Output -->
+  <p class="label-lg mb-4">CLI Output Styling</p>
+
+  <div class="mockup-frame cli-mock mb-8">
+<span class="cli-muted">$</span> memex scan --repo acme/api
+
+<span class="cli-green">SCAN COMPLETE</span> <span class="cli-muted">acme/api</span>
+
+  <span class="cli-muted">Files analyzed</span>    <span style="color: var(--on-surface);">847</span>
+  <span class="cli-muted">Coverage</span>          <span class="cli-green">87%</span>
+  <span class="cli-muted">Stale contexts</span>    <span class="cli-amber">3</span>
+  <span class="cli-muted">Missing docs</span>      <span class="cli-red">12</span>
+  <span class="cli-muted">Last sync</span>         <span class="cli-muted">2m ago</span>
+
+<span class="cli-amber">WARN</span> <span class="cli-muted">3 CONTEXT.md files older than 14 days</span>
+<span class="cli-red">ERR</span>  <span class="cli-muted">src/auth/ has no CLAUDE.md — agents have zero context</span>
+  </div>
+
+  <div class="card" style="padding: 20px;">
+    <p class="label mb-3">CLI Color Rules</p>
+    <div class="flex gap-4" style="flex-wrap: wrap;">
+      <div class="flex items-center gap-2">
+        <span style="width: 12px; height: 12px; border-radius: 2px; background: var(--tertiary);"></span>
+        <span class="body-sm">Success / healthy</span>
+      </div>
+      <div class="flex items-center gap-2">
+        <span style="width: 12px; height: 12px; border-radius: 2px; background: var(--warning);"></span>
+        <span class="body-sm">Warning / stale</span>
+      </div>
+      <div class="flex items-center gap-2">
+        <span style="width: 12px; height: 12px; border-radius: 2px; background: var(--error);"></span>
+        <span class="body-sm">Error / critical</span>
+      </div>
+      <div class="flex items-center gap-2">
+        <span style="width: 12px; height: 12px; border-radius: 2px; background: var(--outline);"></span>
+        <span class="body-sm">Muted / labels</span>
+      </div>
+      <div class="flex items-center gap-2">
+        <span style="width: 12px; height: 12px; border-radius: 2px; background: var(--on-surface);"></span>
+        <span class="body-sm">Data values</span>
+      </div>
+    </div>
+  </div>
+
+  <span class="page-number">14</span>
+</div>
+
+
+<!-- =====================================================
+     PAGE 15 — DESIGN TOKENS (CSS)
+     ===================================================== -->
+<div class="page" style="background: var(--surface);">
+  <div class="section-marker"><span>11 &mdash; Design Tokens</span></div>
+
+  <h2 class="display mb-8">Design Tokens</h2>
+
+  <p class="label-lg mb-3">CSS Custom Properties</p>
+
+  <div class="code-block mb-8">:root {
+  /* Surface Hierarchy */
+  --surface:           #131313;
+  --surface-lowest:    #0e0e0e;
+  --surface-low:       #1c1b1b;
+  --surface-container: #201f1f;
+  --surface-high:      #2a2a2a;
+  --surface-highest:   #353534;
+
+  /* Foreground */
+  --on-surface:         #e5e2e1;
+  --on-surface-variant: #c6c6c6;
+  --outline:            #919191;
+  --outline-variant:    #474747;
+
+  /* Accent */
+  --tertiary:           #22c55e;
+  --tertiary-bright:    #6bff8f;
+  --tertiary-container: #00a74b;
+  --on-tertiary:        #002109;
+
+  /* Semantic */
+  --error:   #ffb4ab;
+  --warning: #fbbf24;
+  --info:    #c6c6cf;
+
+  /* Typography */
+  --font-primary:   'Inter', sans-serif;
+  --font-secondary: 'Space Grotesk', monospace;
+
+  /* Radius */
+  --radius-sm:      0.125rem;
+  --radius-default: 0.25rem;
+  --radius-md:      0.375rem;
+  --radius-lg:      0.5rem;
+  --radius-xl:      0.75rem;
+}</div>
+
+  <p class="label-lg mb-3">Tailwind Config</p>
+
+  <div class="code-block">/** @type {import('tailwindcss').Config} */
+module.exports = {
+  theme: {
+    extend: {
+      colors: {
+        surface: {
+          DEFAULT:   '#131313',
+          lowest:    '#0e0e0e',
+          low:       '#1c1b1b',
+          container: '#201f1f',
+          high:      '#2a2a2a',
+          highest:   '#353534',
+        },
+        'on-surface': {
+          DEFAULT: '#e5e2e1',
+          variant: '#c6c6c6',
+        },
+        outline: {
+          DEFAULT: '#919191',
+          variant: '#474747',
+        },
+        tertiary: {
+          DEFAULT:   '#22c55e',
+          bright:    '#6bff8f',
+          container: '#00a74b',
+          on:        '#002109',
+        },
+        error:   '#ffb4ab',
+        warning: '#fbbf24',
+        info:    '#c6c6cf',
+      },
+      fontFamily: {
+        primary:   ['Inter', 'sans-serif'],
+        secondary: ['Space Grotesk', 'monospace'],
+      },
+      borderRadius: {
+        sm:      '0.125rem',
+        DEFAULT: '0.25rem',
+        md:      '0.375rem',
+        lg:      '0.5rem',
+        xl:      '0.75rem',
+      },
+      spacing: {
+        '1': '4px',  '2': '8px',  '3': '12px',
+        '4': '16px', '5': '20px', '6': '24px',
+        '8': '32px', '10': '40px', '12': '48px',
+        '16': '64px', '20': '80px', '24': '96px',
+        '32': '128px',
+      },
+    },
+  },
+}</div>
+
+  <span class="page-number">15</span>
+</div>
+
+
+<!-- =====================================================
+     PAGE 16 — DESIGN TOKENS (Figma)
+     ===================================================== -->
+<div class="page" style="background: var(--surface);">
+  <div class="section-marker"><span>11 &mdash; Design Tokens (cont.)</span></div>
+
+  <p class="label-lg mb-3">Figma Token List</p>
+
+  <div class="card-sunken" style="padding: 0; overflow: hidden; margin-bottom: 32px;">
+    <table>
+      <thead>
+        <tr>
+          <th>Token Name</th>
+          <th>Type</th>
+          <th>Value</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td>color/surface</td><td>Color</td><td>#131313</td></tr>
+        <tr><td>color/surface-lowest</td><td>Color</td><td>#0e0e0e</td></tr>
+        <tr><td>color/surface-low</td><td>Color</td><td>#1c1b1b</td></tr>
+        <tr><td>color/surface-container</td><td>Color</td><td>#201f1f</td></tr>
+        <tr><td>color/surface-high</td><td>Color</td><td>#2a2a2a</td></tr>
+        <tr><td>color/surface-highest</td><td>Color</td><td>#353534</td></tr>
+        <tr><td>color/on-surface</td><td>Color</td><td>#e5e2e1</td></tr>
+        <tr><td>color/on-surface-variant</td><td>Color</td><td>#c6c6c6</td></tr>
+        <tr><td>color/outline</td><td>Color</td><td>#919191</td></tr>
+        <tr><td>color/outline-variant</td><td>Color</td><td>#474747</td></tr>
+        <tr><td>color/tertiary</td><td>Color</td><td>#22c55e</td></tr>
+        <tr><td>color/tertiary-bright</td><td>Color</td><td>#6bff8f</td></tr>
+        <tr><td>color/tertiary-container</td><td>Color</td><td>#00a74b</td></tr>
+        <tr><td>color/on-tertiary</td><td>Color</td><td>#002109</td></tr>
+        <tr><td>color/error</td><td>Color</td><td>#ffb4ab</td></tr>
+        <tr><td>color/warning</td><td>Color</td><td>#fbbf24</td></tr>
+        <tr><td>color/info</td><td>Color</td><td>#c6c6cf</td></tr>
+        <tr><td>font/primary</td><td>Font</td><td>Inter</td></tr>
+        <tr><td>font/secondary</td><td>Font</td><td>Space Grotesk</td></tr>
+        <tr><td>radius/sm</td><td>Size</td><td>2px</td></tr>
+        <tr><td>radius/default</td><td>Size</td><td>4px</td></tr>
+        <tr><td>radius/md</td><td>Size</td><td>6px</td></tr>
+        <tr><td>radius/lg</td><td>Size</td><td>8px</td></tr>
+        <tr><td>radius/xl</td><td>Size</td><td>12px</td></tr>
+        <tr><td>space/1</td><td>Size</td><td>4px</td></tr>
+        <tr><td>space/2</td><td>Size</td><td>8px</td></tr>
+        <tr><td>space/3</td><td>Size</td><td>12px</td></tr>
+        <tr><td>space/4</td><td>Size</td><td>16px</td></tr>
+        <tr><td>space/5</td><td>Size</td><td>20px</td></tr>
+        <tr><td>space/6</td><td>Size</td><td>24px</td></tr>
+        <tr><td>space/8</td><td>Size</td><td>32px</td></tr>
+        <tr><td>space/10</td><td>Size</td><td>40px</td></tr>
+        <tr><td>space/12</td><td>Size</td><td>48px</td></tr>
+        <tr><td>space/16</td><td>Size</td><td>64px</td></tr>
+        <tr><td>space/20</td><td>Size</td><td>80px</td></tr>
+        <tr><td>space/24</td><td>Size</td><td>96px</td></tr>
+        <tr><td>space/32</td><td>Size</td><td>128px</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="divider"></div>
+
+  <div class="card" style="padding: 24px; border-left: 2px solid var(--tertiary);">
+    <p class="label mb-3">Document Information</p>
+    <div style="display: grid; grid-template-columns: 120px 1fr; gap: 8px; font-size: .8125rem;">
+      <span class="label-sm" style="padding-top: 2px;">Version</span>
+      <span style="color: var(--on-surface);">1.0</span>
+      <span class="label-sm" style="padding-top: 2px;">Type</span>
+      <span style="color: var(--on-surface);">Reference Edition</span>
+      <span class="label-sm" style="padding-top: 2px;">Created</span>
+      <span style="font-family: var(--font-secondary); color: var(--on-surface-variant);">March 2026</span>
+      <span class="label-sm" style="padding-top: 2px;">Brand</span>
+      <span style="color: var(--on-surface);">Memex</span>
+      <span class="label-sm" style="padding-top: 2px;">Tagline</span>
+      <span style="color: var(--tertiary);">Your team's knowledge layer</span>
+    </div>
+  </div>
+
+  <span class="page-number">16</span>
+</div>
+
+</body>
+</html>

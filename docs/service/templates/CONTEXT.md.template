@@ -1,0 +1,59 @@
+# CONTEXT.md — [Project Name]
+
+> Living document. Updated regularly by the team and AI agents.
+> This is the first thing a developer (or AI) should read when joining this project.
+
+## Current Phase
+<!-- e.g., MVP build, active development, maintenance mode, scaling -->
+
+## Last Updated
+- **Date:**
+- **By:**
+- **What changed:**
+
+## Architecture Overview
+<!-- High-level description of how the system is built. Include a diagram if helpful. -->
+
+## Key Decisions
+
+### [Decision Title]
+- **Chose:** [what was selected]
+- **Over:** [what was rejected]
+- **Why:** [reasoning]
+- **Date:** [when decided]
+
+<!-- Add more decisions as they are made -->
+
+## What's Built & Stable
+<!-- Features and systems that are complete and working -->
+-
+
+## What's In Progress
+<!-- Current active work -->
+-
+
+## What's Next
+<!-- Prioritized backlog -->
+1.
+2.
+3.
+
+## Known Tech Debt
+<!-- Things that work but need improvement -->
+-
+
+## Known Gotchas
+<!-- Things that trip people up. Non-obvious behaviors. -->
+-
+
+## Environment & Config
+<!-- How to set up a development environment. Env vars needed. -->
+
+## Team
+<!-- Who's working on this project and their focus areas -->
+| Name | Role | Focus |
+|---|---|---|
+| | | |
+
+## Client Contact
+<!-- Who to reach out to on the client side for questions -->

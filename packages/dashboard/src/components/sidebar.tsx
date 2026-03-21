@@ -1,82 +1,95 @@
-'use client';
+"use client";
 
-import Link from 'next/link';
-import { usePathname } from 'next/navigation';
+import Link from "next/link";
+import { usePathname } from "next/navigation";
+import {
+  LayoutDashboard,
+  FolderKanban,
+  Shield,
+  Search,
+  Activity,
+  User,
+} from "lucide-react";
 
 const navItems = [
-  { href: '/', label: 'Overview', icon: LayoutIcon },
-  { href: '/memories', label: 'Memories', icon: BrainIcon },
-  { href: '/sessions', label: 'Sessions', icon: ActivityIcon },
-  { href: '/projects', label: 'Projects', icon: FolderIcon },
+  { label: "Dashboard", href: "/", icon: LayoutDashboard },
+  { label: "Projects", href: "/projects", icon: FolderKanban },
+  { label: "Agency Standards", href: "/standards", icon: Shield },
+  { label: "Search", href: "/search", icon: Search },
+  { label: "Health", href: "/health", icon: Activity },
+  { label: "My Projects", href: "/my-projects", icon: User },
 ];
 
 export function Sidebar() {
   const pathname = usePathname();
 
   return (
-    <aside className="w-56 shrink-0 border-r border-gray-800 bg-gray-900 flex flex-col">
-      <div className="px-5 py-5 border-b border-gray-800">
-        <h1 className="text-lg font-bold tracking-tight">
-          <span className="text-memex-400">Memex</span>{' '}
-          <span className="text-gray-400 font-normal text-sm">Dashboard</span>
-        </h1>
+    <aside className="w-60 h-full bg-surface-low flex flex-col shrink-0">
+      {/* Brand */}
+      <div className="px-4 pt-5 pb-1">
+        <Link href="/" className="block">
+          <span className="text-lg font-semibold text-foreground tracking-tight">
+            Memex
+          </span>
+        </Link>
+        <span className="text-[11px] font-mono uppercase tracking-widest text-muted-foreground">
+          {process.env.NEXT_PUBLIC_ORG_NAME || "Knowledge Layer"}
+        </span>
       </div>
-      <nav className="flex-1 px-3 py-4 space-y-1">
+
+      {/* Search */}
+      <div className="px-3 py-3">
+        <div className="flex items-center gap-2 rounded bg-surface-lowest px-3 py-1.5 text-sm text-muted-foreground">
+          <Search className="h-3.5 w-3.5 shrink-0 opacity-60" />
+          <input
+            type="text"
+            placeholder="Search systems..."
+            className="w-full bg-transparent text-sm placeholder:text-muted-foreground/60 focus:outline-none"
+          />
+        </div>
+      </div>
+
+      {/* Navigation */}
+      <nav className="flex-1 px-2 py-1 flex flex-col gap-0.5">
         {navItems.map((item) => {
-          const isActive = pathname === item.href ||
-            (item.href !== '/' && pathname.startsWith(item.href));
+          const isActive =
+            item.href === "/"
+              ? pathname === "/"
+              : pathname.startsWith(item.href);
+
           return (
             <Link
               key={item.href}
               href={item.href}
-              className={`flex items-center gap-3 px-3 py-2 rounded-lg text-sm transition-colors ${
+              className={`flex items-center gap-2.5 rounded px-3 py-2 text-sm transition-colors ${
                 isActive
-                  ? 'bg-memex-600/20 text-memex-300 font-medium'
-                  : 'text-gray-400 hover:bg-gray-800 hover:text-gray-200'
+                  ? "bg-surface-highest text-foreground"
+                  : "text-muted-foreground hover:bg-surface-high hover:text-foreground"
               }`}
             >
-              <item.icon className="w-4 h-4" />
+              <item.icon className="h-4 w-4 shrink-0" />
               {item.label}
             </Link>
           );
         })}
       </nav>
-      <div className="px-5 py-4 border-t border-gray-800 text-xs text-gray-600">
-        Memex v0.2.0 &middot; Local only
+
+      {/* User info */}
+      <div className="px-3 py-4">
+        <div className="flex items-center gap-2.5">
+          <div className="h-7 w-7 rounded-full bg-surface-highest flex items-center justify-center">
+            <User className="h-3.5 w-3.5 text-muted-foreground" />
+          </div>
+          <div className="flex flex-col">
+            <span className="text-sm text-foreground leading-tight">
+              Juan Gomez
+            </span>
+            <span className="text-[11px] text-muted-foreground leading-tight">
+              Admin
+            </span>
+          </div>
+        </div>
       </div>
     </aside>
-  );
-}
-
-// Inline SVG icons to avoid heavy icon dependencies
-function LayoutIcon({ className }: { className?: string }) {
-  return (
-    <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-      <rect x="3" y="3" width="18" height="18" rx="2" /><path d="M3 9h18" /><path d="M9 21V9" />
-    </svg>
-  );
-}
-
-function BrainIcon({ className }: { className?: string }) {
-  return (
-    <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-      <path d="M12 2a6 6 0 0 0-6 6c0 3.31 2.69 6 6 6h0" /><path d="M12 2a6 6 0 0 1 6 6c0 3.31-2.69 6-6 6h0" /><path d="M12 14v8" /><path d="M8 22h8" />
-    </svg>
-  );
-}
-
-function ActivityIcon({ className }: { className?: string }) {
-  return (
-    <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-      <polyline points="22 12 18 12 15 21 9 3 6 12 2 12" />
-    </svg>
-  );
-}
-
-function FolderIcon({ className }: { className?: string }) {
-  return (
-    <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-      <path d="M20 20a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2h-7.9a2 2 0 0 1-1.69-.9L9.6 3.9A2 2 0 0 0 7.93 3H4a2 2 0 0 0-2 2v13a2 2 0 0 0 2 2Z" />
-    </svg>
   );
 }

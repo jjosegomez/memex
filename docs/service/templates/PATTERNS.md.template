@@ -1,0 +1,53 @@
+# PATTERNS.md — [Project Name]
+
+> Reusable patterns, gotchas, and integration notes for this project.
+> When you solve a non-obvious problem, add it here so the next developer doesn't have to solve it again.
+
+---
+
+## Architecture Patterns
+
+### [Pattern Name]
+- **When to use:** [situation]
+- **How:**
+```
+[code snippet or approach description]
+```
+- **Why this way:** [rationale]
+
+---
+
+## Integration Gotchas
+
+### [Service/API Name]
+- **Gotcha:** [the non-obvious behavior]
+- **Workaround:** [how to handle it]
+- **Discovered:** [date, by whom]
+
+---
+
+## Common Mistakes
+
+### [Mistake Description]
+- **What happens:** [symptom]
+- **Root cause:** [why it happens]
+- **Fix:** [how to fix / avoid]
+
+---
+
+## Deployment Notes
+
+### [Environment]
+- **Process:** [how to deploy]
+- **Gotchas:** [things that can go wrong]
+- **Rollback:** [how to rollback if needed]
+
+---
+
+## Performance Notes
+<!-- Any performance-related patterns, bottlenecks, or optimization notes -->
+
+---
+
+## Security Notes
+<!-- Security patterns, auth flows, token handling, etc. -->

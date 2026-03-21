@@ -1,0 +1,1822 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Memex — Brand Identity Manual</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+  :root {
+    /* Surfaces */
+    --surface-lowest: #0e0e0e;
+    --surface-base: #131313;
+    --surface-low: #1c1b1b;
+    --surface-container: #201f1f;
+    --surface-high: #2a2a2a;
+    --surface-highest: #353534;
+
+    /* Text */
+    --text-primary: #e5e2e1;
+    --text-secondary: #c6c6c6;
+    --text-tertiary: #919191;
+
+    /* Accent */
+    --green: #22c55e;
+    --green-bright: #6bff8f;
+    --green-container: #00a74b;
+
+    /* Semantic */
+    --error: #ffb4ab;
+    --warning: #fbbf24;
+    --info: #c6c6cf;
+
+    /* Ghost */
+    --ghost-border: rgba(71, 71, 71, 0.15);
+
+    /* Radius */
+    --radius-sm: 0.25rem;
+    --radius-md: 0.5rem;
+    --radius-lg: 0.75rem;
+  }
+
+  html {
+    scroll-snap-type: y mandatory;
+    overflow-y: scroll;
+    scroll-behavior: smooth;
+  }
+
+  body {
+    font-family: 'Inter', -apple-system, sans-serif;
+    background: var(--surface-lowest);
+    color: var(--text-primary);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  .slide {
+    width: 100vw;
+    height: 100vh;
+    scroll-snap-align: start;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    overflow: hidden;
+    padding: 5vh 8vw;
+  }
+
+  .slide-number {
+    position: absolute;
+    bottom: 2.5vh;
+    right: 3vw;
+    font-family: 'Space Grotesk', monospace;
+    font-size: 0.7rem;
+    color: var(--text-tertiary);
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+  }
+
+  .slide-nav {
+    position: absolute;
+    bottom: 2.5vh;
+    left: 3vw;
+    font-family: 'Space Grotesk', monospace;
+    font-size: 0.65rem;
+    color: var(--text-tertiary);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    opacity: 0.5;
+  }
+
+  .label {
+    font-family: 'Space Grotesk', monospace;
+    font-size: 0.65rem;
+    font-weight: 500;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--green);
+    margin-bottom: 1.5rem;
+  }
+
+  .display {
+    font-size: 2.5rem;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    line-height: 1.15;
+  }
+
+  .headline {
+    font-size: 1.5rem;
+    font-weight: 600;
+    line-height: 1.3;
+  }
+
+  .body-text {
+    font-size: 0.875rem;
+    font-weight: 400;
+    line-height: 1.7;
+    color: var(--text-secondary);
+  }
+
+  .meta {
+    font-family: 'Space Grotesk', monospace;
+    font-size: 0.75rem;
+    font-weight: 400;
+    letter-spacing: 0.05em;
+    color: var(--text-tertiary);
+  }
+
+  .green-line {
+    width: 60px;
+    height: 2px;
+    background: var(--green);
+  }
+
+  .green-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--green);
+    display: inline-block;
+  }
+
+  .grid-2 {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 3rem;
+    width: 100%;
+    max-width: 1200px;
+  }
+
+  .grid-3 {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 2rem;
+    width: 100%;
+    max-width: 1200px;
+  }
+
+  .grid-4 {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1.5rem;
+    width: 100%;
+    max-width: 1200px;
+  }
+
+  .card {
+    background: var(--surface-container);
+    border: 1px solid var(--ghost-border);
+    border-radius: var(--radius-sm);
+    padding: 2rem;
+  }
+
+  .card-low {
+    background: var(--surface-low);
+    border: 1px solid var(--ghost-border);
+    border-radius: var(--radius-sm);
+    padding: 2rem;
+  }
+
+  .content-left {
+    align-items: flex-start;
+    text-align: left;
+  }
+
+  .full-width {
+    width: 100%;
+    max-width: 1200px;
+  }
+
+  .flex-center {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .flex-col {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .gap-sm { gap: 0.5rem; }
+  .gap-md { gap: 1rem; }
+  .gap-lg { gap: 2rem; }
+  .gap-xl { gap: 3rem; }
+
+  .mb-sm { margin-bottom: 0.5rem; }
+  .mb-md { margin-bottom: 1rem; }
+  .mb-lg { margin-bottom: 2rem; }
+  .mb-xl { margin-bottom: 3rem; }
+
+  .text-center { text-align: center; }
+  .text-green { color: var(--green); }
+  .text-tertiary { color: var(--text-tertiary); }
+  .text-secondary { color: var(--text-secondary); }
+
+  .swatch {
+    width: 100%;
+    aspect-ratio: 2/1;
+    border-radius: var(--radius-sm);
+    border: 1px solid var(--ghost-border);
+    display: flex;
+    align-items: flex-end;
+    padding: 0.75rem;
+  }
+
+  .swatch-label {
+    font-family: 'Space Grotesk', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.05em;
+    color: var(--text-secondary);
+  }
+
+  .glass-panel {
+    background: rgba(28, 27, 27, 0.6);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid var(--ghost-border);
+    border-radius: var(--radius-md);
+    padding: 2rem;
+  }
+
+  .comparison-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 3rem;
+    width: 100%;
+    max-width: 1200px;
+  }
+
+  .dont-example {
+    border: 1px solid rgba(255, 180, 171, 0.3);
+    border-radius: var(--radius-sm);
+    padding: 1.5rem;
+    position: relative;
+  }
+
+  .dont-example::before {
+    content: "DON'T";
+    position: absolute;
+    top: -0.5rem;
+    left: 1rem;
+    font-family: 'Space Grotesk', monospace;
+    font-size: 0.6rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    color: var(--error);
+    background: var(--surface-base);
+    padding: 0 0.5rem;
+  }
+
+  .do-example {
+    border: 1px solid rgba(34, 197, 94, 0.3);
+    border-radius: var(--radius-sm);
+    padding: 1.5rem;
+    position: relative;
+  }
+
+  .do-example::before {
+    content: "DO";
+    position: absolute;
+    top: -0.5rem;
+    left: 1rem;
+    font-family: 'Space Grotesk', monospace;
+    font-size: 0.6rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    color: var(--green);
+    background: var(--surface-base);
+    padding: 0 0.5rem;
+  }
+
+  /* Logo SVGs */
+  .logo-lockup { display: flex; align-items: center; gap: 1rem; }
+  .logo-icon-wrap { width: 48px; height: 48px; }
+  .logo-icon-wrap-lg { width: 80px; height: 80px; }
+  .logo-icon-wrap-sm { width: 24px; height: 24px; }
+
+  /* Button examples */
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem 1.25rem;
+    border-radius: var(--radius-sm);
+    font-family: 'Inter', sans-serif;
+    font-size: 0.8rem;
+    font-weight: 500;
+    cursor: pointer;
+    border: none;
+    transition: all 0.15s ease;
+  }
+  .btn-primary {
+    background: var(--green);
+    color: var(--surface-lowest);
+  }
+  .btn-secondary {
+    background: var(--surface-high);
+    color: var(--text-primary);
+    border: 1px solid var(--ghost-border);
+  }
+  .btn-ghost {
+    background: transparent;
+    color: var(--text-secondary);
+    border: 1px solid var(--ghost-border);
+  }
+
+  /* Token code blocks */
+  .token-block {
+    background: var(--surface-low);
+    border: 1px solid var(--ghost-border);
+    border-radius: var(--radius-sm);
+    padding: 1.25rem 1.5rem;
+    font-family: 'Space Grotesk', monospace;
+    font-size: 0.7rem;
+    line-height: 1.8;
+    color: var(--text-secondary);
+    overflow-x: auto;
+    white-space: pre;
+  }
+
+  .token-key { color: var(--green); }
+  .token-value { color: var(--text-primary); }
+  .token-comment { color: var(--text-tertiary); }
+
+  /* Slide backgrounds */
+  .bg-base { background: var(--surface-base); }
+  .bg-lowest { background: var(--surface-lowest); }
+  .bg-low { background: var(--surface-low); }
+  .bg-container { background: var(--surface-container); }
+
+  /* Subtle grid pattern overlay */
+  .grid-overlay {
+    position: absolute;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(71,71,71,0.05) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(71,71,71,0.05) 1px, transparent 1px);
+    background-size: 60px 60px;
+    pointer-events: none;
+  }
+
+  /* Subtle radial glow */
+  .glow-green {
+    position: absolute;
+    width: 400px;
+    height: 400px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(34,197,94,0.08) 0%, transparent 70%);
+    pointer-events: none;
+  }
+
+  /* Incorrect usage visuals */
+  .incorrect-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+    width: 100%;
+    max-width: 1000px;
+  }
+  .incorrect-item {
+    background: var(--surface-low);
+    border: 1px solid rgba(255, 180, 171, 0.15);
+    border-radius: var(--radius-sm);
+    padding: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+  }
+  .incorrect-item .caption {
+    font-family: 'Space Grotesk', monospace;
+    font-size: 0.6rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--error);
+    text-align: center;
+  }
+
+  /* Scroll indicator */
+  .scroll-indicator {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 0%;
+    height: 2px;
+    background: var(--green);
+    z-index: 100;
+    transition: width 0.1s ease;
+  }
+
+  @media print {
+    html {
+      scroll-snap-type: none;
+    }
+    .slide {
+      page-break-after: always;
+      page-break-inside: avoid;
+      width: 100%;
+      height: 100vh;
+      scroll-snap-align: unset;
+    }
+    .scroll-indicator { display: none; }
+    @page {
+      size: landscape;
+      margin: 0;
+    }
+  }
+</style>
+</head>
+<body>
+
+<div class="scroll-indicator" id="scrollIndicator"></div>
+
+<!-- ============================================================ -->
+<!-- SLIDE 01 — COVER -->
+<!-- ============================================================ -->
+<section class="slide bg-lowest" style="justify-content: center; align-items: center;">
+  <div class="grid-overlay"></div>
+  <div class="glow-green" style="top: 20%; right: 15%;"></div>
+  <div class="glow-green" style="bottom: 10%; left: 10%; opacity: 0.5;"></div>
+
+  <div style="display: flex; flex-direction: column; align-items: center; gap: 2rem; z-index: 1;">
+    <!-- Logo Icon large -->
+    <svg width="80" height="80" viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <circle cx="20" cy="20" r="5" fill="#22c55e"/>
+      <circle cx="60" cy="20" r="5" fill="#22c55e"/>
+      <circle cx="40" cy="40" r="6" fill="#22c55e"/>
+      <circle cx="16" cy="58" r="4.5" fill="#22c55e"/>
+      <circle cx="64" cy="58" r="4.5" fill="#22c55e"/>
+      <line x1="20" y1="20" x2="40" y2="40" stroke="#22c55e" stroke-width="1.5" opacity="0.5"/>
+      <line x1="60" y1="20" x2="40" y2="40" stroke="#22c55e" stroke-width="1.5" opacity="0.5"/>
+      <line x1="16" y1="58" x2="40" y2="40" stroke="#22c55e" stroke-width="1.5" opacity="0.5"/>
+      <line x1="64" y1="58" x2="40" y2="40" stroke="#22c55e" stroke-width="1.5" opacity="0.5"/>
+      <line x1="20" y1="20" x2="60" y2="20" stroke="#22c55e" stroke-width="1" opacity="0.25"/>
+      <line x1="16" y1="58" x2="64" y2="58" stroke="#22c55e" stroke-width="1" opacity="0.25"/>
+      <line x1="20" y1="20" x2="16" y2="58" stroke="#22c55e" stroke-width="1" opacity="0.2"/>
+      <line x1="60" y1="20" x2="64" y2="58" stroke="#22c55e" stroke-width="1" opacity="0.2"/>
+    </svg>
+
+    <div style="font-size: 5rem; font-weight: 700; letter-spacing: -0.03em; color: var(--text-primary);">memex</div>
+
+    <div class="green-line" style="width: 80px;"></div>
+
+    <div style="font-size: 1.1rem; font-weight: 400; color: var(--text-secondary); letter-spacing: 0.02em;">Your team's knowledge layer</div>
+
+    <div class="meta" style="margin-top: 3rem; opacity: 0.4;">Brand Identity Manual  /  Presentation v2</div>
+  </div>
+
+  <div class="slide-number">01 / 22</div>
+</section>
+
+<!-- ============================================================ -->
+<!-- SLIDE 02 — HERITAGE -->
+<!-- ============================================================ -->
+<section class="slide bg-base content-left">
+  <div class="grid-overlay"></div>
+  <div class="glow-green" style="top: -10%; left: -5%;"></div>
+
+  <div class="full-width" style="z-index: 1;">
+    <div class="label">Heritage</div>
+
+    <div class="grid-2" style="align-items: start;">
+      <div>
+        <div style="font-size: 1.75rem; font-weight: 300; line-height: 1.5; color: var(--text-primary); font-style: italic; margin-bottom: 2rem;">
+          "Consider a future device... in which an individual stores all his books, records, and communications, and which is mechanized so that it may be consulted with exceeding speed and flexibility."
+        </div>
+        <div class="meta">Vannevar Bush  /  "As We May Think"  /  The Atlantic, July 1945</div>
+      </div>
+
+      <div class="flex-col gap-lg">
+        <div class="card">
+          <div class="meta mb-sm">1945 — THE ORIGINAL VISION</div>
+          <p class="body-text">Bush envisioned the Memex as a desk-sized device that could store an entire library's worth of information, allowing instant cross-referencing through associative trails. It was the intellectual precursor to hypertext, the web, and modern knowledge management.</p>
+        </div>
+        <div class="card">
+          <div class="meta mb-sm">2026 — THE MODERN REINTERPRETATION</div>
+          <p class="body-text">We build on Bush's vision: a persistent memory layer that connects knowledge across projects, sessions, and team members. Not a desk — a network. Not for one person — for teams and their AI agents.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="slide-nav">Memex Brand Manual</div>
+  <div class="slide-number">02 / 22</div>
+</section>
+
+<!-- ============================================================ -->
+<!-- SLIDE 03 — MISSION & VISION -->
+<!-- ============================================================ -->
+<section class="slide bg-lowest" style="justify-content: center;">
+  <div class="grid-overlay"></div>
+  <div class="glow-green" style="bottom: 0; right: 20%; width: 600px; height: 600px;"></div>
+
+  <div style="max-width: 900px; text-align: center; z-index: 1;">
+    <div class="label">Mission</div>
+    <div class="display" style="margin-bottom: 3rem;">Make every piece of team knowledge instantly accessible to both humans and AI agents.</div>
+
+    <div class="green-line" style="margin: 0 auto 3rem auto;"></div>
+
+    <div class="label">Vision</div>
+    <div style="font-size: 1.25rem; font-weight: 400; color: var(--text-secondary); line-height: 1.8;">
+      A world where switching projects takes seconds,<br>
+      onboarding takes hours not weeks,<br>
+      and no knowledge walks out the door.
+    </div>
+  </div>
+
+  <div class="slide-nav">Memex Brand Manual</div>
+  <div class="slide-number">03 / 22</div>
+</section>
+
+<!-- ============================================================ -->
+<!-- SLIDE 04 — BRAND PERSONALITY -->
+<!-- ============================================================ -->
+<section class="slide bg-base content-left">
+  <div class="grid-overlay"></div>
+
+  <div class="full-width" style="z-index: 1;">
+    <div class="label">Brand Personality</div>
+    <div class="headline mb-lg">The five traits that define how Memex shows up.</div>
+
+    <div style="display: grid; grid-template-columns: repeat(5, 1fr); gap: 1.25rem; width: 100%;">
+      <div class="card" style="border-top: 2px solid var(--green);">
+        <div style="font-size: 1.1rem; font-weight: 600; margin-bottom: 0.75rem;">Precise</div>
+        <p class="body-text" style="font-size: 0.8rem;">Every pixel, every word serves a purpose. No decoration without function. Accuracy over aesthetics.</p>
+      </div>
+      <div class="card" style="border-top: 2px solid var(--green);">
+        <div style="font-size: 1.1rem; font-weight: 600; margin-bottom: 0.75rem;">Deep</div>
+        <p class="body-text" style="font-size: 0.8rem;">We go layers beneath the surface. Knowledge isn't shallow — our brand reflects that depth. Substance over summary.</p>
+      </div>
+      <div class="card" style="border-top: 2px solid var(--green);">
+        <div style="font-size: 1.1rem; font-weight: 600; margin-bottom: 0.75rem;">Authoritative</div>
+        <p class="body-text" style="font-size: 0.8rem;">Built by practitioners for practitioners. We don't explain what experts already know. Trust through competence.</p>
+      </div>
+      <div class="card" style="border-top: 2px solid var(--green);">
+        <div style="font-size: 1.1rem; font-weight: 600; margin-bottom: 0.75rem;">Quiet Confidence</div>
+        <p class="body-text" style="font-size: 0.8rem;">The product speaks. No exclamation points, no hype cycles. Results are the marketing. Understated, not invisible.</p>
+      </div>
+      <div class="card" style="border-top: 2px solid var(--green);">
+        <div style="font-size: 1.1rem; font-weight: 600; margin-bottom: 0.75rem;">Technical</div>
+        <p class="body-text" style="font-size: 0.8rem;">Developer-grade precision in everything. Monospaced metadata, structured data, clean API thinking. Tools, not toys.</p>
+      </div>
+    </div>
+
+    <div style="margin-top: 2rem; display: flex; gap: 2rem;">
+      <div class="meta"><span class="text-green">Think:</span> Bloomberg Terminal meets developer tools</div>
+      <div class="meta"><span style="color: var(--error);">Not:</span> flashy SaaS, startup energy, consumer-friendly</div>
+    </div>
+  </div>
+
+  <div class="slide-nav">Memex Brand Manual</div>
+  <div class="slide-number">04 / 22</div>
+</section>
+
+<!-- ============================================================ -->
+<!-- SLIDE 05 — LOGO SYSTEM -->
+<!-- ============================================================ -->
+<section class="slide bg-lowest content-left">
+  <div class="grid-overlay"></div>
+
+  <div class="full-width" style="z-index: 1;">
+    <div class="label">Logo System</div>
+    <div class="headline mb-xl">Primary lockup, icon, and wordmark.</div>
+
+    <div class="grid-3" style="align-items: center;">
+      <!-- Full Lockup -->
+      <div class="card" style="text-align: center; padding: 3rem 2rem;">
+        <div class="meta mb-lg">FULL LOCKUP</div>
+        <div style="display: flex; align-items: center; justify-content: center; gap: 1rem;">
+          <svg width="40" height="40" viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="20" cy="20" r="5" fill="#22c55e"/>
+            <circle cx="60" cy="20" r="5" fill="#22c55e"/>
+            <circle cx="40" cy="40" r="6" fill="#22c55e"/>
+            <circle cx="16" cy="58" r="4.5" fill="#22c55e"/>
+            <circle cx="64" cy="58" r="4.5" fill="#22c55e"/>
+            <line x1="20" y1="20" x2="40" y2="40" stroke="#22c55e" stroke-width="1.5" opacity="0.5"/>
+            <line x1="60" y1="20" x2="40" y2="40" stroke="#22c55e" stroke-width="1.5" opacity="0.5"/>
+            <line x1="16" y1="58" x2="40" y2="40" stroke="#22c55e" stroke-width="1.5" opacity="0.5"/>
+            <line x1="64" y1="58" x2="40" y2="40" stroke="#22c55e" stroke-width="1.5" opacity="0.5"/>
+            <line x1="20" y1="20" x2="60" y2="20" stroke="#22c55e" stroke-width="1" opacity="0.25"/>
+            <line x1="16" y1="58" x2="64" y2="58" stroke="#22c55e" stroke-width="1" opacity="0.25"/>
+          </svg>
+          <span style="font-size: 2rem; font-weight: 700; letter-spacing: -0.02em;">memex</span>
+        </div>
+      </div>
+
+      <!-- Icon Only -->
+      <div class="card" style="text-align: center; padding: 3rem 2rem;">
+        <div class="meta mb-lg">ICON ONLY</div>
+        <div style="display: flex; justify-content: center;">
+          <svg width="64" height="64" viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="20" cy="20" r="5" fill="#22c55e"/>
+            <circle cx="60" cy="20" r="5" fill="#22c55e"/>
+            <circle cx="40" cy="40" r="6" fill="#22c55e"/>
+            <circle cx="16" cy="58" r="4.5" fill="#22c55e"/>
+            <circle cx="64" cy="58" r="4.5" fill="#22c55e"/>
+            <line x1="20" y1="20" x2="40" y2="40" stroke="#22c55e" stroke-width="1.5" opacity="0.5"/>
+            <line x1="60" y1="20" x2="40" y2="40" stroke="#22c55e" stroke-width="1.5" opacity="0.5"/>
+            <line x1="16" y1="58" x2="40" y2="40" stroke="#22c55e" stroke-width="1.5" opacity="0.5"/>
+            <line x1="64" y1="58" x2="40" y2="40" stroke="#22c55e" stroke-width="1.5" opacity="0.5"/>
+            <line x1="20" y1="20" x2="60" y2="20" stroke="#22c55e" stroke-width="1" opacity="0.25"/>
+            <line x1="16" y1="58" x2="64" y2="58" stroke="#22c55e" stroke-width="1" opacity="0.25"/>
+            <line x1="20" y1="20" x2="16" y2="58" stroke="#22c55e" stroke-width="1" opacity="0.2"/>
+            <line x1="60" y1="20" x2="64" y2="58" stroke="#22c55e" stroke-width="1" opacity="0.2"/>
+          </svg>
+        </div>
+        <div class="meta" style="margin-top: 1rem;">Min size: 16px</div>
+      </div>
+
+      <!-- Wordmark Only -->
+      <div class="card" style="text-align: center; padding: 3rem 2rem;">
+        <div class="meta mb-lg">WORDMARK ONLY</div>
+        <div style="font-size: 2.25rem; font-weight: 700; letter-spacing: -0.02em;">memex</div>
+        <div class="meta" style="margin-top: 1rem;">Inter Bold, -0.02em tracking</div>
+      </div>
+    </div>
+
+    <!-- Construction / Clear Space -->
+    <div style="margin-top: 2rem; display: flex; gap: 2rem; align-items: center;">
+      <div class="meta">Clear space = 1x icon width on all sides</div>
+      <div style="flex: 1; height: 1px; background: var(--ghost-border);"></div>
+      <div class="meta">Minimum icon size: 16 &times; 16px</div>
+    </div>
+  </div>
+
+  <div class="slide-nav">Memex Brand Manual</div>
+  <div class="slide-number">05 / 22</div>
+</section>
+
+<!-- ============================================================ -->
+<!-- SLIDE 06 — LOGO VARIANTS -->
+<!-- ============================================================ -->
+<section class="slide bg-base content-left">
+  <div class="grid-overlay"></div>
+
+  <div class="full-width" style="z-index: 1;">
+    <div class="label">Logo Variants</div>
+    <div class="headline mb-xl">Approved usage across backgrounds.</div>
+
+    <div class="grid-4">
+      <!-- On dark -->
+      <div class="card" style="background: var(--surface-lowest); text-align: center; padding: 2.5rem 1.5rem;">
+        <div class="meta mb-md">ON DARK</div>
+        <div style="display: flex; align-items: center; justify-content: center; gap: 0.75rem;">
+          <svg width="24" height="24" viewBox="0 0 80 80" fill="none"><circle cx="20" cy="20" r="5" fill="#22c55e"/><circle cx="60" cy="20" r="5" fill="#22c55e"/><circle cx="40" cy="40" r="6" fill="#22c55e"/><circle cx="16" cy="58" r="4.5" fill="#22c55e"/><circle cx="64" cy="58" r="4.5" fill="#22c55e"/><line x1="20" y1="20" x2="40" y2="40" stroke="#22c55e" stroke-width="1.5" opacity="0.5"/><line x1="60" y1="20" x2="40" y2="40" stroke="#22c55e" stroke-width="1.5" opacity="0.5"/><line x1="16" y1="58" x2="40" y2="40" stroke="#22c55e" stroke-width="1.5" opacity="0.5"/><line x1="64" y1="58" x2="40" y2="40" stroke="#22c55e" stroke-width="1.5" opacity="0.5"/></svg>
+          <span style="font-size: 1.25rem; font-weight: 700; letter-spacing: -0.02em; color: var(--text-primary);">memex</span>
+        </div>
+        <div class="meta" style="margin-top: 1rem; color: var(--green);">PRIMARY</div>
+      </div>
+
+      <!-- On light (inverted) -->
+      <div style="background: #f5f5f5; text-align: center; padding: 2.5rem 1.5rem; border-radius: var(--radius-sm);">
+        <div style="font-family: 'Space Grotesk', monospace; font-size: 0.65rem; letter-spacing: 0.12em; text-transform: uppercase; color: #919191; margin-bottom: 1rem;">ON LIGHT (INVERTED)</div>
+        <div style="display: flex; align-items: center; justify-content: center; gap: 0.75rem;">
+          <svg width="24" height="24" viewBox="0 0 80 80" fill="none"><circle cx="20" cy="20" r="5" fill="#0e0e0e"/><circle cx="60" cy="20" r="5" fill="#0e0e0e"/><circle cx="40" cy="40" r="6" fill="#0e0e0e"/><circle cx="16" cy="58" r="4.5" fill="#0e0e0e"/><circle cx="64" cy="58" r="4.5" fill="#0e0e0e"/><line x1="20" y1="20" x2="40" y2="40" stroke="#0e0e0e" stroke-width="1.5" opacity="0.5"/><line x1="60" y1="20" x2="40" y2="40" stroke="#0e0e0e" stroke-width="1.5" opacity="0.5"/><line x1="16" y1="58" x2="40" y2="40" stroke="#0e0e0e" stroke-width="1.5" opacity="0.5"/><line x1="64" y1="58" x2="40" y2="40" stroke="#0e0e0e" stroke-width="1.5" opacity="0.5"/></svg>
+          <span style="font-size: 1.25rem; font-weight: 700; letter-spacing: -0.02em; color: #0e0e0e;">memex</span>
+        </div>
+        <div style="font-family: 'Space Grotesk', monospace; font-size: 0.65rem; letter-spacing: 0.12em; text-transform: uppercase; margin-top: 1rem; color: #919191;">INVERTED</div>
+      </div>
+
+      <!-- Monochrome -->
+      <div class="card" style="text-align: center; padding: 2.5rem 1.5rem;">
+        <div class="meta mb-md">MONOCHROME</div>
+        <div style="display: flex; align-items: center; justify-content: center; gap: 0.75rem;">
+          <svg width="24" height="24" viewBox="0 0 80 80" fill="none"><circle cx="20" cy="20" r="5" fill="#e5e2e1"/><circle cx="60" cy="20" r="5" fill="#e5e2e1"/><circle cx="40" cy="40" r="6" fill="#e5e2e1"/><circle cx="16" cy="58" r="4.5" fill="#e5e2e1"/><circle cx="64" cy="58" r="4.5" fill="#e5e2e1"/><line x1="20" y1="20" x2="40" y2="40" stroke="#e5e2e1" stroke-width="1.5" opacity="0.5"/><line x1="60" y1="20" x2="40" y2="40" stroke="#e5e2e1" stroke-width="1.5" opacity="0.5"/><line x1="16" y1="58" x2="40" y2="40" stroke="#e5e2e1" stroke-width="1.5" opacity="0.5"/><line x1="64" y1="58" x2="40" y2="40" stroke="#e5e2e1" stroke-width="1.5" opacity="0.5"/></svg>
+          <span style="font-size: 1.25rem; font-weight: 700; letter-spacing: -0.02em; color: var(--text-primary);">memex</span>
+        </div>
+        <div class="meta" style="margin-top: 1rem;">WHITE ONLY</div>
+      </div>
+
+      <!-- Icon only sizes -->
+      <div class="card" style="text-align: center; padding: 2.5rem 1.5rem;">
+        <div class="meta mb-md">ICON SIZES</div>
+        <div style="display: flex; align-items: flex-end; justify-content: center; gap: 1.5rem;">
+          <div>
+            <svg width="48" height="48" viewBox="0 0 80 80" fill="none"><circle cx="20" cy="20" r="5" fill="#22c55e"/><circle cx="60" cy="20" r="5" fill="#22c55e"/><circle cx="40" cy="40" r="6" fill="#22c55e"/><circle cx="16" cy="58" r="4.5" fill="#22c55e"/><circle cx="64" cy="58" r="4.5" fill="#22c55e"/><line x1="20" y1="20" x2="40" y2="40" stroke="#22c55e" stroke-width="1.5" opacity="0.5"/><line x1="60" y1="20" x2="40" y2="40" stroke="#22c55e" stroke-width="1.5" opacity="0.5"/><line x1="16" y1="58" x2="40" y2="40" stroke="#22c55e" stroke-width="1.5" opacity="0.5"/><line x1="64" y1="58" x2="40" y2="40" stroke="#22c55e" stroke-width="1.5" opacity="0.5"/></svg>
+            <div class="meta" style="margin-top: 0.5rem;">48px</div>
+          </div>
+          <div>
+            <svg width="32" height="32" viewBox="0 0 80 80" fill="none"><circle cx="20" cy="20" r="5" fill="#22c55e"/><circle cx="60" cy="20" r="5" fill="#22c55e"/><circle cx="40" cy="40" r="6" fill="#22c55e"/><circle cx="16" cy="58" r="4.5" fill="#22c55e"/><circle cx="64" cy="58" r="4.5" fill="#22c55e"/><line x1="20" y1="20" x2="40" y2="40" stroke="#22c55e" stroke-width="1.5" opacity="0.5"/><line x1="60" y1="20" x2="40" y2="40" stroke="#22c55e" stroke-width="1.5" opacity="0.5"/><line x1="16" y1="58" x2="40" y2="40" stroke="#22c55e" stroke-width="1.5" opacity="0.5"/><line x1="64" y1="58" x2="40" y2="40" stroke="#22c55e" stroke-width="1.5" opacity="0.5"/></svg>
+            <div class="meta" style="margin-top: 0.5rem;">32px</div>
+          </div>
+          <div>
+            <svg width="16" height="16" viewBox="0 0 80 80" fill="none"><circle cx="20" cy="20" r="6" fill="#22c55e"/><circle cx="60" cy="20" r="6" fill="#22c55e"/><circle cx="40" cy="40" r="7" fill="#22c55e"/><circle cx="16" cy="58" r="5.5" fill="#22c55e"/><circle cx="64" cy="58" r="5.5" fill="#22c55e"/></svg>
+            <div class="meta" style="margin-top: 0.5rem;">16px</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="slide-nav">Memex Brand Manual</div>
+  <div class="slide-number">06 / 22</div>
+</section>
+
+<!-- ============================================================ -->
+<!-- SLIDE 07 — INCORRECT USAGE -->
+<!-- ============================================================ -->
+<section class="slide bg-lowest content-left">
+  <div class="grid-overlay"></div>
+
+  <div class="full-width" style="z-index: 1;">
+    <div class="label">Incorrect Usage</div>
+    <div class="headline mb-xl">Protect the mark. These are not acceptable.</div>
+
+    <div class="incorrect-grid">
+      <!-- Stretched -->
+      <div class="incorrect-item">
+        <div style="display: flex; align-items: center; gap: 0.75rem; transform: scaleX(1.5);">
+          <svg width="20" height="20" viewBox="0 0 80 80" fill="none"><circle cx="20" cy="20" r="5" fill="#22c55e"/><circle cx="60" cy="20" r="5" fill="#22c55e"/><circle cx="40" cy="40" r="6" fill="#22c55e"/><circle cx="16" cy="58" r="4.5" fill="#22c55e"/><circle cx="64" cy="58" r="4.5" fill="#22c55e"/></svg>
+          <span style="font-size: 1rem; font-weight: 700; letter-spacing: -0.02em;">memex</span>
+        </div>
+        <div class="caption">Do not stretch or distort</div>
+      </div>
+
+      <!-- Wrong color -->
+      <div class="incorrect-item">
+        <div style="display: flex; align-items: center; gap: 0.75rem;">
+          <svg width="20" height="20" viewBox="0 0 80 80" fill="none"><circle cx="20" cy="20" r="5" fill="#ff6b6b"/><circle cx="60" cy="20" r="5" fill="#ff6b6b"/><circle cx="40" cy="40" r="6" fill="#ff6b6b"/><circle cx="16" cy="58" r="4.5" fill="#ff6b6b"/><circle cx="64" cy="58" r="4.5" fill="#ff6b6b"/></svg>
+          <span style="font-size: 1rem; font-weight: 700; letter-spacing: -0.02em; color: #ff6b6b;">memex</span>
+        </div>
+        <div class="caption">Do not change brand colors</div>
+      </div>
+
+      <!-- Low contrast bg -->
+      <div class="incorrect-item" style="background: var(--surface-high);">
+        <div style="display: flex; align-items: center; gap: 0.75rem;">
+          <svg width="20" height="20" viewBox="0 0 80 80" fill="none"><circle cx="20" cy="20" r="5" fill="#353534"/><circle cx="60" cy="20" r="5" fill="#353534"/><circle cx="40" cy="40" r="6" fill="#353534"/><circle cx="16" cy="58" r="4.5" fill="#353534"/><circle cx="64" cy="58" r="4.5" fill="#353534"/></svg>
+          <span style="font-size: 1rem; font-weight: 700; letter-spacing: -0.02em; color: #353534;">memex</span>
+        </div>
+        <div class="caption">Do not place on low-contrast bg</div>
+      </div>
+
+      <!-- Rotated -->
+      <div class="incorrect-item">
+        <div style="display: flex; align-items: center; gap: 0.75rem; transform: rotate(15deg);">
+          <svg width="20" height="20" viewBox="0 0 80 80" fill="none"><circle cx="20" cy="20" r="5" fill="#22c55e"/><circle cx="60" cy="20" r="5" fill="#22c55e"/><circle cx="40" cy="40" r="6" fill="#22c55e"/><circle cx="16" cy="58" r="4.5" fill="#22c55e"/><circle cx="64" cy="58" r="4.5" fill="#22c55e"/></svg>
+          <span style="font-size: 1rem; font-weight: 700; letter-spacing: -0.02em;">memex</span>
+        </div>
+        <div class="caption">Do not rotate the logo</div>
+      </div>
+
+      <!-- Shadow/glow -->
+      <div class="incorrect-item">
+        <div style="display: flex; align-items: center; gap: 0.75rem; filter: drop-shadow(0 0 12px #22c55e);">
+          <svg width="20" height="20" viewBox="0 0 80 80" fill="none"><circle cx="20" cy="20" r="5" fill="#22c55e"/><circle cx="60" cy="20" r="5" fill="#22c55e"/><circle cx="40" cy="40" r="6" fill="#22c55e"/><circle cx="16" cy="58" r="4.5" fill="#22c55e"/><circle cx="64" cy="58" r="4.5" fill="#22c55e"/></svg>
+          <span style="font-size: 1rem; font-weight: 700; letter-spacing: -0.02em;">memex</span>
+        </div>
+        <div class="caption">Do not add drop shadows or glows</div>
+      </div>
+
+      <!-- Wrong font -->
+      <div class="incorrect-item">
+        <div style="display: flex; align-items: center; gap: 0.75rem;">
+          <svg width="20" height="20" viewBox="0 0 80 80" fill="none"><circle cx="20" cy="20" r="5" fill="#22c55e"/><circle cx="60" cy="20" r="5" fill="#22c55e"/><circle cx="40" cy="40" r="6" fill="#22c55e"/><circle cx="16" cy="58" r="4.5" fill="#22c55e"/><circle cx="64" cy="58" r="4.5" fill="#22c55e"/></svg>
+          <span style="font-size: 1rem; font-weight: 700; letter-spacing: -0.02em; font-family: 'Times New Roman', serif;">memex</span>
+        </div>
+        <div class="caption">Do not change the typeface</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="slide-nav">Memex Brand Manual</div>
+  <div class="slide-number">07 / 22</div>
+</section>
+
+<!-- ============================================================ -->
+<!-- SLIDE 08 — COLOR PALETTE: SURFACES -->
+<!-- ============================================================ -->
+<section class="slide bg-base content-left">
+  <div class="grid-overlay"></div>
+
+  <div class="full-width" style="z-index: 1;">
+    <div class="label">Color Palette — Surfaces</div>
+    <div class="headline mb-xl">Dark monochrome surface hierarchy. The foundation of depth.</div>
+
+    <div style="display: flex; gap: 0; width: 100%; height: 220px; border-radius: var(--radius-sm); overflow: hidden; border: 1px solid var(--ghost-border);">
+      <div style="flex: 1; background: #0e0e0e; display: flex; flex-direction: column; justify-content: flex-end; padding: 1.25rem;">
+        <div style="font-family: 'Space Grotesk', monospace; font-size: 0.65rem; color: #919191; letter-spacing: 0.05em;">LOWEST</div>
+        <div style="font-family: 'Space Grotesk', monospace; font-size: 0.75rem; color: #e5e2e1; margin-top: 0.25rem;">#0e0e0e</div>
+      </div>
+      <div style="flex: 1; background: #131313; display: flex; flex-direction: column; justify-content: flex-end; padding: 1.25rem;">
+        <div style="font-family: 'Space Grotesk', monospace; font-size: 0.65rem; color: #919191; letter-spacing: 0.05em;">BASE</div>
+        <div style="font-family: 'Space Grotesk', monospace; font-size: 0.75rem; color: #e5e2e1; margin-top: 0.25rem;">#131313</div>
+      </div>
+      <div style="flex: 1; background: #1c1b1b; display: flex; flex-direction: column; justify-content: flex-end; padding: 1.25rem;">
+        <div style="font-family: 'Space Grotesk', monospace; font-size: 0.65rem; color: #919191; letter-spacing: 0.05em;">LOW</div>
+        <div style="font-family: 'Space Grotesk', monospace; font-size: 0.75rem; color: #e5e2e1; margin-top: 0.25rem;">#1c1b1b</div>
+      </div>
+      <div style="flex: 1; background: #201f1f; display: flex; flex-direction: column; justify-content: flex-end; padding: 1.25rem;">
+        <div style="font-family: 'Space Grotesk', monospace; font-size: 0.65rem; color: #919191; letter-spacing: 0.05em;">CONTAINER</div>
+        <div style="font-family: 'Space Grotesk', monospace; font-size: 0.75rem; color: #e5e2e1; margin-top: 0.25rem;">#201f1f</div>
+      </div>
+      <div style="flex: 1; background: #2a2a2a; display: flex; flex-direction: column; justify-content: flex-end; padding: 1.25rem;">
+        <div style="font-family: 'Space Grotesk', monospace; font-size: 0.65rem; color: #919191; letter-spacing: 0.05em;">HIGH</div>
+        <div style="font-family: 'Space Grotesk', monospace; font-size: 0.75rem; color: #e5e2e1; margin-top: 0.25rem;">#2a2a2a</div>
+      </div>
+      <div style="flex: 1; background: #353534; display: flex; flex-direction: column; justify-content: flex-end; padding: 1.25rem;">
+        <div style="font-family: 'Space Grotesk', monospace; font-size: 0.65rem; color: #919191; letter-spacing: 0.05em;">HIGHEST</div>
+        <div style="font-family: 'Space Grotesk', monospace; font-size: 0.75rem; color: #e5e2e1; margin-top: 0.25rem;">#353534</div>
+      </div>
+    </div>
+
+    <!-- Text colors -->
+    <div style="margin-top: 2.5rem;">
+      <div class="meta mb-md">TEXT HIERARCHY</div>
+      <div style="display: flex; gap: 2rem;">
+        <div style="display: flex; align-items: center; gap: 1rem;">
+          <div style="width: 48px; height: 48px; border-radius: var(--radius-sm); background: #e5e2e1; border: 1px solid var(--ghost-border);"></div>
+          <div>
+            <div style="font-size: 0.875rem; font-weight: 500; color: #e5e2e1;">Primary</div>
+            <div class="meta">#e5e2e1</div>
+          </div>
+        </div>
+        <div style="display: flex; align-items: center; gap: 1rem;">
+          <div style="width: 48px; height: 48px; border-radius: var(--radius-sm); background: #c6c6c6; border: 1px solid var(--ghost-border);"></div>
+          <div>
+            <div style="font-size: 0.875rem; font-weight: 500; color: #c6c6c6;">Secondary</div>
+            <div class="meta">#c6c6c6</div>
+          </div>
+        </div>
+        <div style="display: flex; align-items: center; gap: 1rem;">
+          <div style="width: 48px; height: 48px; border-radius: var(--radius-sm); background: #919191; border: 1px solid var(--ghost-border);"></div>
+          <div>
+            <div style="font-size: 0.875rem; font-weight: 500; color: #919191;">Tertiary</div>
+            <div class="meta">#919191</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="slide-nav">Memex Brand Manual</div>
+  <div class="slide-number">08 / 22</div>
+</section>
+
+<!-- ============================================================ -->
+<!-- SLIDE 09 — COLOR PALETTE: ACCENT & SEMANTIC -->
+<!-- ============================================================ -->
+<section class="slide bg-lowest content-left">
+  <div class="grid-overlay"></div>
+
+  <div class="full-width" style="z-index: 1;">
+    <div class="label">Color Palette — Accent & Semantic</div>
+    <div class="headline mb-xl">Signal Green is reserved. It means something.</div>
+
+    <div class="grid-2">
+      <div>
+        <div class="meta mb-md">SIGNAL GREEN — ACCENT</div>
+        <div style="display: flex; gap: 1rem; margin-bottom: 2rem;">
+          <div>
+            <div style="width: 120px; height: 100px; border-radius: var(--radius-sm); background: #22c55e; display: flex; align-items: flex-end; padding: 0.75rem;">
+              <span style="font-family: 'Space Grotesk', monospace; font-size: 0.65rem; color: #0e0e0e;">PRIMARY</span>
+            </div>
+            <div class="meta" style="margin-top: 0.5rem;">#22c55e</div>
+          </div>
+          <div>
+            <div style="width: 120px; height: 100px; border-radius: var(--radius-sm); background: #6bff8f; display: flex; align-items: flex-end; padding: 0.75rem;">
+              <span style="font-family: 'Space Grotesk', monospace; font-size: 0.65rem; color: #0e0e0e;">BRIGHT</span>
+            </div>
+            <div class="meta" style="margin-top: 0.5rem;">#6bff8f</div>
+          </div>
+          <div>
+            <div style="width: 120px; height: 100px; border-radius: var(--radius-sm); background: #00a74b; display: flex; align-items: flex-end; padding: 0.75rem;">
+              <span style="font-family: 'Space Grotesk', monospace; font-size: 0.65rem; color: #e5e2e1;">CONTAINER</span>
+            </div>
+            <div class="meta" style="margin-top: 0.5rem;">#00a74b</div>
+          </div>
+        </div>
+
+        <div class="card-low" style="padding: 1.25rem;">
+          <div class="meta mb-sm">RESERVED FOR</div>
+          <div style="display: flex; flex-wrap: wrap; gap: 0.5rem;">
+            <span style="background: rgba(34,197,94,0.1); color: var(--green); font-size: 0.7rem; padding: 0.25rem 0.75rem; border-radius: var(--radius-sm); font-family: 'Space Grotesk', monospace; letter-spacing: 0.05em;">AI INDICATORS</span>
+            <span style="background: rgba(34,197,94,0.1); color: var(--green); font-size: 0.7rem; padding: 0.25rem 0.75rem; border-radius: var(--radius-sm); font-family: 'Space Grotesk', monospace; letter-spacing: 0.05em;">HEALTH METRICS</span>
+            <span style="background: rgba(34,197,94,0.1); color: var(--green); font-size: 0.7rem; padding: 0.25rem 0.75rem; border-radius: var(--radius-sm); font-family: 'Space Grotesk', monospace; letter-spacing: 0.05em;">SUCCESS STATES</span>
+            <span style="background: rgba(34,197,94,0.1); color: var(--green); font-size: 0.7rem; padding: 0.25rem 0.75rem; border-radius: var(--radius-sm); font-family: 'Space Grotesk', monospace; letter-spacing: 0.05em;">ACTIVE STATES</span>
+          </div>
+        </div>
+      </div>
+
+      <div>
+        <div class="meta mb-md">SEMANTIC COLORS</div>
+        <div style="display: flex; flex-direction: column; gap: 1rem;">
+          <div style="display: flex; align-items: center; gap: 1.25rem;">
+            <div style="width: 80px; height: 56px; border-radius: var(--radius-sm); background: #ffb4ab; display: flex; align-items: center; justify-content: center;">
+              <span style="font-family: 'Space Grotesk', monospace; font-size: 0.55rem; color: #0e0e0e;">ERROR</span>
+            </div>
+            <div>
+              <div style="font-size: 0.875rem; font-weight: 500; color: #ffb4ab;">Error</div>
+              <div class="meta">#ffb4ab  /  Destructive actions, validation failures</div>
+            </div>
+          </div>
+          <div style="display: flex; align-items: center; gap: 1.25rem;">
+            <div style="width: 80px; height: 56px; border-radius: var(--radius-sm); background: #fbbf24; display: flex; align-items: center; justify-content: center;">
+              <span style="font-family: 'Space Grotesk', monospace; font-size: 0.55rem; color: #0e0e0e;">WARN</span>
+            </div>
+            <div>
+              <div style="font-size: 0.875rem; font-weight: 500; color: #fbbf24;">Warning</div>
+              <div class="meta">#fbbf24  /  Caution states, expiring items</div>
+            </div>
+          </div>
+          <div style="display: flex; align-items: center; gap: 1.25rem;">
+            <div style="width: 80px; height: 56px; border-radius: var(--radius-sm); background: #c6c6cf; display: flex; align-items: center; justify-content: center;">
+              <span style="font-family: 'Space Grotesk', monospace; font-size: 0.55rem; color: #0e0e0e;">INFO</span>
+            </div>
+            <div>
+              <div style="font-size: 0.875rem; font-weight: 500; color: #c6c6cf;">Info</div>
+              <div class="meta">#c6c6cf  /  Informational, neutral notices</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="slide-nav">Memex Brand Manual</div>
+  <div class="slide-number">09 / 22</div>
+</section>
+
+<!-- ============================================================ -->
+<!-- SLIDE 10 — COLOR USAGE RULES -->
+<!-- ============================================================ -->
+<section class="slide bg-base content-left">
+  <div class="grid-overlay"></div>
+
+  <div class="full-width" style="z-index: 1;">
+    <div class="label">Color Usage Rules</div>
+    <div class="headline mb-xl">60 / 30 / 10 — the ratio that makes green mean something.</div>
+
+    <div class="grid-2" style="align-items: start;">
+      <div>
+        <!-- 60/30/10 visualization -->
+        <div style="display: flex; gap: 0; width: 100%; height: 180px; border-radius: var(--radius-sm); overflow: hidden; border: 1px solid var(--ghost-border); margin-bottom: 2rem;">
+          <div style="flex: 6; background: var(--surface-container); display: flex; align-items: center; justify-content: center; flex-direction: column; gap: 0.5rem;">
+            <div style="font-size: 2rem; font-weight: 700; color: var(--text-tertiary);">60%</div>
+            <div class="meta">SURFACES</div>
+          </div>
+          <div style="flex: 3; background: var(--surface-highest); display: flex; align-items: center; justify-content: center; flex-direction: column; gap: 0.5rem;">
+            <div style="font-size: 1.5rem; font-weight: 700; color: var(--text-secondary);">30%</div>
+            <div class="meta">TEXT</div>
+          </div>
+          <div style="flex: 1; background: var(--green); display: flex; align-items: center; justify-content: center; flex-direction: column; gap: 0.25rem;">
+            <div style="font-size: 1rem; font-weight: 700; color: #0e0e0e;">10%</div>
+            <div style="font-family: 'Space Grotesk', monospace; font-size: 0.5rem; color: #0e0e0e; letter-spacing: 0.08em;">GREEN</div>
+          </div>
+        </div>
+
+        <div class="card-low" style="padding: 1.25rem;">
+          <div class="meta mb-sm">THE RULE</div>
+          <p class="body-text">Green = AI signal. When it appears everywhere, it signals nothing. Reserve it for moments that matter: AI-generated content, healthy states, active connections, success confirmations.</p>
+        </div>
+      </div>
+
+      <div style="display: flex; flex-direction: column; gap: 1.5rem;">
+        <div class="do-example">
+          <div style="background: var(--surface-container); border-radius: var(--radius-sm); padding: 1rem; display: flex; align-items: center; gap: 0.75rem; margin-top: 0.5rem;">
+            <div class="green-dot"></div>
+            <span style="font-size: 0.8rem; color: var(--text-primary);">Memory synced</span>
+            <span class="meta" style="margin-left: auto;">2s ago</span>
+          </div>
+          <p class="meta" style="margin-top: 0.75rem;">Green dot signals live AI status — purposeful use</p>
+        </div>
+
+        <div class="dont-example">
+          <div style="background: var(--surface-container); border-radius: var(--radius-sm); padding: 1rem; margin-top: 0.5rem;">
+            <div style="color: var(--green); font-weight: 600; font-size: 0.9rem; margin-bottom: 0.5rem;">Welcome to Memex!</div>
+            <div style="color: var(--green); font-size: 0.8rem;">Your projects are ready.</div>
+            <button style="background: var(--green); color: #0e0e0e; border: none; padding: 0.4rem 1rem; border-radius: var(--radius-sm); margin-top: 0.5rem; font-size: 0.75rem;">Get Started</button>
+          </div>
+          <p class="meta" style="margin-top: 0.75rem;">Green everywhere = green means nothing</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="slide-nav">Memex Brand Manual</div>
+  <div class="slide-number">10 / 22</div>
+</section>
+
+<!-- ============================================================ -->
+<!-- SLIDE 11 — TYPOGRAPHY OVERVIEW -->
+<!-- ============================================================ -->
+<section class="slide bg-lowest content-left">
+  <div class="grid-overlay"></div>
+
+  <div class="full-width" style="z-index: 1;">
+    <div class="label">Typography — Overview</div>
+    <div class="headline mb-xl">Two typefaces. Clear separation of purpose.</div>
+
+    <div class="grid-2" style="gap: 4rem;">
+      <div>
+        <div style="font-family: 'Inter', sans-serif; font-size: 4rem; font-weight: 700; letter-spacing: -0.02em; line-height: 1; margin-bottom: 1.5rem; color: var(--text-primary);">Inter</div>
+        <div style="font-family: 'Inter', sans-serif; font-size: 1.5rem; font-weight: 300; color: var(--text-secondary); margin-bottom: 2rem; line-height: 1.4;">The humanist workhorse.</div>
+        <div class="card-low" style="padding: 1.5rem;">
+          <div class="meta mb-sm">USED FOR</div>
+          <p class="body-text">Body text, headlines, buttons, navigation, marketing copy, documentation. Everything the user reads at length.</p>
+          <div style="margin-top: 1rem; display: flex; gap: 1rem; flex-wrap: wrap;">
+            <span style="font-family: 'Inter'; font-weight: 300; font-size: 0.8rem; color: var(--text-tertiary);">Light 300</span>
+            <span style="font-family: 'Inter'; font-weight: 400; font-size: 0.8rem; color: var(--text-tertiary);">Regular 400</span>
+            <span style="font-family: 'Inter'; font-weight: 500; font-size: 0.8rem; color: var(--text-tertiary);">Medium 500</span>
+            <span style="font-family: 'Inter'; font-weight: 600; font-size: 0.8rem; color: var(--text-secondary);">Semibold 600</span>
+            <span style="font-family: 'Inter'; font-weight: 700; font-size: 0.8rem; color: var(--text-primary);">Bold 700</span>
+          </div>
+        </div>
+      </div>
+
+      <div>
+        <div style="font-family: 'Space Grotesk', monospace; font-size: 3.5rem; font-weight: 700; letter-spacing: 0.02em; line-height: 1; margin-bottom: 1.5rem; color: var(--text-primary);">Space Grotesk</div>
+        <div style="font-family: 'Space Grotesk', monospace; font-size: 1.25rem; font-weight: 300; color: var(--text-secondary); margin-bottom: 2rem; line-height: 1.4; letter-spacing: 0.02em;">The machine voice.</div>
+        <div class="card-low" style="padding: 1.5rem;">
+          <div class="meta mb-sm">USED FOR</div>
+          <p class="body-text">Labels, metadata, timestamps, technical data, section headers (uppercase), status indicators, code-adjacent contexts. Signals "machine-generated precision."</p>
+          <div style="margin-top: 1rem;">
+            <span style="font-family: 'Space Grotesk'; font-size: 0.8rem; color: var(--text-tertiary); letter-spacing: 0.05em; text-transform: uppercase;">Always uppercase for section headers  /  Tracking: 0.05em wider</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="slide-nav">Memex Brand Manual</div>
+  <div class="slide-number">11 / 22</div>
+</section>
+
+<!-- ============================================================ -->
+<!-- SLIDE 12 — TYPOGRAPHY SCALE -->
+<!-- ============================================================ -->
+<section class="slide bg-base content-left">
+  <div class="grid-overlay"></div>
+
+  <div class="full-width" style="z-index: 1;">
+    <div class="label">Typography — Scale</div>
+    <div class="headline mb-xl">The complete type scale with live rendering.</div>
+
+    <div style="display: flex; flex-direction: column; gap: 0; width: 100%;">
+      <div style="display: flex; align-items: baseline; border-bottom: 1px solid var(--ghost-border); padding: 1.25rem 0;">
+        <div class="meta" style="width: 180px; flex-shrink: 0;">DISPLAY  /  2.5REM</div>
+        <div style="font-family: 'Inter'; font-size: 2.5rem; font-weight: 700; letter-spacing: -0.02em; color: var(--text-primary);">Knowledge at scale</div>
+      </div>
+      <div style="display: flex; align-items: baseline; border-bottom: 1px solid var(--ghost-border); padding: 1.25rem 0;">
+        <div class="meta" style="width: 180px; flex-shrink: 0;">HEADLINE  /  1.5REM</div>
+        <div style="font-family: 'Inter'; font-size: 1.5rem; font-weight: 600; color: var(--text-primary);">Persistent memory for teams</div>
+      </div>
+      <div style="display: flex; align-items: baseline; border-bottom: 1px solid var(--ghost-border); padding: 1.25rem 0;">
+        <div class="meta" style="width: 180px; flex-shrink: 0;">TITLE  /  1.125REM</div>
+        <div style="font-family: 'Inter'; font-size: 1.125rem; font-weight: 600; color: var(--text-primary);">Project context management</div>
+      </div>
+      <div style="display: flex; align-items: baseline; border-bottom: 1px solid var(--ghost-border); padding: 1.25rem 0;">
+        <div class="meta" style="width: 180px; flex-shrink: 0;">BODY  /  0.875REM</div>
+        <div style="font-family: 'Inter'; font-size: 0.875rem; font-weight: 400; color: var(--text-secondary);">Memex stores architectural decisions, debugging insights, and team knowledge in encrypted persistent memory accessible across sessions.</div>
+      </div>
+      <div style="display: flex; align-items: baseline; border-bottom: 1px solid var(--ghost-border); padding: 1.25rem 0;">
+        <div class="meta" style="width: 180px; flex-shrink: 0;">SMALL  /  0.75REM</div>
+        <div style="font-family: 'Inter'; font-size: 0.75rem; font-weight: 400; color: var(--text-tertiary);">Secondary information and supporting text</div>
+      </div>
+      <div style="display: flex; align-items: baseline; border-bottom: 1px solid var(--ghost-border); padding: 1.25rem 0;">
+        <div class="meta" style="width: 180px; flex-shrink: 0;">LABEL  /  0.65REM</div>
+        <div style="font-family: 'Space Grotesk', monospace; font-size: 0.65rem; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase; color: var(--green);">Section Header Label</div>
+      </div>
+      <div style="display: flex; align-items: baseline; padding: 1.25rem 0;">
+        <div class="meta" style="width: 180px; flex-shrink: 0;">META  /  0.65REM</div>
+        <div style="font-family: 'Space Grotesk', monospace; font-size: 0.65rem; font-weight: 400; letter-spacing: 0.05em; color: var(--text-tertiary);">Last synced 2 minutes ago  /  3 memories  /  v2.1.0</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="slide-nav">Memex Brand Manual</div>
+  <div class="slide-number">12 / 22</div>
+</section>
+
+<!-- ============================================================ -->
+<!-- SLIDE 13 — TYPOGRAPHY USAGE -->
+<!-- ============================================================ -->
+<section class="slide bg-lowest content-left">
+  <div class="grid-overlay"></div>
+
+  <div class="full-width" style="z-index: 1;">
+    <div class="label">Typography — Usage</div>
+    <div class="headline mb-xl">When to use which typeface.</div>
+
+    <div class="grid-2" style="gap: 3rem;">
+      <!-- Inter examples -->
+      <div>
+        <div class="meta mb-md">INTER — THE HUMAN VOICE</div>
+        <div class="card" style="margin-bottom: 1rem;">
+          <div style="font-family: 'Inter'; font-size: 1.25rem; font-weight: 600; margin-bottom: 0.75rem;">Dashboard Overview</div>
+          <p style="font-family: 'Inter'; font-size: 0.875rem; color: var(--text-secondary); line-height: 1.7;">Your team has 42 active memories across 8 projects. Knowledge retention is at 94% this month, up from 87% in February.</p>
+          <button class="btn btn-primary" style="margin-top: 1rem;">View all projects</button>
+        </div>
+        <div class="meta">Headlines, body copy, buttons, navigation</div>
+      </div>
+
+      <!-- Space Grotesk examples -->
+      <div>
+        <div class="meta mb-md">SPACE GROTESK — THE MACHINE VOICE</div>
+        <div class="card" style="margin-bottom: 1rem;">
+          <div style="font-family: 'Space Grotesk', monospace; font-size: 0.65rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--green); margin-bottom: 0.75rem;">MEMORY SYNC STATUS</div>
+          <div style="display: flex; justify-content: space-between; border-bottom: 1px solid var(--ghost-border); padding: 0.5rem 0;">
+            <span style="font-family: 'Space Grotesk', monospace; font-size: 0.75rem; color: var(--text-secondary); letter-spacing: 0.03em;">vigo-legal-co</span>
+            <span style="font-family: 'Space Grotesk', monospace; font-size: 0.75rem; color: var(--green); letter-spacing: 0.05em;">SYNCED 2M AGO</span>
+          </div>
+          <div style="display: flex; justify-content: space-between; border-bottom: 1px solid var(--ghost-border); padding: 0.5rem 0;">
+            <span style="font-family: 'Space Grotesk', monospace; font-size: 0.75rem; color: var(--text-secondary); letter-spacing: 0.03em;">agent-dashboard</span>
+            <span style="font-family: 'Space Grotesk', monospace; font-size: 0.75rem; color: var(--text-tertiary); letter-spacing: 0.05em;">IDLE</span>
+          </div>
+          <div style="display: flex; justify-content: space-between; padding: 0.5rem 0;">
+            <span style="font-family: 'Space Grotesk', monospace; font-size: 0.75rem; color: var(--text-secondary); letter-spacing: 0.03em;">memex-core</span>
+            <span style="font-family: 'Space Grotesk', monospace; font-size: 0.75rem; color: var(--warning); letter-spacing: 0.05em;">STALE 3H</span>
+          </div>
+        </div>
+        <div class="meta">Labels, metadata, timestamps, status, tables</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="slide-nav">Memex Brand Manual</div>
+  <div class="slide-number">13 / 22</div>
+</section>
+
+<!-- ============================================================ -->
+<!-- SLIDE 14 — THE NO-LINE RULE -->
+<!-- ============================================================ -->
+<section class="slide bg-base content-left">
+  <div class="grid-overlay"></div>
+
+  <div class="full-width" style="z-index: 1;">
+    <div class="label">The No-Line Rule</div>
+    <div class="headline mb-xl">Boundaries through surface shifts, not borders.</div>
+
+    <div class="comparison-grid">
+      <div class="dont-example" style="padding: 2rem;">
+        <div style="margin-top: 0.5rem;">
+          <div style="background: var(--surface-container); border: 1px solid #555; border-radius: var(--radius-sm); padding: 1rem; margin-bottom: 0.75rem;">
+            <div style="font-size: 0.8rem; font-weight: 500; margin-bottom: 0.5rem;">Project Alpha</div>
+            <div style="font-size: 0.75rem; color: var(--text-tertiary);">12 memories</div>
+          </div>
+          <div style="background: var(--surface-container); border: 1px solid #555; border-radius: var(--radius-sm); padding: 1rem;">
+            <div style="font-size: 0.8rem; font-weight: 500; margin-bottom: 0.5rem;">Project Beta</div>
+            <div style="font-size: 0.75rem; color: var(--text-tertiary);">8 memories</div>
+          </div>
+        </div>
+        <p class="meta" style="margin-top: 1rem;">Solid borders create visual noise and compete with content</p>
+      </div>
+
+      <div class="do-example" style="padding: 2rem;">
+        <div style="margin-top: 0.5rem;">
+          <div style="background: var(--surface-container); border: 1px solid var(--ghost-border); border-radius: var(--radius-sm); padding: 1rem; margin-bottom: 0.75rem;">
+            <div style="font-size: 0.8rem; font-weight: 500; margin-bottom: 0.5rem;">Project Alpha</div>
+            <div style="font-size: 0.75rem; color: var(--text-tertiary);">12 memories</div>
+          </div>
+          <div style="background: var(--surface-low); border: 1px solid var(--ghost-border); border-radius: var(--radius-sm); padding: 1rem;">
+            <div style="font-size: 0.8rem; font-weight: 500; margin-bottom: 0.5rem;">Project Beta</div>
+            <div style="font-size: 0.75rem; color: var(--text-tertiary);">8 memories</div>
+          </div>
+        </div>
+        <p class="meta" style="margin-top: 1rem;">Surface color hierarchy + ghost borders create clean depth</p>
+      </div>
+    </div>
+
+    <div style="margin-top: 2rem; display: flex; gap: 3rem;">
+      <div class="card-low" style="padding: 1rem 1.5rem; flex: 1;">
+        <div class="meta mb-sm">GHOST BORDER</div>
+        <div style="font-family: 'Space Grotesk', monospace; font-size: 0.8rem; color: var(--text-primary);">#474747 at 15% opacity</div>
+        <div class="meta" style="margin-top: 0.25rem;">rgba(71, 71, 71, 0.15) — felt, not seen</div>
+      </div>
+      <div class="card-low" style="padding: 1rem 1.5rem; flex: 1;">
+        <div class="meta mb-sm">DIVIDERS</div>
+        <div style="font-family: 'Space Grotesk', monospace; font-size: 0.8rem; color: var(--text-primary);">Use surface color shifts</div>
+        <div class="meta" style="margin-top: 0.25rem;">Adjacent elements at different surface levels</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="slide-nav">Memex Brand Manual</div>
+  <div class="slide-number">14 / 22</div>
+</section>
+
+<!-- ============================================================ -->
+<!-- SLIDE 15 — DEPTH & ELEVATION -->
+<!-- ============================================================ -->
+<section class="slide bg-lowest content-left">
+  <div class="grid-overlay"></div>
+
+  <div class="full-width" style="z-index: 1;">
+    <div class="label">Depth & Elevation</div>
+    <div class="headline mb-xl">Ambient lifts, not drop shadows. Glass for floating layers.</div>
+
+    <div class="grid-2" style="gap: 3rem; align-items: start;">
+      <!-- Surface hierarchy stack -->
+      <div>
+        <div class="meta mb-md">SURFACE STACK — AMBIENT LIFTS</div>
+        <div style="position: relative; height: 320px;">
+          <div style="position: absolute; bottom: 0; left: 0; right: 0; height: 280px; background: var(--surface-lowest); border-radius: var(--radius-sm); border: 1px solid var(--ghost-border); display: flex; align-items: flex-end; padding: 0.75rem;">
+            <span class="meta">Lowest — Page background</span>
+          </div>
+          <div style="position: absolute; bottom: 30px; left: 20px; right: 20px; height: 230px; background: var(--surface-base); border-radius: var(--radius-sm); border: 1px solid var(--ghost-border); display: flex; align-items: flex-end; padding: 0.75rem;">
+            <span class="meta">Base — Content area</span>
+          </div>
+          <div style="position: absolute; bottom: 60px; left: 40px; right: 40px; height: 180px; background: var(--surface-container); border-radius: var(--radius-sm); border: 1px solid var(--ghost-border); display: flex; align-items: flex-end; padding: 0.75rem;">
+            <span class="meta">Container — Cards</span>
+          </div>
+          <div style="position: absolute; bottom: 90px; left: 60px; right: 60px; height: 130px; background: var(--surface-high); border-radius: var(--radius-sm); border: 1px solid var(--ghost-border); display: flex; align-items: flex-end; padding: 0.75rem;">
+            <span class="meta">High — Interactive elements</span>
+          </div>
+          <div style="position: absolute; bottom: 120px; left: 80px; right: 80px; height: 80px; background: var(--surface-highest); border-radius: var(--radius-sm); border: 1px solid var(--ghost-border); display: flex; align-items: flex-end; padding: 0.75rem;">
+            <span class="meta">Highest — Tooltips, menus</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Glassmorphism -->
+      <div>
+        <div class="meta mb-md">GLASSMORPHISM — FLOATING PANELS</div>
+        <div style="position: relative; height: 320px; background: var(--surface-lowest); border-radius: var(--radius-sm); border: 1px solid var(--ghost-border); overflow: hidden;">
+          <!-- Background content -->
+          <div style="padding: 1.5rem;">
+            <div style="font-size: 0.8rem; color: var(--text-tertiary); margin-bottom: 0.5rem;">Background content visible through glass</div>
+            <div style="display: flex; gap: 0.75rem; flex-wrap: wrap;">
+              <div style="background: var(--surface-container); padding: 0.5rem 1rem; border-radius: var(--radius-sm); font-size: 0.75rem; color: var(--text-secondary);">memory-1</div>
+              <div style="background: var(--surface-container); padding: 0.5rem 1rem; border-radius: var(--radius-sm); font-size: 0.75rem; color: var(--text-secondary);">memory-2</div>
+              <div style="background: var(--surface-container); padding: 0.5rem 1rem; border-radius: var(--radius-sm); font-size: 0.75rem; color: var(--text-secondary);">memory-3</div>
+              <div style="background: var(--surface-container); padding: 0.5rem 1rem; border-radius: var(--radius-sm); font-size: 0.75rem; color: var(--text-secondary);">memory-4</div>
+              <div style="background: var(--surface-container); padding: 0.5rem 1rem; border-radius: var(--radius-sm); font-size: 0.75rem; color: var(--text-secondary);">memory-5</div>
+            </div>
+          </div>
+          <!-- Glass panel overlay -->
+          <div style="position: absolute; bottom: 1rem; left: 1rem; right: 1rem; background: rgba(28, 27, 27, 0.6); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); border: 1px solid var(--ghost-border); border-radius: var(--radius-md); padding: 1.25rem;">
+            <div style="font-family: 'Space Grotesk', monospace; font-size: 0.6rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--green); margin-bottom: 0.5rem;">FLOATING PANEL</div>
+            <div style="font-size: 0.8rem; color: var(--text-primary); margin-bottom: 0.25rem;">Surface Low at 60% opacity</div>
+            <div class="meta">backdrop-filter: blur(12px)</div>
+          </div>
+        </div>
+
+        <div class="card-low" style="padding: 1rem 1.5rem; margin-top: 1rem;">
+          <div class="meta mb-sm">RULE</div>
+          <p class="body-text" style="font-size: 0.8rem;">No drop shadows. Ever. Depth is communicated exclusively through surface color hierarchy and glass effects.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="slide-nav">Memex Brand Manual</div>
+  <div class="slide-number">15 / 22</div>
+</section>
+
+<!-- ============================================================ -->
+<!-- SLIDE 16 — ICONOGRAPHY -->
+<!-- ============================================================ -->
+<section class="slide bg-base content-left">
+  <div class="grid-overlay"></div>
+
+  <div class="full-width" style="z-index: 1;">
+    <div class="label">Iconography</div>
+    <div class="headline mb-xl">Lucide icons. Consistent stroke. Purposeful.</div>
+
+    <div class="grid-2" style="gap: 3rem; align-items: start;">
+      <div>
+        <div class="meta mb-md">STYLE RULES</div>
+        <div style="display: flex; flex-direction: column; gap: 1rem;">
+          <div class="card" style="padding: 1.25rem;">
+            <div style="font-size: 0.875rem; font-weight: 500; margin-bottom: 0.5rem;">Icon Library</div>
+            <p class="body-text" style="font-size: 0.8rem;">Lucide (lucide.dev) — open source, consistent stroke weight, MIT licensed. The standard icon set for Memex products.</p>
+          </div>
+          <div class="card" style="padding: 1.25rem;">
+            <div style="font-size: 0.875rem; font-weight: 500; margin-bottom: 0.5rem;">Stroke Width</div>
+            <p class="body-text" style="font-size: 0.8rem;">1.5px default. Never go below 1px or above 2px. Consistent stroke across all sizes.</p>
+          </div>
+          <div class="card" style="padding: 1.25rem;">
+            <div style="font-size: 0.875rem; font-weight: 500; margin-bottom: 0.5rem;">Color</div>
+            <p class="body-text" style="font-size: 0.8rem;">Default: var(--text-secondary). Active/AI states: var(--green). Never use multiple colors in one icon.</p>
+          </div>
+        </div>
+      </div>
+
+      <div>
+        <div class="meta mb-md">SIZES & EXAMPLES</div>
+        <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 1.5rem;">
+          <!-- Size examples with inline SVGs approximating Lucide style -->
+          <div class="card" style="padding: 1.25rem; text-align: center;">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#c6c6c6" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/>
+            </svg>
+            <div class="meta" style="margin-top: 0.75rem;">24px</div>
+            <div class="meta">layers</div>
+          </div>
+          <div class="card" style="padding: 1.25rem; text-align: center;">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#c6c6c6" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
+            </svg>
+            <div class="meta" style="margin-top: 0.75rem;">24px</div>
+            <div class="meta">search</div>
+          </div>
+          <div class="card" style="padding: 1.25rem; text-align: center;">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#c6c6c6" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/>
+            </svg>
+            <div class="meta" style="margin-top: 0.75rem;">20px</div>
+            <div class="meta">book</div>
+          </div>
+          <div class="card" style="padding: 1.25rem; text-align: center;">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#22c55e" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/>
+            </svg>
+            <div class="meta" style="margin-top: 0.75rem;">16px</div>
+            <div class="meta" style="color: var(--green);">active</div>
+          </div>
+        </div>
+
+        <div style="display: flex; gap: 1rem; margin-top: 1.5rem;">
+          <div class="card-low" style="padding: 1rem; flex: 1; text-align: center;">
+            <div class="meta mb-sm">NAVIGATION</div>
+            <div style="font-family: 'Space Grotesk', monospace; font-size: 0.8rem; color: var(--text-primary);">20px</div>
+          </div>
+          <div class="card-low" style="padding: 1rem; flex: 1; text-align: center;">
+            <div class="meta mb-sm">INLINE</div>
+            <div style="font-family: 'Space Grotesk', monospace; font-size: 0.8rem; color: var(--text-primary);">16px</div>
+          </div>
+          <div class="card-low" style="padding: 1rem; flex: 1; text-align: center;">
+            <div class="meta mb-sm">FEATURE</div>
+            <div style="font-family: 'Space Grotesk', monospace; font-size: 0.8rem; color: var(--text-primary);">24px</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="slide-nav">Memex Brand Manual</div>
+  <div class="slide-number">16 / 22</div>
+</section>
+
+<!-- ============================================================ -->
+<!-- SLIDE 17 — SPACING & RADIUS -->
+<!-- ============================================================ -->
+<section class="slide bg-lowest content-left">
+  <div class="grid-overlay"></div>
+
+  <div class="full-width" style="z-index: 1;">
+    <div class="label">Spacing & Radius</div>
+    <div class="headline mb-xl">A 4px base grid. Sharp corners signal precision.</div>
+
+    <div class="grid-2" style="gap: 3rem; align-items: start;">
+      <div>
+        <div class="meta mb-md">SPACING SCALE (4PX BASE)</div>
+        <div style="display: flex; flex-direction: column; gap: 0.5rem;">
+          <div style="display: flex; align-items: center; gap: 1rem;">
+            <div class="meta" style="width: 60px;">4px</div>
+            <div style="width: 4px; height: 20px; background: var(--green); border-radius: 1px;"></div>
+            <div class="meta">xs — tight padding, icon gaps</div>
+          </div>
+          <div style="display: flex; align-items: center; gap: 1rem;">
+            <div class="meta" style="width: 60px;">8px</div>
+            <div style="width: 8px; height: 20px; background: var(--green); border-radius: 1px;"></div>
+            <div class="meta">sm — inline element spacing</div>
+          </div>
+          <div style="display: flex; align-items: center; gap: 1rem;">
+            <div class="meta" style="width: 60px;">12px</div>
+            <div style="width: 12px; height: 20px; background: var(--green); border-radius: 1px;"></div>
+            <div class="meta">md — card padding, list gaps</div>
+          </div>
+          <div style="display: flex; align-items: center; gap: 1rem;">
+            <div class="meta" style="width: 60px;">16px</div>
+            <div style="width: 16px; height: 20px; background: var(--green); border-radius: 1px;"></div>
+            <div class="meta">lg — section padding</div>
+          </div>
+          <div style="display: flex; align-items: center; gap: 1rem;">
+            <div class="meta" style="width: 60px;">24px</div>
+            <div style="width: 24px; height: 20px; background: var(--green); border-radius: 1px;"></div>
+            <div class="meta">xl — component gaps</div>
+          </div>
+          <div style="display: flex; align-items: center; gap: 1rem;">
+            <div class="meta" style="width: 60px;">32px</div>
+            <div style="width: 32px; height: 20px; background: var(--green); border-radius: 1px;"></div>
+            <div class="meta">2xl — section gaps</div>
+          </div>
+          <div style="display: flex; align-items: center; gap: 1rem;">
+            <div class="meta" style="width: 60px;">48px</div>
+            <div style="width: 48px; height: 20px; background: var(--green); border-radius: 1px;"></div>
+            <div class="meta">3xl — major sections</div>
+          </div>
+        </div>
+      </div>
+
+      <div>
+        <div class="meta mb-md">BORDER RADIUS</div>
+        <div style="display: flex; flex-direction: column; gap: 1.5rem;">
+          <div style="display: flex; align-items: center; gap: 1.5rem;">
+            <div style="width: 80px; height: 56px; background: var(--surface-high); border-radius: 0.25rem; border: 1px solid var(--ghost-border);"></div>
+            <div>
+              <div style="font-size: 0.875rem; font-weight: 500;">0.25rem (4px)</div>
+              <div class="meta">Default — cards, buttons, inputs</div>
+            </div>
+          </div>
+          <div style="display: flex; align-items: center; gap: 1.5rem;">
+            <div style="width: 80px; height: 56px; background: var(--surface-high); border-radius: 0.5rem; border: 1px solid var(--ghost-border);"></div>
+            <div>
+              <div style="font-size: 0.875rem; font-weight: 500;">0.5rem (8px)</div>
+              <div class="meta">Modals, floating panels</div>
+            </div>
+          </div>
+          <div style="display: flex; align-items: center; gap: 1.5rem;">
+            <div style="width: 80px; height: 56px; background: var(--surface-high); border-radius: 0.75rem; border: 1px solid var(--ghost-border);"></div>
+            <div>
+              <div style="font-size: 0.875rem; font-weight: 500;">0.75rem (12px)</div>
+              <div class="meta">Maximum — use sparingly</div>
+            </div>
+          </div>
+          <div style="display: flex; align-items: center; gap: 1.5rem;">
+            <div style="width: 80px; height: 56px; background: var(--surface-high); border-radius: 50%; border: 1px solid var(--ghost-border);"></div>
+            <div>
+              <div style="font-size: 0.875rem; font-weight: 500;">50%</div>
+              <div class="meta">Avatars, status dots only</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="card-low" style="padding: 1rem 1.5rem; margin-top: 1.5rem;">
+          <div class="meta mb-sm">PRINCIPLE</div>
+          <p class="body-text" style="font-size: 0.8rem;">Sharp = precise. Never exceed 0.75rem for rectangular elements. Rounded corners are for consumer apps. We build tools.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="slide-nav">Memex Brand Manual</div>
+  <div class="slide-number">17 / 22</div>
+</section>
+
+<!-- ============================================================ -->
+<!-- SLIDE 18 — BRAND VOICE -->
+<!-- ============================================================ -->
+<section class="slide bg-base content-left">
+  <div class="grid-overlay"></div>
+
+  <div class="full-width" style="z-index: 1;">
+    <div class="label">Brand Voice</div>
+    <div class="headline mb-xl">One brand, four registers.</div>
+
+    <div class="grid-4" style="gap: 1.5rem;">
+      <div class="card" style="border-top: 2px solid var(--green);">
+        <div style="font-family: 'Space Grotesk', monospace; font-size: 0.6rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--green); margin-bottom: 1rem;">UI COPY</div>
+        <div style="font-size: 0.9rem; font-weight: 500; margin-bottom: 0.75rem;">Clinical. Precise.</div>
+        <div style="background: var(--surface-low); border-radius: var(--radius-sm); padding: 0.75rem; margin-bottom: 0.75rem;">
+          <div style="font-size: 0.75rem; color: var(--green); margin-bottom: 0.25rem;">3 memories synced</div>
+          <div style="font-size: 0.7rem; color: var(--text-tertiary);">Last: 2m ago</div>
+        </div>
+        <p class="body-text" style="font-size: 0.75rem;">No filler words. No "please." State facts. Show status. Let the interface breathe.</p>
+      </div>
+
+      <div class="card" style="border-top: 2px solid var(--text-secondary);">
+        <div style="font-family: 'Space Grotesk', monospace; font-size: 0.6rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--text-secondary); margin-bottom: 1rem;">MARKETING</div>
+        <div style="font-size: 0.9rem; font-weight: 500; margin-bottom: 0.75rem;">Confident. Understated.</div>
+        <div style="background: var(--surface-low); border-radius: var(--radius-sm); padding: 0.75rem; margin-bottom: 0.75rem;">
+          <div style="font-size: 0.8rem; color: var(--text-primary); font-weight: 500;">"What your agents know."</div>
+        </div>
+        <p class="body-text" style="font-size: 0.75rem;">Short sentences. No superlatives. No "revolutionary" or "game-changing." Let the product claim speak.</p>
+      </div>
+
+      <div class="card" style="border-top: 2px solid var(--text-tertiary);">
+        <div style="font-family: 'Space Grotesk', monospace; font-size: 0.6rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--text-tertiary); margin-bottom: 1rem;">DOCUMENTATION</div>
+        <div style="font-size: 0.9rem; font-weight: 500; margin-bottom: 0.75rem;">Technical. Thorough.</div>
+        <div style="background: var(--surface-low); border-radius: var(--radius-sm); padding: 0.75rem; margin-bottom: 0.75rem; font-family: 'Space Grotesk', monospace; font-size: 0.7rem; color: var(--text-secondary);">save_memory(content, tags[])</div>
+        <p class="body-text" style="font-size: 0.75rem;">Don't explain what devs already know. Show code first. API reference style. Direct.</p>
+      </div>
+
+      <div class="card" style="border-top: 2px solid var(--warning);">
+        <div style="font-family: 'Space Grotesk', monospace; font-size: 0.6rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--warning); margin-bottom: 1rem;">ERROR STATES</div>
+        <div style="font-size: 0.9rem; font-weight: 500; margin-bottom: 0.75rem;">Direct. Helpful.</div>
+        <div style="background: var(--surface-low); border-radius: var(--radius-sm); padding: 0.75rem; margin-bottom: 0.75rem;">
+          <div style="font-size: 0.75rem; color: var(--error);">Sync failed: timeout after 30s</div>
+          <div style="font-size: 0.7rem; color: var(--text-tertiary); margin-top: 0.25rem;">Check network. Retry in settings.</div>
+        </div>
+        <p class="body-text" style="font-size: 0.75rem;">State what happened. State what to do. No apologies. No "oops."</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="slide-nav">Memex Brand Manual</div>
+  <div class="slide-number">18 / 22</div>
+</section>
+
+<!-- ============================================================ -->
+<!-- SLIDE 19 — UI EXAMPLES -->
+<!-- ============================================================ -->
+<section class="slide bg-lowest content-left">
+  <div class="grid-overlay"></div>
+
+  <div class="full-width" style="z-index: 1;">
+    <div class="label">UI Examples</div>
+    <div class="headline mb-xl">Components rendered in the brand system.</div>
+
+    <div class="grid-3" style="gap: 1.5rem; align-items: start;">
+      <!-- Dashboard Card -->
+      <div>
+        <div class="meta mb-sm">DASHBOARD CARD</div>
+        <div class="card" style="padding: 1.5rem;">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+            <div style="font-family: 'Space Grotesk', monospace; font-size: 0.6rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--green);">ACTIVE MEMORIES</div>
+            <div class="green-dot"></div>
+          </div>
+          <div style="font-size: 2.25rem; font-weight: 700; letter-spacing: -0.02em; margin-bottom: 0.25rem;">1,247</div>
+          <div style="display: flex; align-items: center; gap: 0.5rem;">
+            <span style="font-family: 'Space Grotesk', monospace; font-size: 0.7rem; color: var(--green);">+12%</span>
+            <span class="meta">vs last month</span>
+          </div>
+          <div style="margin-top: 1rem; height: 4px; background: var(--surface-high); border-radius: 2px; overflow: hidden;">
+            <div style="width: 72%; height: 100%; background: var(--green); border-radius: 2px;"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Stat Card -->
+      <div>
+        <div class="meta mb-sm">STAT CARD</div>
+        <div class="card" style="padding: 1.5rem;">
+          <div style="font-family: 'Space Grotesk', monospace; font-size: 0.6rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--text-tertiary); margin-bottom: 1rem;">TEAM KNOWLEDGE</div>
+          <div style="display: flex; flex-direction: column; gap: 0.75rem;">
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+              <span style="font-size: 0.8rem; color: var(--text-secondary);">Projects indexed</span>
+              <span style="font-family: 'Space Grotesk', monospace; font-size: 0.8rem; color: var(--text-primary);">12</span>
+            </div>
+            <div style="height: 1px; background: var(--ghost-border);"></div>
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+              <span style="font-size: 0.8rem; color: var(--text-secondary);">Team members</span>
+              <span style="font-family: 'Space Grotesk', monospace; font-size: 0.8rem; color: var(--text-primary);">8</span>
+            </div>
+            <div style="height: 1px; background: var(--ghost-border);"></div>
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+              <span style="font-size: 0.8rem; color: var(--text-secondary);">Retention rate</span>
+              <span style="font-family: 'Space Grotesk', monospace; font-size: 0.8rem; color: var(--green);">94%</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Navigation + Buttons -->
+      <div>
+        <div class="meta mb-sm">NAVIGATION & BUTTONS</div>
+        <div class="card" style="padding: 1.5rem;">
+          <!-- Nav items -->
+          <div style="display: flex; flex-direction: column; gap: 0.25rem; margin-bottom: 1.5rem;">
+            <div style="display: flex; align-items: center; gap: 0.75rem; padding: 0.5rem 0.75rem; background: rgba(34,197,94,0.08); border-radius: var(--radius-sm);">
+              <div class="green-dot"></div>
+              <span style="font-size: 0.8rem; color: var(--text-primary); font-weight: 500;">Dashboard</span>
+            </div>
+            <div style="display: flex; align-items: center; gap: 0.75rem; padding: 0.5rem 0.75rem;">
+              <div style="width: 6px; height: 6px; border-radius: 50%; background: var(--text-tertiary); opacity: 0.3;"></div>
+              <span style="font-size: 0.8rem; color: var(--text-tertiary);">Projects</span>
+            </div>
+            <div style="display: flex; align-items: center; gap: 0.75rem; padding: 0.5rem 0.75rem;">
+              <div style="width: 6px; height: 6px; border-radius: 50%; background: var(--text-tertiary); opacity: 0.3;"></div>
+              <span style="font-size: 0.8rem; color: var(--text-tertiary);">Memories</span>
+            </div>
+          </div>
+          <!-- Button states -->
+          <div style="display: flex; flex-direction: column; gap: 0.5rem;">
+            <button class="btn btn-primary" style="width: 100%; justify-content: center;">Primary Action</button>
+            <button class="btn btn-secondary" style="width: 100%; justify-content: center;">Secondary</button>
+            <button class="btn btn-ghost" style="width: 100%; justify-content: center;">Ghost</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="slide-nav">Memex Brand Manual</div>
+  <div class="slide-number">19 / 22</div>
+</section>
+
+<!-- ============================================================ -->
+<!-- SLIDE 20 — BRAND APPLICATIONS -->
+<!-- ============================================================ -->
+<section class="slide bg-base content-left">
+  <div class="grid-overlay"></div>
+
+  <div class="full-width" style="z-index: 1;">
+    <div class="label">Brand Applications</div>
+    <div class="headline mb-xl">How the brand lives across touchpoints.</div>
+
+    <div class="grid-2" style="gap: 2rem; align-items: start;">
+      <!-- Business Card -->
+      <div>
+        <div class="meta mb-sm">BUSINESS CARD</div>
+        <div style="background: var(--surface-lowest); border: 1px solid var(--ghost-border); border-radius: var(--radius-sm); padding: 2rem; aspect-ratio: 1.75/1; display: flex; flex-direction: column; justify-content: space-between;">
+          <div style="display: flex; align-items: center; gap: 0.5rem;">
+            <svg width="18" height="18" viewBox="0 0 80 80" fill="none"><circle cx="20" cy="20" r="5" fill="#22c55e"/><circle cx="60" cy="20" r="5" fill="#22c55e"/><circle cx="40" cy="40" r="6" fill="#22c55e"/><circle cx="16" cy="58" r="4.5" fill="#22c55e"/><circle cx="64" cy="58" r="4.5" fill="#22c55e"/><line x1="20" y1="20" x2="40" y2="40" stroke="#22c55e" stroke-width="1.5" opacity="0.5"/><line x1="60" y1="20" x2="40" y2="40" stroke="#22c55e" stroke-width="1.5" opacity="0.5"/><line x1="16" y1="58" x2="40" y2="40" stroke="#22c55e" stroke-width="1.5" opacity="0.5"/><line x1="64" y1="58" x2="40" y2="40" stroke="#22c55e" stroke-width="1.5" opacity="0.5"/></svg>
+            <span style="font-size: 1rem; font-weight: 700; letter-spacing: -0.02em;">memex</span>
+          </div>
+          <div>
+            <div style="font-size: 0.8rem; font-weight: 500; margin-bottom: 0.25rem;">Juan Jose Gomez</div>
+            <div style="font-family: 'Space Grotesk', monospace; font-size: 0.6rem; color: var(--text-tertiary); letter-spacing: 0.05em;">juan@memex.dev</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Social / OG Image -->
+      <div>
+        <div class="meta mb-sm">SOCIAL / OG IMAGE</div>
+        <div style="background: var(--surface-lowest); border: 1px solid var(--ghost-border); border-radius: var(--radius-sm); padding: 2.5rem; aspect-ratio: 1.91/1; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; position: relative; overflow: hidden;">
+          <div class="glow-green" style="top: -50%; left: -20%; width: 300px; height: 300px;"></div>
+          <div style="font-size: 1.75rem; font-weight: 700; letter-spacing: -0.02em; z-index: 1;">memex</div>
+          <div style="height: 2px; width: 40px; background: var(--green); margin: 0.75rem 0; z-index: 1;"></div>
+          <div style="font-size: 0.75rem; color: var(--text-secondary); z-index: 1;">Your team's knowledge layer</div>
+        </div>
+      </div>
+
+      <!-- Email Signature -->
+      <div>
+        <div class="meta mb-sm">EMAIL SIGNATURE</div>
+        <div class="card" style="padding: 1.5rem;">
+          <div style="display: flex; gap: 1rem; align-items: flex-start;">
+            <div style="width: 2px; background: var(--green); align-self: stretch; border-radius: 1px;"></div>
+            <div>
+              <div style="font-size: 0.8rem; font-weight: 600;">Juan Jose Gomez</div>
+              <div style="font-family: 'Space Grotesk', monospace; font-size: 0.65rem; color: var(--text-tertiary); letter-spacing: 0.05em; margin-top: 0.25rem;">Founder & Engineer</div>
+              <div style="margin-top: 0.5rem; display: flex; align-items: center; gap: 0.5rem;">
+                <svg width="12" height="12" viewBox="0 0 80 80" fill="none"><circle cx="20" cy="20" r="5" fill="#22c55e"/><circle cx="60" cy="20" r="5" fill="#22c55e"/><circle cx="40" cy="40" r="6" fill="#22c55e"/><circle cx="16" cy="58" r="4.5" fill="#22c55e"/><circle cx="64" cy="58" r="4.5" fill="#22c55e"/></svg>
+                <span style="font-size: 0.75rem; font-weight: 600; letter-spacing: -0.02em;">memex</span>
+                <span style="font-size: 0.65rem; color: var(--text-tertiary);">|</span>
+                <span style="font-family: 'Space Grotesk', monospace; font-size: 0.6rem; color: var(--text-tertiary); letter-spacing: 0.03em;">memex.dev</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- GitHub README badge -->
+      <div>
+        <div class="meta mb-sm">GITHUB README</div>
+        <div class="card" style="padding: 1.5rem; font-family: 'Space Grotesk', monospace; font-size: 0.75rem;">
+          <div style="color: var(--text-tertiary); margin-bottom: 0.5rem;"># memex</div>
+          <div style="color: var(--text-secondary); margin-bottom: 1rem;">Your team's knowledge layer. Persistent memory for humans and AI agents.</div>
+          <div style="display: flex; gap: 0.5rem; flex-wrap: wrap;">
+            <span style="background: rgba(34,197,94,0.15); color: var(--green); padding: 0.2rem 0.6rem; border-radius: var(--radius-sm); font-size: 0.6rem;">v2.1.0</span>
+            <span style="background: var(--surface-high); color: var(--text-secondary); padding: 0.2rem 0.6rem; border-radius: var(--radius-sm); font-size: 0.6rem;">MIT</span>
+            <span style="background: var(--surface-high); color: var(--text-secondary); padding: 0.2rem 0.6rem; border-radius: var(--radius-sm); font-size: 0.6rem;">TypeScript</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="slide-nav">Memex Brand Manual</div>
+  <div class="slide-number">20 / 22</div>
+</section>
+
+<!-- ============================================================ -->
+<!-- SLIDE 21 — DESIGN TOKENS -->
+<!-- ============================================================ -->
+<section class="slide bg-lowest content-left">
+  <div class="grid-overlay"></div>
+
+  <div class="full-width" style="z-index: 1;">
+    <div class="label">Design Tokens</div>
+    <div class="headline mb-xl">Ship-ready values for CSS and Tailwind.</div>
+
+    <div class="grid-2" style="gap: 2rem; align-items: start;">
+      <div>
+        <div class="meta mb-sm">CSS CUSTOM PROPERTIES</div>
+        <div class="token-block"><span class="token-comment">/* Surfaces */</span>
+<span class="token-key">--surface-lowest</span>: <span class="token-value">#0e0e0e</span>;
+<span class="token-key">--surface-base</span>: <span class="token-value">#131313</span>;
+<span class="token-key">--surface-low</span>: <span class="token-value">#1c1b1b</span>;
+<span class="token-key">--surface-container</span>: <span class="token-value">#201f1f</span>;
+<span class="token-key">--surface-high</span>: <span class="token-value">#2a2a2a</span>;
+<span class="token-key">--surface-highest</span>: <span class="token-value">#353534</span>;
+
+<span class="token-comment">/* Text */</span>
+<span class="token-key">--text-primary</span>: <span class="token-value">#e5e2e1</span>;
+<span class="token-key">--text-secondary</span>: <span class="token-value">#c6c6c6</span>;
+<span class="token-key">--text-tertiary</span>: <span class="token-value">#919191</span>;
+
+<span class="token-comment">/* Accent */</span>
+<span class="token-key">--green</span>: <span class="token-value">#22c55e</span>;
+<span class="token-key">--green-bright</span>: <span class="token-value">#6bff8f</span>;
+<span class="token-key">--green-container</span>: <span class="token-value">#00a74b</span>;
+
+<span class="token-comment">/* Semantic */</span>
+<span class="token-key">--error</span>: <span class="token-value">#ffb4ab</span>;
+<span class="token-key">--warning</span>: <span class="token-value">#fbbf24</span>;
+<span class="token-key">--info</span>: <span class="token-value">#c6c6cf</span>;
+
+<span class="token-comment">/* Effects */</span>
+<span class="token-key">--ghost-border</span>: <span class="token-value">rgba(71,71,71,0.15)</span>;
+<span class="token-key">--radius-sm</span>: <span class="token-value">0.25rem</span>;
+<span class="token-key">--radius-md</span>: <span class="token-value">0.5rem</span>;
+<span class="token-key">--radius-lg</span>: <span class="token-value">0.75rem</span>;</div>
+      </div>
+
+      <div>
+        <div class="meta mb-sm">TAILWIND EXTEND CONFIG</div>
+        <div class="token-block"><span class="token-comment">// tailwind.config.ts</span>
+<span class="token-key">colors</span>: {
+  <span class="token-key">surface</span>: {
+    lowest: <span class="token-value">"#0e0e0e"</span>,
+    base: <span class="token-value">"#131313"</span>,
+    low: <span class="token-value">"#1c1b1b"</span>,
+    container: <span class="token-value">"#201f1f"</span>,
+    high: <span class="token-value">"#2a2a2a"</span>,
+    highest: <span class="token-value">"#353534"</span>,
+  },
+  <span class="token-key">text</span>: {
+    primary: <span class="token-value">"#e5e2e1"</span>,
+    secondary: <span class="token-value">"#c6c6c6"</span>,
+    tertiary: <span class="token-value">"#919191"</span>,
+  },
+  <span class="token-key">accent</span>: {
+    DEFAULT: <span class="token-value">"#22c55e"</span>,
+    bright: <span class="token-value">"#6bff8f"</span>,
+    container: <span class="token-value">"#00a74b"</span>,
+  },
+},
+<span class="token-key">fontFamily</span>: {
+  sans: [<span class="token-value">"Inter"</span>, <span class="token-value">"sans-serif"</span>],
+  mono: [<span class="token-value">"Space Grotesk"</span>, <span class="token-value">"monospace"</span>],
+},
+<span class="token-key">borderRadius</span>: {
+  sm: <span class="token-value">"0.25rem"</span>,
+  md: <span class="token-value">"0.5rem"</span>,
+  lg: <span class="token-value">"0.75rem"</span>,
+},</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="slide-nav">Memex Brand Manual</div>
+  <div class="slide-number">21 / 22</div>
+</section>
+
+<!-- ============================================================ -->
+<!-- SLIDE 22 — CREDITS -->
+<!-- ============================================================ -->
+<section class="slide bg-lowest" style="justify-content: center; align-items: center;">
+  <div class="grid-overlay"></div>
+  <div class="glow-green" style="top: 30%; left: 40%; width: 500px; height: 500px; opacity: 0.4;"></div>
+
+  <div style="text-align: center; z-index: 1;">
+    <svg width="56" height="56" viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg" style="margin-bottom: 2rem;">
+      <circle cx="20" cy="20" r="5" fill="#22c55e"/>
+      <circle cx="60" cy="20" r="5" fill="#22c55e"/>
+      <circle cx="40" cy="40" r="6" fill="#22c55e"/>
+      <circle cx="16" cy="58" r="4.5" fill="#22c55e"/>
+      <circle cx="64" cy="58" r="4.5" fill="#22c55e"/>
+      <line x1="20" y1="20" x2="40" y2="40" stroke="#22c55e" stroke-width="1.5" opacity="0.5"/>
+      <line x1="60" y1="20" x2="40" y2="40" stroke="#22c55e" stroke-width="1.5" opacity="0.5"/>
+      <line x1="16" y1="58" x2="40" y2="40" stroke="#22c55e" stroke-width="1.5" opacity="0.5"/>
+      <line x1="64" y1="58" x2="40" y2="40" stroke="#22c55e" stroke-width="1.5" opacity="0.5"/>
+      <line x1="20" y1="20" x2="60" y2="20" stroke="#22c55e" stroke-width="1" opacity="0.25"/>
+      <line x1="16" y1="58" x2="64" y2="58" stroke="#22c55e" stroke-width="1" opacity="0.25"/>
+    </svg>
+
+    <div style="font-size: 1.5rem; font-weight: 600; letter-spacing: -0.01em; margin-bottom: 1rem;">Brand Identity by Memex.</div>
+    <div style="font-size: 0.9rem; color: var(--text-secondary); margin-bottom: 2.5rem;">Built with precision.</div>
+
+    <div class="green-line" style="margin: 0 auto 2.5rem auto;"></div>
+
+    <div class="meta" style="opacity: 0.4;">
+      <div style="margin-bottom: 0.5rem;">What your agents know.</div>
+      <div>2026</div>
+    </div>
+  </div>
+
+  <div class="slide-nav">Memex Brand Manual</div>
+  <div class="slide-number">22 / 22</div>
+</section>
+
+<script>
+  // Scroll progress indicator
+  window.addEventListener('scroll', () => {
+    const scrollTop = window.scrollY;
+    const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+    const progress = (scrollTop / docHeight) * 100;
+    document.getElementById('scrollIndicator').style.width = progress + '%';
+  });
+
+  // Keyboard navigation
+  document.addEventListener('keydown', (e) => {
+    const slides = document.querySelectorAll('.slide');
+    const scrollTop = window.scrollY;
+    const vh = window.innerHeight;
+    const currentSlide = Math.round(scrollTop / vh);
+
+    if (e.key === 'ArrowDown' || e.key === ' ' || e.key === 'PageDown') {
+      e.preventDefault();
+      const next = Math.min(currentSlide + 1, slides.length - 1);
+      slides[next].scrollIntoView({ behavior: 'smooth' });
+    } else if (e.key === 'ArrowUp' || e.key === 'PageUp') {
+      e.preventDefault();
+      const prev = Math.max(currentSlide - 1, 0);
+      slides[prev].scrollIntoView({ behavior: 'smooth' });
+    }
+  });
+</script>
+
+</body>
+</html>

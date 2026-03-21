@@ -1,164 +1,150 @@
-'use client';
+import { scanProjects } from "@/lib/data-source";
+import { ProjectCard } from "@/components/project-card";
 
-import { useEffect, useState } from 'react';
-import { StatCard } from '@/components/stat-card';
-import { TagBadge } from '@/components/tag-badge';
-import { ActivityChart } from '@/components/activity-chart';
-import Link from 'next/link';
+export const dynamic = "force-dynamic";
 
-interface Stats {
-  memories: {
-    total: number;
-    projects: Array<{ project: string; count: number }>;
-  };
-  sessions: {
-    total: number;
-    active: number;
-    events: number;
-    recent_week: number;
-    by_agent: Array<{ agent_source: string; count: number }>;
-  };
-  tags: Array<{ tag: string; count: number }>;
-  daily_activity: Array<{ day: string; count: number }>;
+function getGreeting(): string {
+  const hour = new Date().getHours();
+  if (hour < 12) return "Good morning";
+  if (hour < 18) return "Good afternoon";
+  return "Good evening";
 }
 
-export default function OverviewPage() {
-  const [stats, setStats] = useState<Stats | null>(null);
-  const [error, setError] = useState('');
+export default async function DashboardPage() {
+  const projects = await scanProjects();
 
-  useEffect(() => {
-    fetch('/api/stats')
-      .then((r) => r.json())
-      .then((data) => {
-        if (data.error) setError(data.error);
-        else setStats(data);
-      })
-      .catch((e) => setError(e.message));
-  }, []);
+  const withFiles = projects.filter((p) => p.fileCount > 0);
+  const withoutFiles = projects.filter((p) => p.fileCount === 0);
+  const totalProjects = projects.filter((p) => !p.isShared).length;
+  const projectsWithKnowledge = withFiles.filter((p) => !p.isShared).length;
+  const coveragePercent =
+    totalProjects > 0
+      ? Math.round((projectsWithKnowledge / totalProjects) * 100)
+      : 0;
+  const totalFiles = projects.reduce((sum, p) => sum + p.fileCount, 0);
 
-  if (error) {
-    return (
-      <div className="max-w-2xl">
-        <h1 className="text-2xl font-bold mb-4">Memex Dashboard</h1>
-        <div className="bg-red-500/10 border border-red-500/30 rounded-xl p-4 text-red-300 text-sm">
-          {error}
-        </div>
-      </div>
-    );
-  }
-
-  if (!stats) {
-    return (
-      <div className="animate-pulse space-y-4">
-        <div className="h-8 w-48 bg-gray-800 rounded" />
-        <div className="grid grid-cols-4 gap-4">
-          {[1, 2, 3, 4].map((i) => (
-            <div key={i} className="h-24 bg-gray-800 rounded-xl" />
-          ))}
-        </div>
-      </div>
-    );
-  }
+  // Count projects with stale/old files as "integrity alerts"
+  const alertCount = projects.filter((p) =>
+    p.files.some((f) => f.staleness === "old")
+  ).length;
 
   return (
-    <div className="space-y-8">
-      <div>
-        <h1 className="text-2xl font-bold">Overview</h1>
-        <p className="text-sm text-gray-500 mt-1">Your AI agent ecosystem at a glance</p>
+    <div className="max-w-7xl mx-auto px-6 py-8">
+      {/* Greeting + Deploy Button */}
+      <div className="flex items-start justify-between mb-10">
+        <div>
+          <h1 className="text-3xl font-semibold tracking-tight">
+            {getGreeting()}, Juan
+          </h1>
+          <p className="font-mono text-xs text-muted-foreground uppercase tracking-wider mt-1">
+            Knowledge Mode: Agent-Context
+          </p>
+        </div>
+        <a
+          href="/search"
+          className="inline-flex items-center gap-2 border border-border rounded-sm px-4 py-2 text-xs font-mono uppercase tracking-wider text-muted-foreground hover:text-foreground hover:border-foreground/30 transition-colors"
+        >
+          + Search Knowledge
+        </a>
       </div>
 
-      {/* Stats grid */}
-      <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
-        <StatCard
-          label="Memories"
-          value={stats.memories.total}
-          sub={`${stats.memories.projects.length} project${stats.memories.projects.length !== 1 ? 's' : ''}`}
-        />
-        <StatCard
-          label="Sessions"
-          value={stats.sessions.total}
-          sub={`${stats.sessions.active} active`}
-        />
-        <StatCard
-          label="Events"
-          value={stats.sessions.events.toLocaleString()}
-          sub="across all sessions"
-        />
-        <StatCard
-          label="This Week"
-          value={stats.sessions.recent_week}
-          sub="sessions recorded"
-        />
-      </div>
-
-      {/* Activity chart */}
-      <div className="bg-gray-900 border border-gray-800 rounded-xl p-5">
-        <h2 className="text-sm font-medium text-gray-400 mb-4">Session Activity (30 days)</h2>
-        <ActivityChart data={stats.daily_activity} />
-      </div>
-
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        {/* Agent breakdown */}
-        <div className="bg-gray-900 border border-gray-800 rounded-xl p-5">
-          <h2 className="text-sm font-medium text-gray-400 mb-3">Agents</h2>
-          {stats.sessions.by_agent.length === 0 ? (
-            <p className="text-sm text-gray-600">No sessions recorded yet.</p>
-          ) : (
-            <div className="space-y-2">
-              {stats.sessions.by_agent.map((a) => (
-                <div key={a.agent_source} className="flex items-center justify-between">
-                  <span className="text-sm text-gray-300 font-mono">{a.agent_source}</span>
-                  <span className="text-sm text-gray-500">{a.count} sessions</span>
-                </div>
-              ))}
-            </div>
-          )}
+      {/* Stat Cards */}
+      <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-10">
+        {/* Active Projects */}
+        <div className="bg-surface-high rounded-sm p-5">
+          <p className="font-mono text-[10px] text-muted-foreground uppercase tracking-wider mb-2">
+            Active Projects
+          </p>
+          <p className="text-3xl font-semibold">{totalProjects}</p>
+          <p className="text-xs text-tertiary mt-1">
+            +{projectsWithKnowledge} with knowledge
+          </p>
         </div>
 
-        {/* Top tags */}
-        <div className="bg-gray-900 border border-gray-800 rounded-xl p-5">
-          <h2 className="text-sm font-medium text-gray-400 mb-3">Top Tags</h2>
-          {stats.tags.length === 0 ? (
-            <p className="text-sm text-gray-600">No tags yet.</p>
-          ) : (
-            <div className="flex flex-wrap gap-2">
-              {stats.tags.map((t) => (
-                <TagBadge key={t.tag} tag={t.tag} count={t.count} />
-              ))}
-            </div>
-          )}
+        {/* Knowledge Health */}
+        <div className="bg-surface-high rounded-sm p-5">
+          <p className="font-mono text-[10px] text-muted-foreground uppercase tracking-wider mb-2">
+            Knowledge Health
+          </p>
+          <p className="text-3xl font-semibold">{coveragePercent}%</p>
+          <div className="mt-2 h-1.5 w-full bg-surface-lowest rounded-full overflow-hidden">
+            <div
+              className="h-full bg-tertiary rounded-full transition-all"
+              style={{ width: `${coveragePercent}%` }}
+            />
+          </div>
+        </div>
+
+        {/* Integrity Alerts */}
+        <div className="bg-surface-high rounded-sm p-5">
+          <p className="font-mono text-[10px] text-muted-foreground uppercase tracking-wider mb-2">
+            Integrity Alerts
+          </p>
+          <p className="text-3xl font-semibold">
+            {alertCount > 0 ? (
+              <span className="text-amber-400">{alertCount}</span>
+            ) : (
+              <span className="text-tertiary">0</span>
+            )}
+          </p>
+          <p className="text-xs text-muted-foreground mt-1">
+            {alertCount > 0
+              ? `${alertCount === 1 ? "project needs" : "projects need"} update`
+              : "all files current"}
+          </p>
         </div>
       </div>
 
-      {/* Projects list */}
-      <div className="bg-gray-900 border border-gray-800 rounded-xl p-5">
-        <div className="flex items-center justify-between mb-3">
-          <h2 className="text-sm font-medium text-gray-400">Projects</h2>
-          <Link href="/projects" className="text-xs text-memex-400 hover:text-memex-300">
-            View all
-          </Link>
-        </div>
-        {stats.memories.projects.length === 0 ? (
-          <p className="text-sm text-gray-600">No projects yet. Run &lsquo;memex init&rsquo; to get started.</p>
-        ) : (
-          <div className="space-y-2">
-            {stats.memories.projects.slice(0, 8).map((p) => (
-              <Link
-                key={p.project}
-                href={`/projects?p=${encodeURIComponent(p.project)}`}
-                className="flex items-center justify-between py-1.5 hover:bg-gray-800/50 rounded px-2 -mx-2 transition-colors"
-              >
-                <span className="text-sm text-gray-300 font-mono truncate">
-                  {p.project.split('/').slice(-2).join('/')}
-                </span>
-                <span className="text-xs text-gray-500 shrink-0 ml-3">
-                  {p.count} memories
-                </span>
-              </Link>
+      {/* Current Projects */}
+      {withFiles.length > 0 && (
+        <section className="mb-10">
+          <div className="flex items-center justify-between mb-4">
+            <h2 className="font-mono text-xs text-muted-foreground uppercase tracking-wider">
+              Current Projects ({withFiles.length})
+            </h2>
+            <p className="font-mono text-[10px] text-muted-foreground/60 uppercase tracking-wider">
+              {totalFiles} knowledge files
+            </p>
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
+            {withFiles.map((project) => (
+              <ProjectCard
+                key={project.name}
+                name={project.name}
+                files={project.files}
+                healthScore={project.healthScore}
+                fileCount={project.fileCount}
+                totalPossible={project.totalPossible}
+                isShared={project.isShared}
+                lastUpdated={project.lastUpdated}
+              />
             ))}
           </div>
-        )}
-      </div>
+        </section>
+      )}
+
+      {/* Projects Without Knowledge */}
+      {withoutFiles.length > 0 && (
+        <section>
+          <h2 className="font-mono text-xs text-muted-foreground/60 uppercase tracking-wider mb-4">
+            No Knowledge Files ({withoutFiles.length})
+          </h2>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
+            {withoutFiles.map((project) => (
+              <ProjectCard
+                key={project.name}
+                name={project.name}
+                files={project.files}
+                healthScore={project.healthScore}
+                fileCount={project.fileCount}
+                totalPossible={project.totalPossible}
+                isShared={project.isShared}
+                lastUpdated={project.lastUpdated}
+              />
+            ))}
+          </div>
+        </section>
+      )}
     </div>
   );
 }
