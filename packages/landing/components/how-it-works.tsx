@@ -35,10 +35,10 @@ export function HowItWorks() {
       <div className="mx-auto max-w-6xl">
         {/* Section header — centered above both steps */}
         <div className="text-center">
-          <h2 className="text-sm font-semibold uppercase tracking-widest text-blue-400">
+          <h2 className="font-[family-name:var(--font-space-grotesk)] text-xs font-semibold uppercase tracking-widest text-[#919191]">
             How It Works
           </h2>
-          <p className="mt-4 text-3xl font-bold tracking-tight text-white sm:text-4xl">
+          <p className="mt-4 text-3xl font-bold tracking-tight text-[#e5e2e1] sm:text-4xl">
             Two steps. Then forget about it.
           </p>
         </div>
@@ -53,14 +53,14 @@ export function HowItWorks() {
               {/* Text side */}
               <div className={idx % 2 === 1 ? "lg:order-2" : ""}>
                 <div className="flex items-start gap-4">
-                  <span className="shrink-0 rounded-lg bg-gradient-to-br from-blue-500 to-purple-500 px-3 py-1 font-mono text-sm font-bold text-white">
+                  <span className="shrink-0 rounded-md bg-[#22c55e] px-3 py-1 font-[family-name:var(--font-space-grotesk)] text-sm font-bold text-[#131313]">
                     {step.number}
                   </span>
                   <div>
-                    <h3 className="text-xl font-semibold text-white">
+                    <h3 className="text-xl font-semibold text-[#e5e2e1]">
                       {step.title}
                     </h3>
-                    <p className="mt-2 text-gray-400">
+                    <p className="mt-2 text-[#c6c6c6]">
                       {step.description}
                     </p>
                   </div>
@@ -69,8 +69,8 @@ export function HowItWorks() {
 
               {/* Code side */}
               <div className={`mt-8 lg:mt-0 ${idx % 2 === 1 ? "lg:order-1" : ""}`}>
-                <div className="overflow-x-auto rounded-xl border border-white/5 bg-[#111111] p-5">
-                  <pre className="font-mono text-sm leading-6 text-gray-300">
+                <div className="overflow-x-auto rounded-md bg-[#0e0e0e] p-5">
+                  <pre className="font-[family-name:var(--font-space-grotesk)] text-sm leading-6 text-[#c6c6c6]">
                     <code>{step.code}</code>
                   </pre>
                 </div>

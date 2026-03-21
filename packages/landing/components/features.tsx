@@ -62,10 +62,10 @@ export function Features() {
       <div className="mx-auto max-w-5xl">
         {/* Section header */}
         <div className="text-center">
-          <h2 className="text-sm font-semibold uppercase tracking-widest text-blue-400">
+          <h2 className="font-[family-name:var(--font-space-grotesk)] text-xs font-semibold uppercase tracking-widest text-[#919191]">
             Features
           </h2>
-          <p className="mt-4 text-3xl font-bold tracking-tight text-white sm:text-4xl">
+          <p className="mt-4 text-3xl font-bold tracking-tight text-[#e5e2e1] sm:text-4xl">
             Built for how developers actually work
           </p>
         </div>
@@ -75,15 +75,15 @@ export function Features() {
           {features.map((feature) => (
             <div
               key={feature.title}
-              className="group rounded-xl border border-white/5 bg-white/[0.02] p-6 transition hover:border-white/10 hover:bg-white/[0.04]"
+              className="group rounded bg-[#1c1b1b] p-6 transition hover:bg-[#201f1f]"
             >
-              <div className="inline-flex rounded-lg bg-gradient-to-br from-blue-500/10 to-purple-500/10 p-2.5 text-blue-400 transition group-hover:from-blue-500/20 group-hover:to-purple-500/20">
+              <div className="inline-flex rounded-md bg-[#201f1f] p-2.5 text-[#919191] transition group-hover:text-[#22c55e] group-hover:bg-[#22c55e]/10">
                 {feature.icon}
               </div>
-              <h3 className="mt-4 text-base font-semibold text-white">
+              <h3 className="mt-4 text-base font-semibold text-[#e5e2e1]">
                 {feature.title}
               </h3>
-              <p className="mt-2 text-sm leading-6 text-gray-400">
+              <p className="mt-2 text-sm leading-6 text-[#c6c6c6]">
                 {feature.description}
               </p>
             </div>

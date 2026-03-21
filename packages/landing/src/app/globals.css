@@ -8,10 +8,10 @@
   }
 
   body {
-    @apply bg-[#0a0a0a] text-gray-100 antialiased;
+    @apply bg-[#131313] text-[#e5e2e1] antialiased;
   }
 
   ::selection {
-    @apply bg-blue-500/30;
+    @apply bg-green-500/30;
   }
 }

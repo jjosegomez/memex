@@ -25,10 +25,10 @@ export function Problem() {
       <div className="mx-auto max-w-5xl">
         {/* Section header */}
         <div className="text-center">
-          <h2 className="text-sm font-semibold uppercase tracking-widest text-blue-400">
+          <h2 className="font-[family-name:var(--font-space-grotesk)] text-xs font-semibold uppercase tracking-widest text-[#919191]">
             The Problem
           </h2>
-          <p className="mt-4 text-3xl font-bold tracking-tight text-white sm:text-4xl">
+          <p className="mt-4 text-3xl font-bold tracking-tight text-[#e5e2e1] sm:text-4xl">
             Your AI memory is trapped
           </p>
         </div>
@@ -38,13 +38,13 @@ export function Problem() {
           {painPoints.map((point) => (
             <div
               key={point.title}
-              className="rounded-xl border border-white/5 bg-white/[0.02] p-8 transition hover:border-white/10 hover:bg-white/[0.04]"
+              className="rounded bg-[#1c1b1b] p-8 transition hover:bg-[#201f1f]"
             >
               <div className="text-3xl">{point.icon}</div>
-              <h3 className="mt-4 text-lg font-semibold text-white">
+              <h3 className="mt-4 text-lg font-semibold text-[#e5e2e1]">
                 {point.title}
               </h3>
-              <p className="mt-2 text-sm leading-6 text-gray-400">
+              <p className="mt-2 text-sm leading-6 text-[#c6c6c6]">
                 {point.description}
               </p>
             </div>
@@ -53,10 +53,10 @@ export function Problem() {
 
         {/* Solution statement */}
         <div className="mt-16 text-center">
-          <div className="inline-block rounded-2xl border border-blue-500/20 bg-blue-500/5 px-8 py-6">
-            <p className="text-xl font-semibold text-white sm:text-2xl">
+          <div className="inline-block rounded-md border border-[#22c55e]/20 bg-[#1c1b1b] px-8 py-6">
+            <p className="text-xl font-semibold text-[#e5e2e1] sm:text-2xl">
               Memex gives your AI agents a{" "}
-              <span className="bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent">
+              <span className="text-[#22c55e]">
                 portable, encrypted brain.
               </span>
             </p>

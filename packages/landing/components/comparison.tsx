@@ -18,12 +18,12 @@ const rows: { label: string; values: CellValue[] }[] = [
 
 function CellContent({ value }: { value: CellValue }) {
   if (value === true) {
-    return <span className="text-green-400 font-semibold text-lg" aria-label="Yes">&#10003;</span>;
+    return <span className="text-[#22c55e] font-semibold text-lg" aria-label="Yes">&#10003;</span>;
   }
   if (value === false) {
-    return <span className="text-gray-600 text-lg" aria-label="No">&#10005;</span>;
+    return <span className="text-[#919191] text-lg" aria-label="No">&#10005;</span>;
   }
-  return <span className="text-gray-400 text-sm">{value}</span>;
+  return <span className="text-[#c6c6c6] text-sm">{value}</span>;
 }
 
 export function Comparison() {
@@ -32,28 +32,28 @@ export function Comparison() {
       <div className="mx-auto max-w-5xl">
         {/* Section header */}
         <div className="text-center">
-          <h2 className="text-sm font-semibold uppercase tracking-widest text-blue-400">
+          <h2 className="font-[family-name:var(--font-space-grotesk)] text-xs font-semibold uppercase tracking-widest text-[#919191]">
             Comparison
           </h2>
-          <p className="mt-4 text-3xl font-bold tracking-tight text-white sm:text-4xl">
+          <p className="mt-4 text-3xl font-bold tracking-tight text-[#e5e2e1] sm:text-4xl">
             The only memory layer that checks every box
           </p>
         </div>
 
         {/* Table container — horizontal scroll on mobile */}
-        <div className="mt-16 overflow-x-auto rounded-xl border border-white/5">
+        <div className="mt-16 overflow-x-auto rounded-md bg-[#1c1b1b]">
           <table className="w-full min-w-[540px] text-left">
             <thead>
-              <tr className="border-b border-white/5">
-                <th scope="col" className="py-4 px-6 text-sm font-medium text-gray-500" />
+              <tr className="bg-[#201f1f]">
+                <th scope="col" className="py-4 px-6 text-sm font-medium text-[#919191]" />
                 {competitors.map((c) => (
                   <th
                     key={c.name}
                     scope="col"
                     className={`py-4 px-6 text-center text-sm font-semibold ${
                       c.highlight
-                        ? "text-white border-l-2 border-l-blue-500 bg-blue-500/5"
-                        : "text-gray-400"
+                        ? "text-[#e5e2e1] border-l-2 border-l-[#22c55e] bg-[#22c55e]/[0.03]"
+                        : "text-[#c6c6c6]"
                     }`}
                   >
                     {c.name}
@@ -66,10 +66,10 @@ export function Comparison() {
                 <tr
                   key={row.label}
                   className={
-                    i < rows.length - 1 ? "border-b border-white/5" : ""
+                    i < rows.length - 1 ? "border-b border-[#2a2a2a]" : ""
                   }
                 >
-                  <th scope="row" className="py-4 px-6 text-sm font-medium text-gray-300">
+                  <th scope="row" className="py-4 px-6 text-sm font-medium text-[#c6c6c6]">
                     {row.label}
                   </th>
                   {row.values.map((value, j) => (
@@ -77,7 +77,7 @@ export function Comparison() {
                       key={j}
                       className={`py-4 px-6 text-center ${
                         competitors[j].highlight
-                          ? "border-l-2 border-l-blue-500 bg-blue-500/5"
+                          ? "border-l-2 border-l-[#22c55e] bg-[#22c55e]/[0.03]"
                           : ""
                       }`}
                     >

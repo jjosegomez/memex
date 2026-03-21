@@ -6,12 +6,12 @@ const links = [
 
 export function Footer() {
   return (
-    <footer className="border-t border-white/5 px-6 py-12">
+    <footer className="bg-[#0e0e0e] px-6 py-12">
       <div className="mx-auto flex max-w-5xl flex-col items-center gap-6 sm:flex-row sm:justify-between">
         {/* Left — branding */}
         <div className="flex items-center gap-3">
-          <span className="text-lg font-bold text-white">memex</span>
-          <span className="text-xs text-gray-600">MIT License</span>
+          <span className="text-lg font-bold text-[#e5e2e1]">memex</span>
+          <span className="font-[family-name:var(--font-space-grotesk)] text-xs text-[#919191]">MIT License</span>
         </div>
 
         {/* Center — links */}
@@ -26,7 +26,7 @@ export function Footer() {
                   ? "noopener noreferrer"
                   : undefined
               }
-              className="text-sm text-gray-500 transition hover:text-gray-300"
+              className="text-sm text-[#c6c6c6] transition hover:text-[#e5e2e1]"
             >
               {link.label}
             </a>
@@ -34,13 +34,13 @@ export function Footer() {
         </nav>
 
         {/* Right — credit */}
-        <p className="text-xs text-gray-600">
+        <p className="text-xs text-[#919191]">
           Built by{" "}
           <a
             href="https://github.com/jjosegomez"
             target="_blank"
             rel="noopener noreferrer"
-            className="text-gray-500 transition hover:text-gray-300"
+            className="text-[#c6c6c6] transition hover:text-[#e5e2e1]"
           >
             Juan J. Gomez
           </a>

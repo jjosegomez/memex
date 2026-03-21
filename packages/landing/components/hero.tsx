@@ -13,32 +13,32 @@ export function Hero() {
 
   return (
     <section className="relative overflow-hidden px-6 pt-32 pb-24 sm:pt-40 sm:pb-32">
-      {/* Background gradient */}
+      {/* Background ambient glow */}
       <div
         aria-hidden="true"
         className="pointer-events-none absolute inset-0 -z-10"
       >
-        <div className="absolute top-0 left-1/2 -translate-x-1/2 h-[600px] w-[900px] rounded-full bg-gradient-to-br from-blue-600/20 via-purple-600/10 to-transparent blur-3xl" />
+        <div className="absolute top-0 left-1/2 -translate-x-1/2 h-[600px] w-[900px] rounded-full bg-[#22c55e]/[0.04] blur-3xl" />
       </div>
 
       <div className="mx-auto max-w-3xl text-center">
         {/* Badge */}
-        <div className="mb-8 inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-4 py-1.5 text-sm text-gray-400">
-          <span className="inline-block h-1.5 w-1.5 rounded-full bg-green-400" />
+        <div className="mb-8 inline-flex items-center gap-2 rounded-md border border-[#22c55e]/20 bg-[#1c1b1b] px-4 py-1.5 text-sm text-[#c6c6c6]">
+          <span className="inline-block h-1.5 w-1.5 rounded-full bg-[#22c55e]" />
           Open Source &middot; MIT License
         </div>
 
         {/* Headline */}
-        <h1 className="text-5xl font-bold tracking-tight text-white sm:text-7xl">
+        <h1 className="text-5xl font-bold tracking-tight text-[#e5e2e1] sm:text-7xl">
           Stop re-explaining
           <br />
-          <span className="bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent">
+          <span className="text-[#22c55e]">
             yourself to every AI tool.
           </span>
         </h1>
 
         {/* Subhead */}
-        <p className="mt-6 text-lg leading-8 text-gray-400 sm:text-xl">
+        <p className="mt-6 text-lg leading-8 text-[#c6c6c6] sm:text-xl">
           Portable, encrypted memory that follows you across AI coding agents.
           <br className="hidden sm:inline" /> Save context in Claude Code, recall it in Cursor.
           One command to install.
@@ -49,11 +49,11 @@ export function Hero() {
           {/* Install command — primary CTA */}
           <button
             onClick={copyCommand}
-            className="group relative flex items-center gap-3 rounded-lg bg-gradient-to-r from-blue-500 to-purple-500 px-6 py-3.5 font-mono text-sm font-semibold text-white shadow-lg shadow-blue-500/25 transition hover:from-blue-600 hover:to-purple-600"
+            className="group relative flex items-center gap-3 rounded-md bg-[#22c55e] px-6 py-3.5 font-[family-name:var(--font-space-grotesk)] text-sm font-semibold text-[#131313] shadow-[0_0_60px_rgba(34,197,94,0.06)] transition hover:bg-[#6bff8f]"
           >
-            <span className="text-white/60">$</span>
+            <span className="text-[#131313]/60">$</span>
             <span>npx memex-mcp init</span>
-            <span className="ml-2 text-xs text-white/60 transition group-hover:text-white/80">
+            <span className="ml-2 text-xs text-[#131313]/60 transition group-hover:text-[#131313]/80">
               {copied ? "Copied!" : "Copy"}
             </span>
           </button>
@@ -63,7 +63,7 @@ export function Hero() {
             href="https://github.com/jjosegomez/memex"
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center gap-2 rounded-lg px-5 py-3 text-sm text-gray-400 transition hover:text-white"
+            className="inline-flex items-center gap-2 rounded-md border border-[#474747]/15 px-5 py-3 text-sm text-[#c6c6c6] transition hover:text-[#e5e2e1] hover:bg-[#1c1b1b]"
           >
             <svg
               className="h-5 w-5"

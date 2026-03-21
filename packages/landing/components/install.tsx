@@ -2,16 +2,6 @@
 
 import { useState } from "react";
 
-const mcpConfig = `{
-  "mcpServers": {
-    "memex": {
-      "type": "stdio",
-      "command": "npx",
-      "args": ["-y", "memex-mcp", "serve"]
-    }
-  }
-}`;
-
 export function Install() {
   const [copiedCmd, setCopiedCmd] = useState(false);
   const [copiedConfig, setCopiedConfig] = useState(false);
@@ -27,10 +17,10 @@ export function Install() {
       <div className="mx-auto max-w-3xl">
         {/* Section header */}
         <div className="text-center">
-          <h2 className="text-sm font-semibold uppercase tracking-widest text-blue-400">
+          <h2 className="font-[family-name:var(--font-space-grotesk)] text-xs font-semibold uppercase tracking-widest text-[#919191]">
             Get Started
           </h2>
-          <p className="mt-4 text-3xl font-bold tracking-tight text-white sm:text-4xl">
+          <p className="mt-4 text-3xl font-bold tracking-tight text-[#e5e2e1] sm:text-4xl">
             Up and running in 3 commands
           </p>
         </div>
@@ -39,25 +29,25 @@ export function Install() {
           {/* Step 1: Install command */}
           <div>
             <div className="mb-3 flex items-center gap-3">
-              <span className="inline-flex h-7 w-7 items-center justify-center rounded-full bg-blue-500/10 text-xs font-bold text-blue-400">
+              <span className="inline-flex h-7 w-7 items-center justify-center rounded-md bg-[#22c55e]/10 font-[family-name:var(--font-space-grotesk)] text-xs font-bold text-[#22c55e]">
                 1
               </span>
-              <h3 className="text-sm font-medium text-white">
+              <h3 className="text-sm font-medium text-[#e5e2e1]">
                 Initialize (encryption + database + agent config)
               </h3>
             </div>
-            <div className="group relative overflow-x-auto rounded-xl border border-white/5 bg-[#111111] p-5">
-              <pre className="font-mono text-sm text-gray-300">
-                <span className="text-gray-500">$ </span>npx memex-mcp init
+            <div className="group relative overflow-x-auto rounded-md bg-[#0e0e0e] p-5">
+              <pre className="font-[family-name:var(--font-space-grotesk)] text-sm text-[#c6c6c6]">
+                <span className="text-[#919191]">$ </span>npx memex-mcp init
               </pre>
               <button
                 onClick={() => copy("npx memex-mcp init", setCopiedCmd)}
-                className="absolute right-3 top-3 rounded-md border border-white/10 bg-white/5 px-2 py-1 text-xs text-gray-400 opacity-0 transition hover:bg-white/10 group-hover:opacity-100"
+                className="absolute right-3 top-3 rounded-md bg-[#2a2a2a] px-2 py-1 text-xs text-[#919191] opacity-0 transition hover:bg-[#353534] group-hover:opacity-100"
               >
                 {copiedCmd ? "Copied!" : "Copy"}
               </button>
             </div>
-            <p className="mt-2 text-xs text-gray-500">
+            <p className="mt-2 text-xs text-[#919191]">
               Generates your encryption key, creates the database, registers with
               Claude Code, and adds Memex instructions to your CLAUDE.md — all in one command.
             </p>
@@ -66,25 +56,25 @@ export function Install() {
           {/* Step 2: Demo */}
           <div>
             <div className="mb-3 flex items-center gap-3">
-              <span className="inline-flex h-7 w-7 items-center justify-center rounded-full bg-blue-500/10 text-xs font-bold text-blue-400">
+              <span className="inline-flex h-7 w-7 items-center justify-center rounded-md bg-[#22c55e]/10 font-[family-name:var(--font-space-grotesk)] text-xs font-bold text-[#22c55e]">
                 2
               </span>
-              <h3 className="text-sm font-medium text-white">
+              <h3 className="text-sm font-medium text-[#e5e2e1]">
                 Verify it works (30 seconds)
               </h3>
             </div>
-            <div className="group relative overflow-x-auto rounded-xl border border-white/5 bg-[#111111] p-5">
-              <pre className="font-mono text-sm text-gray-300">
-                <span className="text-gray-500">$ </span>memex demo
+            <div className="group relative overflow-x-auto rounded-md bg-[#0e0e0e] p-5">
+              <pre className="font-[family-name:var(--font-space-grotesk)] text-sm text-[#c6c6c6]">
+                <span className="text-[#919191]">$ </span>memex demo
               </pre>
               <button
                 onClick={() => copy("memex demo", setCopiedConfig)}
-                className="absolute right-3 top-3 rounded-md border border-white/10 bg-white/5 px-2 py-1 text-xs text-gray-400 opacity-0 transition hover:bg-white/10 group-hover:opacity-100"
+                className="absolute right-3 top-3 rounded-md bg-[#2a2a2a] px-2 py-1 text-xs text-[#919191] opacity-0 transition hover:bg-[#353534] group-hover:opacity-100"
               >
                 {copiedConfig ? "Copied!" : "Copy"}
               </button>
             </div>
-            <p className="mt-2 text-xs text-gray-500">
+            <p className="mt-2 text-xs text-[#919191]">
               Saves a test memory, encrypts it, recalls it by search, and cleans up.
               Proof that E2E encryption works on your machine.
             </p>
@@ -93,28 +83,28 @@ export function Install() {
           {/* Step 3: Seed */}
           <div>
             <div className="mb-3 flex items-center gap-3">
-              <span className="inline-flex h-7 w-7 items-center justify-center rounded-full bg-blue-500/10 text-xs font-bold text-blue-400">
+              <span className="inline-flex h-7 w-7 items-center justify-center rounded-md bg-[#22c55e]/10 font-[family-name:var(--font-space-grotesk)] text-xs font-bold text-[#22c55e]">
                 3
               </span>
-              <h3 className="text-sm font-medium text-white">
+              <h3 className="text-sm font-medium text-[#e5e2e1]">
                 Pre-load your project context
               </h3>
             </div>
-            <div className="group relative overflow-x-auto rounded-xl border border-white/5 bg-[#111111] p-5">
-              <pre className="font-mono text-sm text-gray-300">
-                <span className="text-gray-500">$ </span>memex seed
+            <div className="group relative overflow-x-auto rounded-md bg-[#0e0e0e] p-5">
+              <pre className="font-[family-name:var(--font-space-grotesk)] text-sm text-[#c6c6c6]">
+                <span className="text-[#919191]">$ </span>memex seed
               </pre>
             </div>
-            <p className="mt-2 text-xs text-gray-500">
+            <p className="mt-2 text-xs text-[#919191]">
               Scans your codebase (package.json, README, CLAUDE.md, project structure) and
               creates starter memories. Your agent has context from day one.
             </p>
           </div>
 
           {/* Cursor note */}
-          <div className="rounded-xl border border-purple-500/20 bg-purple-500/5 px-6 py-4">
-            <p className="text-sm text-gray-300">
-              <span className="font-semibold text-purple-400">
+          <div className="rounded-md bg-[#1c1b1b] px-6 py-4">
+            <p className="text-sm text-[#c6c6c6]">
+              <span className="font-semibold text-[#22c55e]">
                 Works with Cursor too.
               </span>{" "}
               Add the same MCP config to your Cursor settings. Any MCP-compatible

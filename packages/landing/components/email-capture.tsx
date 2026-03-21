@@ -17,41 +17,41 @@ export function EmailCapture() {
     <section className="px-6 py-24 sm:py-32">
       <div className="mx-auto max-w-2xl space-y-8">
         {/* Primary CTA — install now */}
-        <div className="rounded-2xl border border-white/5 bg-gradient-to-b from-white/[0.03] to-transparent p-10 text-center sm:p-14">
-          <h2 className="text-2xl font-bold tracking-tight text-white sm:text-3xl">
+        <div className="rounded-md bg-[#1c1b1b] p-10 text-center sm:p-14">
+          <h2 className="text-2xl font-bold tracking-tight text-[#e5e2e1] sm:text-3xl">
             Get started in 30 seconds
           </h2>
-          <p className="mt-4 text-sm leading-6 text-gray-400">
+          <p className="mt-4 text-sm leading-6 text-[#c6c6c6]">
             One command. Works with any MCP-compatible AI tool.
           </p>
           <button
             onClick={copyCommand}
-            className="mt-6 inline-flex items-center gap-3 rounded-lg bg-gradient-to-r from-blue-500 to-purple-500 px-6 py-3.5 font-mono text-sm font-semibold text-white shadow-lg shadow-blue-500/25 transition hover:from-blue-600 hover:to-purple-600"
+            className="mt-6 inline-flex items-center gap-3 rounded-md bg-[#22c55e] px-6 py-3.5 font-[family-name:var(--font-space-grotesk)] text-sm font-semibold text-[#131313] shadow-[0_0_60px_rgba(34,197,94,0.06)] transition hover:bg-[#6bff8f]"
           >
-            <span className="text-white/60">$</span>
+            <span className="text-[#131313]/60">$</span>
             <span>npx memex-mcp init</span>
-            <span className="ml-2 text-xs text-white/60">
+            <span className="ml-2 text-xs text-[#131313]/60">
               {copied ? "Copied!" : "Copy"}
             </span>
           </button>
         </div>
 
         {/* Secondary — cloud sync waitlist */}
-        <div className="rounded-2xl border border-white/5 bg-white/[0.02] p-8 text-center sm:p-10">
-          <p className="text-sm font-semibold uppercase tracking-widest text-blue-400">
+        <div className="rounded-md bg-[#1c1b1b] p-8 text-center sm:p-10">
+          <p className="font-[family-name:var(--font-space-grotesk)] text-xs font-semibold uppercase tracking-widest text-[#22c55e]">
             Coming soon
           </p>
-          <h3 className="mt-3 text-xl font-bold tracking-tight text-white">
+          <h3 className="mt-3 text-xl font-bold tracking-tight text-[#e5e2e1]">
             Cloud sync is next
           </h3>
-          <p className="mt-3 text-sm leading-6 text-gray-400">
+          <p className="mt-3 text-sm leading-6 text-[#c6c6c6]">
             E2E encrypted cloud sync. Your memories travel across machines
             — only encrypted blobs leave your device.
           </p>
 
           {submitted ? (
-            <div className="mt-6 rounded-lg border border-green-500/20 bg-green-500/10 p-4">
-              <p className="text-sm text-green-400">
+            <div className="mt-6 rounded-md bg-[#22c55e]/10 p-4">
+              <p className="text-sm text-[#22c55e]">
                 You&apos;re on the list. We&apos;ll email you when cloud sync is ready.
               </p>
             </div>
@@ -81,11 +81,11 @@ export function EmailCapture() {
                 name="email"
                 required
                 placeholder="you@example.com"
-                className="flex-1 rounded-lg border border-white/10 bg-white/5 px-4 py-3 text-sm text-white placeholder-gray-500 outline-none transition focus:border-blue-500/50 focus:ring-1 focus:ring-blue-500/50"
+                className="flex-1 rounded-md bg-[#0e0e0e] px-4 py-3 text-sm text-[#e5e2e1] placeholder-[#919191]/60 outline-none transition focus:ring-1 focus:ring-[#22c55e]/50"
               />
               <button
                 type="submit"
-                className="shrink-0 rounded-lg border border-blue-500/30 bg-blue-500/10 px-6 py-3 text-sm font-semibold text-blue-400 transition hover:bg-blue-500/20"
+                className="shrink-0 rounded-md border border-[#22c55e]/30 bg-[#22c55e]/10 px-6 py-3 text-sm font-semibold text-[#22c55e] transition hover:bg-[#22c55e]/20"
               >
                 Join the waitlist
               </button>
@@ -93,12 +93,12 @@ export function EmailCapture() {
           )}
 
           {error && (
-            <p className="mt-3 text-xs text-red-400">
+            <p className="mt-3 text-xs text-[#ffb4ab]">
               Something went wrong. Please try again.
             </p>
           )}
 
-          <p className="mt-4 text-xs text-gray-600">
+          <p className="mt-4 text-xs text-[#919191]/60">
             No spam. One email when it&apos;s ready.
           </p>
         </div>
