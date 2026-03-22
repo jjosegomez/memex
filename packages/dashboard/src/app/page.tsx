@@ -1,5 +1,9 @@
 import { scanProjects } from "@/lib/data-source";
 import { ProjectCard } from "@/components/project-card";
+import { ClientGroup } from "@/components/client-group";
+import { auth } from "@/auth";
+import { redirect } from "next/navigation";
+import type { Project } from "@/lib/scanner";
 
 export const dynamic = "force-dynamic";
 
@@ -11,6 +15,14 @@ function getGreeting(): string {
 }
 
 export default async function DashboardPage() {
+  const session = await auth();
+
+  // If logged in via OAuth but no org selected, redirect to onboard
+  // Skip if using env var fallback (local dev)
+  if (session?.accessToken && !session.org && !process.env.GITHUB_ORG) {
+    redirect("/onboard");
+  }
+
   const projects = await scanProjects();
 
   const withFiles = projects.filter((p) => p.fileCount > 0);
@@ -34,7 +46,7 @@ export default async function DashboardPage() {
       <div className="flex items-start justify-between mb-10">
         <div>
           <h1 className="text-3xl font-semibold tracking-tight">
-            {getGreeting()}, Juan
+            {getGreeting()}{session?.user?.name ? `, ${session.user.name.split(" ")[0]}` : ""}
           </h1>
           <p className="font-mono text-xs text-muted-foreground uppercase tracking-wider mt-1">
             Knowledge Mode: Agent-Context
@@ -95,7 +107,7 @@ export default async function DashboardPage() {
         </div>
       </div>
 
-      {/* Current Projects */}
+      {/* Current Projects — grouped by client */}
       {withFiles.length > 0 && (
         <section className="mb-10">
           <div className="flex items-center justify-between mb-4">
@@ -106,20 +118,62 @@ export default async function DashboardPage() {
               {totalFiles} knowledge files
             </p>
           </div>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
-            {withFiles.map((project) => (
-              <ProjectCard
-                key={project.name}
-                name={project.name}
-                files={project.files}
-                healthScore={project.healthScore}
-                fileCount={project.fileCount}
-                totalPossible={project.totalPossible}
-                isShared={project.isShared}
-                lastUpdated={project.lastUpdated}
-              />
-            ))}
-          </div>
+
+          {/* Shared/agency-wide projects first */}
+          {(() => {
+            const shared = withFiles.filter((p) => p.isShared);
+            const grouped = withFiles.filter((p) => !p.isShared && p.clientGroup);
+            const ungrouped = withFiles.filter((p) => !p.isShared && !p.clientGroup);
+
+            // Group by clientGroup
+            const groups = new Map<string, Project[]>();
+            for (const p of grouped) {
+              const key = p.clientGroup!;
+              if (!groups.has(key)) groups.set(key, []);
+              groups.get(key)!.push(p);
+            }
+
+            return (
+              <>
+                {/* Shared projects (no grouping) */}
+                {shared.length > 0 && (
+                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3 mb-6">
+                    {shared.map((project) => (
+                      <ProjectCard
+                        key={project.name}
+                        name={project.name}
+                        files={project.files}
+                        healthScore={project.healthScore}
+                        fileCount={project.fileCount}
+                        totalPossible={project.totalPossible}
+                        isShared={project.isShared}
+                        lastUpdated={project.lastUpdated}
+                      />
+                    ))}
+                  </div>
+                )}
+
+                {/* Client groups */}
+                {Array.from(groups.entries())
+                  .sort(([a], [b]) => a.localeCompare(b))
+                  .map(([groupName, groupProjects]) => (
+                    <ClientGroup
+                      key={groupName}
+                      groupName={groupName}
+                      projects={groupProjects}
+                    />
+                  ))}
+
+                {/* Ungrouped projects */}
+                {ungrouped.length > 0 && (
+                  <ClientGroup
+                    groupName="Other"
+                    projects={ungrouped}
+                  />
+                )}
+              </>
+            );
+          })()}
         </section>
       )}
 

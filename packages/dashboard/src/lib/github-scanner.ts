@@ -5,26 +5,9 @@ import type { KnowledgeFile, Project } from "./scanner";
 const KNOWLEDGE_FILES = ["CLAUDE.md", "CONTEXT.md", "PATTERNS.md"];
 const SHARED_REPO_NAMES = ["agency-standards", ".github"];
 
-// In-memory cache with 5-minute TTL
-let cachedProjects: Project[] | null = null;
-let cacheTimestamp = 0;
+// In-memory cache with 5-minute TTL, keyed by org
+const cache = new Map<string, { projects: Project[]; timestamp: number }>();
 const CACHE_TTL_MS = 5 * 60 * 1000;
-
-function getOctokit(): Octokit {
-  const token = process.env.GITHUB_TOKEN;
-  if (!token) {
-    throw new Error("GITHUB_TOKEN is required for GitHub scanner mode");
-  }
-  return new Octokit({ auth: token });
-}
-
-function getOrg(): string {
-  const org = process.env.GITHUB_ORG;
-  if (!org) {
-    throw new Error("GITHUB_ORG is required for GitHub scanner mode");
-  }
-  return org;
-}
 
 function getStaleness(
   lastModified: Date
@@ -64,7 +47,6 @@ async function fetchFileContent(
   filePath: string
 ): Promise<{ content: string; lastModified: string } | null> {
   try {
-    // Fetch file content
     const { data } = await octokit.rest.repos.getContent({
       owner,
       repo,
@@ -77,7 +59,6 @@ async function fetchFileContent(
 
     const content = Buffer.from(data.content, "base64").toString("utf-8");
 
-    // Fetch last commit date for the file
     let lastModified: string;
     try {
       const { data: commits } = await octokit.rest.repos.listCommits({
@@ -97,7 +78,6 @@ async function fetchFileContent(
 
     return { content, lastModified };
   } catch {
-    // File doesn't exist or other error
     return null;
   }
 }
@@ -130,15 +110,18 @@ async function fetchRepoKnowledgeFiles(
   return files;
 }
 
-export async function scanProjects(): Promise<Project[]> {
+export async function scanProjects(
+  token: string,
+  org: string
+): Promise<Project[]> {
   // Check cache
   const now = Date.now();
-  if (cachedProjects && now - cacheTimestamp < CACHE_TTL_MS) {
-    return cachedProjects;
+  const cached = cache.get(org);
+  if (cached && now - cached.timestamp < CACHE_TTL_MS) {
+    return cached.projects;
   }
 
-  const octokit = getOctokit();
-  const org = getOrg();
+  const octokit = new Octokit({ auth: token });
   const projects: Project[] = [];
 
   let repos: { name: string; html_url: string }[];
@@ -151,13 +134,12 @@ export async function scanProjects(): Promise<Project[]> {
     });
     repos = data;
   } catch (error: unknown) {
-    // Handle rate limiting — return cached data if available
     if (
       error instanceof Error &&
       "status" in error &&
       (error as { status: number }).status === 403
     ) {
-      if (cachedProjects) return cachedProjects;
+      if (cached) return cached.projects;
     }
     throw error;
   }
@@ -194,16 +176,14 @@ export async function scanProjects(): Promise<Project[]> {
     try {
       files = await fetchRepoKnowledgeFiles(octokit, org, repo.name);
     } catch (error: unknown) {
-      // Handle rate limiting gracefully
       if (
         error instanceof Error &&
         "status" in error &&
         (error as { status: number }).status === 403
       ) {
-        if (cachedProjects) {
-          cachedProjects = [...projects];
-          cacheTimestamp = now;
-          return cachedProjects;
+        if (cached) {
+          cache.set(org, { projects: [...projects], timestamp: now });
+          return [...projects];
         }
         break;
       }
@@ -240,26 +220,31 @@ export async function scanProjects(): Promise<Project[]> {
     return a.name.localeCompare(b.name);
   });
 
-  // Update cache
-  cachedProjects = projects;
-  cacheTimestamp = now;
-
+  cache.set(org, { projects, timestamp: now });
   return projects;
 }
 
-export async function getProject(name: string): Promise<Project | null> {
-  const projects = await scanProjects();
+export async function getProject(
+  name: string,
+  token: string,
+  org: string
+): Promise<Project | null> {
+  const projects = await scanProjects(token, org);
   return projects.find((p) => p.name === name) || null;
 }
 
-export async function searchProjects(query: string): Promise<
+export async function searchProjects(
+  query: string,
+  token: string,
+  org: string
+): Promise<
   {
     project: string;
     file: string;
     matches: { line: number; text: string }[];
   }[]
 > {
-  const projects = await scanProjects();
+  const projects = await scanProjects(token, org);
   const results: {
     project: string;
     file: string;

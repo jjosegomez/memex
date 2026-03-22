@@ -9,6 +9,7 @@ import {
   Search,
   Activity,
   User,
+  LogOut,
 } from "lucide-react";
 
 const navItems = [
@@ -20,7 +21,13 @@ const navItems = [
   { label: "My Projects", href: "/my-projects", icon: User },
 ];
 
-export function Sidebar() {
+interface SidebarProps {
+  userName?: string | null;
+  userImage?: string | null;
+  orgName?: string;
+}
+
+export function Sidebar({ userName, userImage, orgName }: SidebarProps) {
   const pathname = usePathname();
 
   return (
@@ -33,7 +40,7 @@ export function Sidebar() {
           </span>
         </Link>
         <span className="text-[11px] font-mono uppercase tracking-widest text-muted-foreground">
-          {process.env.NEXT_PUBLIC_ORG_NAME || "Knowledge Layer"}
+          {orgName || "Knowledge Layer"}
         </span>
       </div>
 
@@ -74,20 +81,35 @@ export function Sidebar() {
         })}
       </nav>
 
-      {/* User info */}
+      {/* User info + Sign out */}
       <div className="px-3 py-4">
-        <div className="flex items-center gap-2.5">
-          <div className="h-7 w-7 rounded-full bg-surface-highest flex items-center justify-center">
-            <User className="h-3.5 w-3.5 text-muted-foreground" />
-          </div>
-          <div className="flex flex-col">
-            <span className="text-sm text-foreground leading-tight">
-              Juan Gomez
+        <div className="flex items-center justify-between">
+          <div className="flex items-center gap-2.5 min-w-0">
+            {userImage ? (
+              // eslint-disable-next-line @next/next/no-img-element
+              <img
+                src={userImage}
+                alt=""
+                className="h-7 w-7 rounded-full shrink-0"
+              />
+            ) : (
+              <div className="h-7 w-7 rounded-full bg-surface-highest flex items-center justify-center shrink-0">
+                <User className="h-3.5 w-3.5 text-muted-foreground" />
+              </div>
+            )}
+            <span className="text-sm text-foreground leading-tight truncate">
+              {userName || "User"}
             </span>
-            <span className="text-[11px] text-muted-foreground leading-tight">
-              Admin
-            </span>
           </div>
+          <form action="/api/auth/signout" method="POST">
+            <button
+              type="submit"
+              className="p-1 text-muted-foreground hover:text-foreground transition-colors"
+              title="Sign out"
+            >
+              <LogOut className="h-3.5 w-3.5" />
+            </button>
+          </form>
         </div>
       </div>
     </aside>

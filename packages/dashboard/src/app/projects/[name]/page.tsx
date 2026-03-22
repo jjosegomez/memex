@@ -6,6 +6,7 @@ import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
 import { HealthBadge, StalenessBadge } from "@/components/health-badge";
 import { MarkdownRenderer } from "@/components/markdown-renderer";
+import { GenerateClaudeMdButton } from "@/components/generate-claude-md-button";
 
 export const dynamic = "force-dynamic";
 
@@ -182,6 +183,11 @@ export default async function ProjectPage({
         </div>
 
         <div className="flex items-center gap-2">
+          {!project.files.some((f) => f.name === "CLAUDE.md") &&
+            project.path.startsWith("https://github.com/") && (() => {
+              const parts = project.path.replace("https://github.com/", "").split("/");
+              return <GenerateClaudeMdButton owner={parts[0]} repo={parts[1]} />;
+            })()}
           <Link
             href="/"
             className="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-mono uppercase tracking-wider text-muted-foreground border border-border rounded-md hover:text-foreground hover:border-muted-foreground/30 transition-colors"
