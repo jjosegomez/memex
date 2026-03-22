@@ -7,7 +7,7 @@
 
 ## Last Updated
 - **Date:** 2026-03-21
-- **What changed:** Full agency pivot — replaced old dashboard with agency knowledge dashboard, merged knowledge-dashboard repo, redesigned landing page, deployed to Netlify
+- **What changed:** Fixed dashboard Netlify deploy (was returning 404). Root cause: monorepo CLI deploy needed `--filter` flag for OpenNext adapter to wire up SSR functions. Also cleaned up lint issues and connected site to GitHub repo.
 
 ## Architecture Overview
 Monorepo with 3 packages. Core is an MCP server that provides encrypted persistent memory to AI coding agents.
@@ -105,6 +105,8 @@ See `packages/dashboard/IMPLEMENTATION_PLAN.md` for full details.
 - **Project scoping:** Memories are scoped to git root. If not in a git repo, falls back to cwd. Can cause unexpected behavior.
 - **Claude Code integration:** `memex init` writes to `~/.claude.json` — if this file is manually edited, the MCP config can break
 - **Dashboard port:** Hardcoded to 3200 via `npm run dev -w packages/dashboard`
+- **Netlify monorepo deploy:** Must use `--filter memex-dashboard` with the CLI. Without it, OpenNext adapter can't find the Next.js build output and all routes 404. Don't pin `@netlify/plugin-nextjs` in netlify.toml — let Netlify auto-detect.
+- **Next.js 16 + monorepo lockfiles:** Next.js warns about inferring workspace root from `~/package-lock.json` (stale home dir lockfile). Set `turbopack.root` in next.config.ts if this causes issues.
 
 ## Key Files
 | File | Purpose |
