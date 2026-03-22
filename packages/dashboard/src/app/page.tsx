@@ -1,8 +1,7 @@
 import { scanProjects } from "@/lib/data-source";
 import { ProjectCard } from "@/components/project-card";
 import { ClientGroup } from "@/components/client-group";
-import { auth } from "@/auth";
-import { redirect } from "next/navigation";
+import { requireAuth } from "@/lib/require-auth";
 import type { Project } from "@/lib/scanner";
 
 export const dynamic = "force-dynamic";
@@ -15,13 +14,7 @@ function getGreeting(): string {
 }
 
 export default async function DashboardPage() {
-  const session = await auth();
-
-  // If logged in via OAuth but no org selected, redirect to onboard
-  // Skip if using env var fallback (local dev)
-  if (session?.accessToken && !session.org && !process.env.GITHUB_ORG) {
-    redirect("/onboard");
-  }
+  const session = await requireAuth();
 
   const projects = await scanProjects();
 

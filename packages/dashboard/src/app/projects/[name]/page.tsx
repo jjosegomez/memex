@@ -1,5 +1,6 @@
 import { getProject } from "@/lib/data-source";
 import { notFound } from "next/navigation";
+import { requireAuth } from "@/lib/require-auth";
 import Link from "next/link";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
@@ -122,6 +123,7 @@ export default async function ProjectPage({
 }: {
   params: Promise<{ name: string }>;
 }) {
+  await requireAuth();
   const { name } = await params;
   const project = await getProject(decodeURIComponent(name));
 

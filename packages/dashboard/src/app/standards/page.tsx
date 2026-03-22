@@ -6,6 +6,7 @@ import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
 import { MarkdownRenderer } from "@/components/markdown-renderer";
 import { scanProjects } from "@/lib/data-source";
+import { requireAuth } from "@/lib/require-auth";
 
 export const dynamic = "force-dynamic";
 
@@ -56,6 +57,7 @@ function complianceFromStaleness(days: number): number {
 }
 
 export default async function StandardsPage() {
+  await requireAuth();
   const isGitHubMode = !!process.env.GITHUB_ORG;
 
   // Collect standards files
