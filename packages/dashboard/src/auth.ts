@@ -15,16 +15,6 @@ const config: NextAuthConfig = {
   ],
   session: { strategy: "jwt" },
   callbacks: {
-    authorized({ auth, request }) {
-      const isLoggedIn = !!auth?.user;
-      const { pathname } = request.nextUrl;
-
-      // Always allow login and onboard pages
-      if (pathname === "/login") return true;
-      if (pathname === "/onboard") return isLoggedIn; // must be logged in but no org needed
-
-      return isLoggedIn;
-    },
     async jwt({ token, account, profile, trigger, session }) {
       // account + profile are only available on initial sign-in
       if (account) {
