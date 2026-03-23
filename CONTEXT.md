@@ -3,11 +3,11 @@
 > Living document. Updated at session end, read at session start.
 
 ## Current Phase
-**Agency pivot.** Memex is now knowledge infrastructure for software agencies. MCP server is the engine, dashboard is the product. Phase 1 of 4 complete. First customer: Digital Bank.
+**Phase 2 built, pending deploy.** Auth (GitHub OAuth + JWT), org onboarding, CLAUDE.md auto-generation, client grouping — all coded and committed. Netlify credits exceeded, blocking deploy. 13 Playwright critical path tests passing.
 
 ## Last Updated
-- **Date:** 2026-03-21
-- **What changed:** Fixed dashboard Netlify deploy (was returning 404). Root cause: monorepo CLI deploy needed `--filter` flag for OpenNext adapter to wire up SSR functions. Also cleaned up lint issues and connected site to GitHub repo.
+- **Date:** 2026-03-23
+- **What changed:** Built all of Phase 2 — GitHub OAuth (Auth.js v5), login page, org onboarding flow, scanner refactor (session token), CLAUDE.md generation (Anthropic SDK → PR via Octokit), client grouping UI. Middleware doesn't work on Netlify's OpenNext runtime — switched to page-level requireAuth(). Deploy blocked by Netlify credit limit. Added 13 headed Playwright E2E tests.
 
 ## Architecture Overview
 Monorepo with 3 packages. Core is an MCP server that provides encrypted persistent memory to AI coding agents.
@@ -74,11 +74,10 @@ SQLite DB (~/.local/share/memex/memex.db)
 
 ## What's In Progress
 - **Phase 1 COMPLETE** — Dashboard merged, deployed to Netlify
-- **Phase 2 NOT STARTED** — GitHub OAuth, Connect Org, auto-generate CLAUDE.md, client grouping
+- **Phase 2 BUILT, PENDING DEPLOY** — All code committed. Blocked by Netlify credit limit (resets April 2).
 
-## What's Next (Implementation Plan)
-See `packages/dashboard/IMPLEMENTATION_PLAN.md` for full details.
-1. **Phase 2 — "The Onboarding"** (12-18h): GitHub OAuth + Connect Org + auto-generate CLAUDE.md + client grouping
+## What's Next
+1. **Deploy Phase 2** — top up Netlify credits or wait for reset, then deploy + test full OAuth flow live
 2. **Phase 3 — "The Adoption"** (16-24h): Inline editing → PR, My Projects, onboarding view, health trends
 3. **Phase 4 — Landing rewrite** (6-10h): Agency positioning on getmemex.dev
 4. Schedule discovery session with Henry (Digital Bank)
@@ -107,6 +106,8 @@ See `packages/dashboard/IMPLEMENTATION_PLAN.md` for full details.
 - **Dashboard port:** Hardcoded to 3200 via `npm run dev -w packages/dashboard`
 - **Netlify monorepo deploy:** Must use `--filter memex-dashboard` with the CLI. Without it, OpenNext adapter can't find the Next.js build output and all routes 404. Don't pin `@netlify/plugin-nextjs` in netlify.toml — let Netlify auto-detect.
 - **Next.js 16 + monorepo lockfiles:** Next.js warns about inferring workspace root from `~/package-lock.json` (stale home dir lockfile). Set `turbopack.root` in next.config.ts if this causes issues.
+- **Middleware doesn't work on Netlify:** Auth.js `auth()` wrapper and standard Next.js middleware both fail silently on Netlify's OpenNext runtime. Use page-level `requireAuth()` instead (in `src/lib/require-auth.ts`).
+- **Netlify credit limits:** Free tier has a credit cap. Exceeding it returns "Forbidden" on all deploy attempts. Resets at billing cycle (first of month).
 
 ## Key Files
 | File | Purpose |
